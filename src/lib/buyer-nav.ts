@@ -1,0 +1,22 @@
+/** Canonical Buyer dashboard nav — Hukum roles: what each signed-in buyer sees. */
+export const BUYER_NAV = [
+  { href: "/buyer/dashboard", label: "Dashboard" },
+  { href: "/buyer/profile", label: "Profile" },
+  { href: "/buyer/saved", label: "Saved" },
+  { href: "/buyer/messages", label: "AI & Inbox" },
+  { href: "/buyer/notifications", label: "Notifications" },
+  { href: "/buyer/projects", label: "Projects" },
+  { href: "/buyer/boq", label: "BOQ upload" },
+  { href: "/buyer/rfqs", label: "RFQs" },
+  { href: "/buyer/quotations", label: "Quotes" },
+  { href: "/buyer/approvals", label: "Approvals" },
+  { href: "/buyer/suppliers", label: "Suppliers" },
+  { href: "/buyer/history", label: "History" },
+  { href: "/buyer/reorders", label: "Reorders" },
+  { href: "/buyer/organization", label: "Team" },
+  { href: "/buyer/spend", label: "Spend" },
+  { href: "/buyer/integrations", label: "ERP & Etimad" },
+  { href: "/buyer/privacy", label: "Privacy" },
+  { href: "/buyer/settings", label: "Settings" },
+  { href: "/buyer/tickets", label: "Support" },
+] as const;

@@ -1,0 +1,38 @@
+.home-snap-scroller {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  height: 100%;
+}
+
+.home-snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  box-sizing: border-box;
+  width: 100%;
+  flex: none;
+  min-height: calc(100svh - 5.25rem);
+  height: calc(100svh - 5.25rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.home-snap-section--footer {
+  min-height: auto;
+  height: auto;
+  justify-content: flex-end;
+  scroll-snap-align: end;
+  scroll-snap-stop: normal;
+  overflow: visible;
+}
+
+.home-snap-inner {
+  width: 100%;
+  max-height: none;
+  overflow: visible;
+  overscroll-behavior: auto;
+}

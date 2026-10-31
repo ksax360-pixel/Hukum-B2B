@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#FFF6E5"/>
+  <rect x="40" y="40" width="720" height="520" rx="28" fill="#ffffff" fill-opacity="0.55"/>
+  <path d="M340 160h120l20 40v40h60v220h-80v-100h-40v100h-80V240h60v-40l20-40z" fill="#F59E0B"/>
+    <rect x="360" y="210" width="80" height="18" fill="#001730"/>
+  <text x="400" y="548" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" fill="#001730" fill-opacity="0.45">FR coverall</text>
+</svg>

@@ -1,0 +1,58 @@
+.kt-pdp-section__head { margin-bottom: 1rem; max-width: 40rem; }
+.kt-pdp-section__sub { margin-top: 0.35rem; font-size: 0.88rem; color: #6b7a80; line-height: 1.5; }
+.kt-product-rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.55rem;
+  align-items: stretch;
+}
+.kt-product-rail__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(180px, 200px);
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0.25rem 0.15rem 0.75rem;
+  scrollbar-width: thin;
+}
+.kt-product-rail__item {
+  scroll-snap-align: start;
+  min-width: 0;
+}
+.kt-product-rail__item .kt-pcard {
+  height: 100%;
+}
+.kt-product-rail__item .kt-voffer {
+  height: 100%;
+}
+.kt-product-rail__item .kt-vpcard {
+  height: 100%;
+}
+.kt-product-rail--vendor-more .kt-product-rail__track {
+  grid-auto-columns: minmax(200px, 220px);
+}
+.kt-product-rail__nav {
+  align-self: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 23, 48, 0.12);
+  background: #fff;
+  color: #001730;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 23, 48, 0.06);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.kt-product-rail__nav:hover {
+  border-color: rgba(0, 23, 48, 0.28);
+  background: #f7f8f9;
+}
+@media (max-width: 720px) {
+  .kt-product-rail { grid-template-columns: minmax(0, 1fr); }
+  .kt-product-rail__nav { display: none; }
+  .kt-product-rail__track { grid-auto-columns: minmax(220px, 78vw); }
+}

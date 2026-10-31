@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#F7F8F9"/>
+  <rect x="40" y="40" width="720" height="520" rx="28" fill="#ffffff" fill-opacity="0.55"/>
+  <rect x="250" y="180" width="180" height="240" rx="8" fill="#FFFFFF" stroke="#001730" stroke-width="3"/>
+    <rect x="450" y="210" width="110" height="180" rx="8" fill="#D21F1F"/>
+    <rect x="300" y="200" width="90" height="12" fill="#CBD5E1"/>
+  <text x="400" y="548" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" fill="#001730" fill-opacity="0.45">Stationery kit</text>
+</svg>

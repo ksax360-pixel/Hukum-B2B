@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#FFF7E8"/>
+  <rect x="40" y="40" width="720" height="520" rx="28" fill="#ffffff" fill-opacity="0.55"/>
+  <path d="M180 300c80-120 140 120 230 0s150 120 240 0" stroke="#F59E0B" stroke-width="28" fill="none" stroke-linecap="round"/>
+    <circle cx="180" cy="300" r="22" fill="#001730"/><circle cx="650" cy="300" r="22" fill="#001730"/>
+  <text x="400" y="548" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" fill="#001730" fill-opacity="0.45">Power cable</text>
+</svg>

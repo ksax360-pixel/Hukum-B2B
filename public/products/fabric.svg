@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#F8EAF1"/>
+  <rect x="40" y="40" width="720" height="520" rx="28" fill="#ffffff" fill-opacity="0.55"/>
+  <rect x="220" y="160" width="360" height="280" rx="8" fill="#BE185D"/>
+    <path d="M220 200h360M220 240h360M220 280h360M220 320h360M220 360h360" stroke="#fff" stroke-opacity="0.25" stroke-width="6"/>
+    <rect x="500" y="150" width="90" height="300" rx="8" fill="#9F1239"/>
+  <text x="400" y="548" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" fill="#001730" fill-opacity="0.45">Textile roll</text>
+</svg>
