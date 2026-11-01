@@ -21,16 +21,7 @@ import { Vendor } from "@/modules/vendors/vendor.model";
 import { staticPageMetadata } from "@/modules/seo/static-metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale: raw } = await params;
-  const isAr = raw === "ar";
-  return staticPageMetadata(
-    params,
-    "/about",
-    isAr ? "عن Hukum" : "About Hukum",
-    isAr
-      ? "Hukum سوق B2B رقمي يربط المشترين والموردين والمصانع."
-      : "Hukum is a digital B2B marketplace connecting buyers, suppliers and manufacturers."
-  );
+  return staticPageMetadata(params, "/about", "ignored", undefined, { seoKey: "about" });
 }
 import { Category } from "@/modules/categories/taxonomy.model";
 import { CATEGORY_SEGMENTS } from "@/data/marketplace-categories";
@@ -77,7 +68,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
     { icon: FileSearch, title: n("Digital vendor onboarding", "انضمام رقمي للموردين"), body: n("Vendor information processed from documents, PDFs and images.", "معالجة معلومات المورد من المستندات وملفات PDF والصور.") },
     { icon: MessageSquare, title: n("Smart RFQ", "طلب عرض سعر ذكي"), body: n("Requirements and sourcing requests communicated digitally.", "إيصال المتطلبات وطلبات التوريد رقمياً.") },
     { icon: LineChart, title: n("Analytics", "التحليلات"), body: n("Understand engagement and marketplace activity.", "فهم التفاعل ونشاط السوق.") },
-    { icon: Globe2, title: n("Global connectivity", "ربط عالمي"), body: n("Designed to connect businesses across markets.", "مصمّم لربط الشركات عبر الأسواق.") },
+    { icon: Globe2, title: n("Saudi connectivity", "ربط سعودي"), body: n("Designed to connect businesses across markets.", "مصمّم لربط الشركات عبر الأسواق.") },
   ];
 
   const trustItems = [

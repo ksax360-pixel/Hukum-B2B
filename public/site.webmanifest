@@ -1,0 +1,29 @@
+{
+  "name": "Hukum | حكم",
+  "short_name": "Hukum",
+  "description": "Saudi B2B marketplace connecting buyers with verified suppliers.",
+  "start_url": "/en",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#17634B",
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/brand/hukum-favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/brand/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

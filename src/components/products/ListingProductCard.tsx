@@ -109,7 +109,7 @@ export function ListingProductCard({
           ) : null}
         </Link>
         <div className="min-w-0 flex-1">
-          <Link href={href} onClick={onClick} className="text-base font-semibold text-[#1a1a1a] hover:text-[#b8953d]">
+          <Link href={href} onClick={onClick} className="text-base font-semibold text-[var(--hukum-ink)] hover:text-[var(--hukum-green)]">
             {name}
           </Link>
           {secondaryName && secondaryName !== name ? (
@@ -128,7 +128,7 @@ export function ListingProductCard({
               </span>
             ) : null}
             {product.featured || (v as { featured?: boolean } | undefined)?.featured ? (
-              <span className="inline-flex items-center rounded bg-[#c9a962]/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#8a6d2d]">
+              <span className="inline-flex items-center rounded bg-[#C4A574]/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#8a6d2d]">
                 {isAr ? "مميز / مدفوع" : "Featured"}
               </span>
             ) : null}
@@ -154,7 +154,7 @@ export function ListingProductCard({
         </div>
         <Link
           href={quoteHref}
-          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-[#c9a962] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#b8953d]"
+          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-[var(--hukum-green)] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[var(--hukum-green-hover)]"
         >
           <Mail className="h-4 w-4" />
           {isAr ? "طلب عرض سعر" : "Request a Quote"}
@@ -164,7 +164,7 @@ export function ListingProductCard({
   }
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-[#e6e2da] bg-transparent transition hover:border-[#c9a962]/50 hover:shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-[var(--hukum-border)] bg-white transition hover:border-[#C4A574]/50 hover:shadow-[var(--hukum-shadow-sm)]">
       <div className="relative h-[168px] shrink-0 bg-[#f0eeea] sm:h-[180px]">
         <Link href={href} onClick={onClick} className="absolute inset-0 block" aria-label={name}>
           {primary?.url ? (
@@ -196,7 +196,7 @@ export function ListingProductCard({
         <Link
           href={href}
           onClick={onClick}
-          className="line-clamp-2 text-sm font-semibold leading-snug text-[#1a1a1a] hover:text-[#b8953d]"
+          className="line-clamp-2 text-sm font-semibold leading-snug text-[var(--hukum-ink)] hover:text-[var(--hukum-green)]"
         >
           {name}
         </Link>
@@ -220,7 +220,7 @@ export function ListingProductCard({
             </span>
           ) : null}
           {product.featured || (v as { featured?: boolean } | undefined)?.featured ? (
-            <span className="rounded bg-[#c9a962]/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-[#8a6d2d]">
+            <span className="rounded bg-[#C4A574]/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-[#8a6d2d]">
               {isAr ? "مميز" : "Featured"}
             </span>
           ) : null}
@@ -252,7 +252,7 @@ export function ListingProductCard({
 
         <Link
           href={quoteHref}
-          className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#c9a962] px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-[#b8953d]"
+          className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--hukum-green)] px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-[var(--hukum-green-hover)]"
         >
           <Mail className="h-4 w-4" />
           {isAr ? "طلب عرض سعر" : "Request a Quote"}

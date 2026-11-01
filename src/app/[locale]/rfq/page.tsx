@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import {
   Building2,
   CheckCircle2,
@@ -99,6 +99,7 @@ export default function RfqPage() {
 
 function RfqForm() {
   const params = useParams();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const raw = typeof params.locale === "string" ? params.locale : "en";
   const locale = (isLocale(raw) ? raw : "en") as Locale;
@@ -369,12 +370,14 @@ function RfqForm() {
         submitLock.current = false;
         return;
       }
-      setRfqId(String(json.data._id));
+      const createdId = String(json.data._id);
+      setRfqId(createdId);
       setMessage(
         isAr
           ? "تم إنشاء طلب عرض السعر. يمكنك الآن مطابقة الموردين المناسبين."
           : "RFQ created. You can now match relevant vendors."
       );
+      router.push(`/${locale}/rfq/sent?ref=${encodeURIComponent(createdId)}`);
     } catch {
       setError(isAr ? "خطأ في الشبكة" : "Network error");
       submitLock.current = false;

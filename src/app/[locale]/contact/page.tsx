@@ -3,20 +3,12 @@ import Link from "next/link";
 import { isLocale, type Locale } from "@/i18n/config";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { ContactChannels } from "@/components/contact/ContactChannels";
+import { HukumPageHeader } from "@/components/layout/HukumPageHeader";
 import { SITE_CONTACT } from "@/data/site-contact";
 import { staticPageMetadata } from "@/modules/seo/static-metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale: raw } = await params;
-  const isAr = raw === "ar";
-  return staticPageMetadata(
-    params,
-    "/contact",
-    isAr ? "تواصل معنا | Hukum" : "Contact Hukum",
-    isAr
-      ? "تواصل مع فريق Hukum للاستفسارات والشراكات والتوريد."
-      : "Contact the Hukum team for sourcing help, partnerships and supplier inquiries."
-  );
+  return staticPageMetadata(params, "/contact", "ignored", undefined, { seoKey: "contact" });
 }
 
 export default async function ContactPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -96,15 +88,17 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
   return (
     <div className="kt-contact-page">
       <header className="kt-contact-hero">
-        <div className="container-custom kt-contact-hero__inner">
-          <p className="kt-about-eyebrow">{n("Contact", "تواصل")}</p>
-          <h1 className="kt-contact-hero__title">{n("Let’s talk trade.", "لنتحدث عن التجارة.")}</h1>
-          <p className="kt-contact-hero__lead">
-            {n(
+        <div className="hukum-page__wrap">
+          <HukumPageHeader
+            locale={locale}
+            eyebrow={n("Contact", "تواصل")}
+            title={n("Let’s talk trade.", "لنتحدث عن التجارة.")}
+            lead={n(
               "Have a question, want to join the platform, looking for suppliers, or interested in partnering with Hukum? Our team is here to help.",
               "هل لديك سؤال، أو ترغب بالانضمام للمنصة، أو تبحث عن موردين، أو تهتم بالشراكة مع Hukum؟ فريقنا هنا للمساعدة."
             )}
-          </p>
+            goldEyebrow
+          />
         </div>
       </header>
 

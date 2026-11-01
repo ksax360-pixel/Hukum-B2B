@@ -201,7 +201,7 @@ export function CategoryMarketplaceClient({
   );
 
   return (
-    <div className="min-h-screen bg-[#f5f3ef]">
+    <div className="min-h-screen bg-[var(--hukum-surface)]">
       <section className="relative min-h-[320px] overflow-hidden md:min-h-[380px]">
         <div
           className="absolute inset-0 scale-105 bg-cover bg-center"
@@ -255,7 +255,7 @@ export function CategoryMarketplaceClient({
               </p>
               <Link
                 href={rfqHref}
-                className="inline-flex w-full items-center justify-center rounded-lg bg-[#c9a962] px-3 py-3 text-sm font-semibold text-white hover:bg-[#b8953d]"
+                className="inline-flex w-full items-center justify-center rounded-lg bg-[var(--hukum-green)] px-3 py-3 text-sm font-semibold text-white hover:bg-[var(--hukum-green-hover)]"
               >
                 {isAr ? "احصل على عروض تنافسية" : "Get Competitive Quotations"}
               </Link>
@@ -317,7 +317,7 @@ export function CategoryMarketplaceClient({
                           else setActiveSub("all");
                           setPage(1);
                         }}
-                        className="accent-[#c9a962]"
+                        className="accent-[var(--hukum-green)]"
                       />
                       {label}
                     </span>
@@ -343,7 +343,7 @@ export function CategoryMarketplaceClient({
                         type="checkbox"
                         checked={selectedCities.includes(city)}
                         onChange={() => toggle(selectedCities, city, setSelectedCities)}
-                        className="accent-[#c9a962]"
+                        className="accent-[var(--hukum-green)]"
                       />
                       <MapPin className="h-3.5 w-3.5 text-[#8a8a8a]" />
                       {city}
@@ -364,7 +364,7 @@ export function CategoryMarketplaceClient({
                     setPriceMin(e.target.value);
                     setPage(1);
                   }}
-                  className="w-full rounded-lg border border-[#e6e2da] bg-transparent px-2.5 py-2 text-sm outline-none focus:border-[#c9a962]"
+                  className="w-full rounded-lg border border-[var(--hukum-border)] bg-white px-2.5 py-2 text-sm text-[var(--hukum-ink)] outline-none focus:border-[var(--hukum-green)]"
                 />
                 <input
                   type="number"
@@ -374,11 +374,11 @@ export function CategoryMarketplaceClient({
                     setPriceMax(e.target.value);
                     setPage(1);
                   }}
-                  className="w-full rounded-lg border border-[#e6e2da] bg-transparent px-2.5 py-2 text-sm outline-none focus:border-[#c9a962]"
+                  className="w-full rounded-lg border border-[var(--hukum-border)] bg-white px-2.5 py-2 text-sm text-[var(--hukum-ink)] outline-none focus:border-[var(--hukum-green)]"
                 />
                 <button
                   type="button"
-                  className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#c9a962] text-white"
+                  className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--hukum-green)] text-white hover:bg-[var(--hukum-green-hover)]"
                   aria-label="Apply"
                 >
                   <ArrowRight className="h-4 w-4" />
@@ -393,7 +393,7 @@ export function CategoryMarketplaceClient({
                     type="checkbox"
                     checked={selectedCerts.includes(cert)}
                     onChange={() => toggle(selectedCerts, cert, setSelectedCerts)}
-                    className="accent-[#c9a962]"
+                    className="accent-[var(--hukum-green)]"
                   />
                   {cert === "Other"
                     ? isAr
@@ -408,7 +408,7 @@ export function CategoryMarketplaceClient({
 
             <button
               type="button"
-              className="mt-1 w-full rounded-lg border border-[#e8e4dc] py-2 text-sm text-[#6b6b6b] hover:border-[#c9a962] hover:text-[#1a1a1a]"
+              className="mt-1 w-full rounded-lg border border-[var(--hukum-border)] py-2 text-sm text-[var(--hukum-muted)] hover:border-[var(--hukum-green)] hover:text-[var(--hukum-ink)]"
               onClick={() => {
                 setSelectedCats([]);
                 setSelectedCities([]);
@@ -450,7 +450,7 @@ export function CategoryMarketplaceClient({
                     type="button"
                     onClick={() => setView("grid")}
                     className={`inline-flex h-8 w-8 items-center justify-center rounded-md ${
-                      view === "grid" ? "bg-[#c9a962] text-white" : "text-[#6b6b6b] hover:bg-black/5"
+                      view === "grid" ? "bg-[var(--hukum-green)] text-white" : "text-[var(--hukum-muted)] hover:bg-black/5"
                     }`}
                     aria-label="Grid"
                   >
@@ -460,7 +460,7 @@ export function CategoryMarketplaceClient({
                     type="button"
                     onClick={() => setView("list")}
                     className={`inline-flex h-8 w-8 items-center justify-center rounded-md ${
-                      view === "list" ? "bg-[#c9a962] text-white" : "text-[#6b6b6b] hover:bg-black/5"
+                      view === "list" ? "bg-[var(--hukum-green)] text-white" : "text-[var(--hukum-muted)] hover:bg-black/5"
                     }`}
                     aria-label="List"
                   >
@@ -471,7 +471,7 @@ export function CategoryMarketplaceClient({
             </div>
 
             {pageItems.length === 0 ? (
-              <div className="rounded-xl border border-dashed border-[#e6e2da] bg-transparent px-6 py-16 text-center text-sm text-[#8a8a8a]">
+              <div className="kt-marketplace-empty rounded-xl px-6 py-16 text-sm">
                 {isAr
                   ? "لا توجد منتجات في هذه الفئة الفرعية. جرّب فئة أخرى أو امسح التصفية."
                   : "No products in this subcategory. Try another chip or clear filters."}
@@ -525,7 +525,7 @@ export function CategoryMarketplaceClient({
                       onClick={() => setPage(n)}
                       className={`inline-flex h-9 min-w-9 items-center justify-center rounded-lg px-2 text-sm font-medium ${
                         pageSafe === n
-                          ? "bg-[#c9a962] text-white"
+                          ? "bg-[var(--hukum-green)] text-white"
                           : "border border-[#e6e2da] bg-transparent text-[#1a1a1a]"
                       }`}
                     >
@@ -579,8 +579,8 @@ function SubChip({
       onClick={onClick}
       className={`m-0.5 flex w-[124px] shrink-0 flex-col items-stretch rounded-xl border-2 bg-transparent p-3 text-start transition ${
         active
-          ? "border-[#c9a962] bg-[#c9a962]/08 shadow-[0_0_0_1px_rgba(201,169,98,0.35)]"
-          : "border-[#e6e2da] hover:border-[#c9a962]/55"
+          ? "border-[#C4A574] bg-[#C4A574]/08 shadow-[0_0_0_1px_rgba(196,165,116,0.35)]"
+          : "border-[var(--hukum-border)] hover:border-[#C4A574]/55"
       }`}
     >
       <span className="mx-auto flex h-[72px] w-[72px] items-center justify-center overflow-hidden rounded-lg bg-[#f0eeea]">
@@ -599,7 +599,7 @@ function SubChip({
             }}
           />
         ) : (
-          <span className="text-lg font-semibold text-[#c9a962]">{(primary || "·").slice(0, 1)}</span>
+          <span className="text-lg font-semibold text-[var(--hukum-badge)]">{(primary || "·").slice(0, 1)}</span>
         )}
       </span>
       <span className="mt-2 line-clamp-2 min-h-[2rem] text-xs font-semibold leading-snug text-[#1a1a1a]">

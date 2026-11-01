@@ -1,8 +1,19 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
+import { DEFAULT_OG_ALT, DEFAULT_SHARE_IMAGE } from "@/modules/seo/page-seo";
 
 export function siteOrigin() {
-  return (process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000").replace(/\/$/, "");
+  const raw =
+    process.env.NEXT_PUBLIC_APP_URL ||
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "https://www.hukum.sa";
+  return raw.replace(/\/$/, "");
+}
+
+export function isProductionSite() {
+  const origin = siteOrigin();
+  return /hukum\.sa$/i.test(origin.replace(/^https?:\/\//, "").replace(/^www\./, "www.")) ||
+    /www\.hukum\.sa$/i.test(origin.replace(/^https?:\/\//, ""));
 }
 
 export function absUrl(path: string) {
@@ -33,14 +44,14 @@ export function applyTemplate(template: string, vars: Record<string, string | un
     .replace(/^[\s|,]+|[\s|,]+$/g, "");
 }
 
-export function brandSuffix(title: string, max = 60) {
-  if (!title) return "Hukum";
+/** Keep document titles readable (~50–60 target, hard cap 70). */
+export function brandSuffix(title: string) {
+  if (!title) return "Hukum | حكم";
   let t = title.trim();
-  if (!/hukum/i.test(t)) {
+  if (!/hukum|حكم/i.test(t)) {
     t = `${t} | Hukum`;
-  } else if (!/\|\s*Hukum/i.test(t)) {
-    t = t.replace(/\s*Hukum\s*$/i, " | Hukum");
   }
+  if (t.length > 60 && t.length <= 70) return t;
   return t.slice(0, 70);
 }
 
@@ -66,32 +77,59 @@ export function pickLoc(locale: Locale, value?: { en?: string; ar?: string }, fa
   return (locale === "ar" ? value?.ar || value?.en : value?.en || value?.ar) || fallback;
 }
 
+function clampDesc(text: string, max = 160) {
+  const t = text.replace(/\s+/g, " ").trim();
+  if (t.length <= max) return t;
+  return `${t.slice(0, max - 1).trim()}…`;
+}
+
 export function composeMetadata(input: {
   locale: Locale;
   path: string;
   title: string;
   description: string;
+  /** Bilingual OG/Twitter title (EN | AR). Falls back to locale title. */
+  ogTitle?: string;
+  /** Bilingual OG/Twitter description (EN | AR). */
+  ogDescription?: string;
   image?: string;
+  imageAlt?: string;
   seo?: SeoRecord | null;
   indexable?: boolean;
   ogType?: "website" | "article";
 }): Metadata {
   const seo = input.seo || {};
-  const title = pickLoc(input.locale, seo.title, input.title).slice(0, 70);
-  const description = pickLoc(input.locale, seo.description, input.description).slice(0, 160);
-  const ogTitle = pickLoc(input.locale, seo.ogTitle, title);
-  const ogDesc = pickLoc(input.locale, seo.ogDescription, description);
-  const image = seo.socialImage || input.image || "/og/kingdom-trade-social-share.png";
-  const indexable = seo.indexable ?? input.indexable ?? true;
+  const title = brandSuffix(pickLoc(input.locale, seo.title, input.title));
+  const description = clampDesc(pickLoc(input.locale, seo.description, input.description), 160);
+
+  const ogTitle =
+    input.ogTitle ||
+    (seo.ogTitle?.en && seo.ogTitle?.ar
+      ? `${seo.ogTitle.en} | ${seo.ogTitle.ar}`
+      : pickLoc(input.locale, seo.ogTitle, title));
+  const ogDesc = clampDesc(
+    input.ogDescription ||
+      (seo.ogDescription?.en && seo.ogDescription?.ar
+        ? `${seo.ogDescription.en} | ${seo.ogDescription.ar}`
+        : pickLoc(input.locale, seo.ogDescription, description)),
+    200
+  );
+
+  const image = seo.socialImage || input.image || DEFAULT_SHARE_IMAGE;
+  const imageAlt = input.imageAlt || DEFAULT_OG_ALT;
+  const staging = process.env.VERCEL_ENV === "preview" || process.env.NOINDEX === "1";
+  const indexable = staging ? false : (seo.indexable ?? input.indexable ?? true);
   const follow = seo.follow ?? true;
   const canonical = seo.canonical || absUrl(localePath(input.locale, input.path));
+  const enUrl = absUrl(localePath("en", input.path));
+  const arUrl = absUrl(localePath("ar", input.path));
   const twTitle = pickLoc(input.locale, seo.twitterTitle, ogTitle);
   const twDesc = pickLoc(input.locale, seo.twitterDescription, ogDesc);
   const twImage = seo.twitterImage || image;
 
   return {
-    // absolute avoids root layout template doubling "| Hukum"
-    title: { absolute: brandSuffix(title) },
+    metadataBase: new URL(siteOrigin()),
+    title: { absolute: title },
     description,
     robots: {
       index: indexable,
@@ -107,21 +145,29 @@ export function composeMetadata(input: {
     alternates: {
       canonical,
       languages: {
-        "ar-SA": absUrl(localePath("ar", input.path)),
-        ar: absUrl(localePath("ar", input.path)),
-        en: absUrl(localePath("en", input.path)),
-        // Saudi marketplace: Arabic is primary discovery language
-        "x-default": absUrl(localePath("ar", input.path)),
+        "en-SA": enUrl,
+        "ar-SA": arUrl,
+        en: enUrl,
+        ar: arUrl,
+        "x-default": enUrl,
       },
     },
     openGraph: {
       type: input.ogType || "website",
-      siteName: "Hukum",
+      siteName: "Hukum | حكم",
       title: ogTitle,
       description: ogDesc,
       url: canonical,
-      images: [{ url: absUrl(image), alt: ogTitle }],
+      images: [
+        {
+          url: absUrl(image),
+          width: 1200,
+          height: 630,
+          alt: imageAlt,
+        },
+      ],
       locale: input.locale === "ar" ? "ar_SA" : "en_US",
+      alternateLocale: input.locale === "ar" ? ["en_US"] : ["ar_SA"],
     },
     twitter: {
       card: (seo.twitterCard as "summary_large_image") || "summary_large_image",
@@ -150,45 +196,45 @@ export const DEFAULT_TEMPLATES = {
     ar: {
       title: "{name} | {brand}",
       description:
-        "اطّلع على {name}{brandPhrase} في Hukum. قارن المواصفات واطلب عروض أسعار وتواصل مع الموردين.",
+        "اطّلع على {name}{brandPhrase} في حكم. قارن المواصفات واطلب عروض أسعار وتواصل مع الموردين.",
       h1: "{name}",
     },
   },
   category: {
     en: {
-      title: "{name} Suppliers & Manufacturers",
+      title: "{name} suppliers in Saudi Arabia",
       description:
         "Find verified {name} suppliers and manufacturers on Hukum. Browse products and request quotes.",
       h1: "{name}",
     },
     ar: {
-      title: "موردو ومصنعو {name} | Hukum",
+      title: "موردو {name} في السعودية",
       description:
-        "اعثر على موردي ومصنعي {name} الموثّقين على Hukum. تصفّح المنتجات واطلب عروض أسعار.",
+        "اعثر على موردي ومصنعي {name} الموثّقين على حكم. تصفّح المنتجات واطلب عروض أسعار.",
       h1: "{name}",
     },
   },
   vendor: {
     en: {
-      title: "{name} | {typePhrase}",
-      description: "{name}{locationPhrase} on Hukum. View products, capabilities and contact this supplier.",
+      title: "{name} | verified supplier",
+      description: "{name}{locationPhrase} on Hukum. View products, capabilities and request a quote.",
       h1: "{name}",
     },
     ar: {
-      title: "{name} | {typePhrase}",
-      description: "{name}{locationPhrase} على Hukum. اطّلع على المنتجات والقدرات وتواصل مع هذا المورد.",
+      title: "{name} | مورد موثّق",
+      description: "{name}{locationPhrase} على حكم. اطّلع على المنتجات والقدرات واطلب عرض سعر.",
       h1: "{name}",
     },
   },
   industry: {
     en: {
-      title: "{name} Products & Suppliers",
+      title: "{name} products & suppliers",
       description: "Discover {name} products and verified suppliers on Hukum.",
       h1: "{name}",
     },
     ar: {
-      title: "منتجات وموردو {name} | Hukum",
-      description: "اكتشف منتجات {name} والموردين الموثّقين على Hukum.",
+      title: "منتجات وموردو {name}",
+      description: "اكتشف منتجات {name} والموردين الموثّقين على حكم.",
       h1: "{name}",
     },
   },
@@ -209,9 +255,8 @@ export function generateFromEntity(
   const h1 = applyTemplate(tpl.h1, vars);
   return {
     title: brandSuffix(titleRaw || "Hukum"),
-    description: (descRaw || (locale === "ar" ? "منصة Hukum للتجارة بين الشركات." : "Hukum B2B marketplace.")).slice(
-      0,
-      160
+    description: clampDesc(
+      descRaw || (locale === "ar" ? "منصة حكم للتجارة بين الشركات." : "Hukum B2B marketplace.")
     ),
     h1: h1 || titleRaw,
   };

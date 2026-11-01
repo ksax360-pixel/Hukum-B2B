@@ -5,13 +5,14 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/i18n/config";
 import { connectDB } from "@/lib/db";
-import { getSession } from "@/lib/auth";
 import { Product } from "@/modules/products/product.model";
 import { Category } from "@/modules/categories/taxonomy.model";
 import { Document } from "@/modules/documents/document.model";
 import { t as loc } from "@/lib/utils";
 import { stripVendorContacts } from "@/lib/public-vendor";
 import { composeMetadata, generateFromEntity } from "@/modules/seo/engine";
+import { productLd } from "@/modules/seo/jsonld";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ProductDetailMarketplace } from "@/components/products/ProductDetailMarketplace";
 import { ProductViewTracker } from "@/components/products/ProductViewTracker";
 import {
@@ -93,7 +94,6 @@ export default async function ProductDetailPage({
   const isAr = locale === "ar";
 
   await connectDB();
-  const session = await getSession();
   // Never select contact fields into RSC HTML — even for signed-in buyers (Risk C1 / PDF p.18).
   // Reveal only via /api/contact-reveal.
   const vendorSelect =
@@ -311,34 +311,19 @@ export default async function ProductDetailPage({
     });
   }
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: title,
-    description: shortDescription || description || undefined,
-    sku: product.sku || undefined,
-    brand: product.brand ? { "@type": "Brand", name: product.brand } : undefined,
-    image: media.filter((m) => m.url).map((m) => m.url),
-    category: category ? loc(locale, category.name) : undefined,
-    offers: {
-      "@type": "Offer",
-      priceCurrency: product.currency || "SAR",
-      availability:
-        product.availability === "in_stock"
-          ? "https://schema.org/InStock"
-          : "https://schema.org/PreOrder",
-      seller: vendor
-        ? {
-            "@type": "Organization",
-            name: loc(locale, vendor.legalName) || vendor.tradeName,
-          }
-        : undefined,
-    },
-  };
-
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <JsonLd
+        data={productLd({
+          name: title,
+          description: shortDescription || description || undefined,
+          path: `/products/${productSlug(product)}`,
+          locale,
+          image: media[0]?.url,
+          brand: product.brand,
+          sku: product.sku,
+        })}
+      />
       <ProductViewTracker
         productId={productId}
         vendorId={vendorId}

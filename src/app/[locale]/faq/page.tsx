@@ -6,29 +6,51 @@ import { connectDB } from "@/lib/db";
 import { CMSPage } from "@/modules/platform/platform.model";
 import { t } from "@/lib/utils";
 import { staticPageMetadata } from "@/modules/seo/static-metadata";
+import { HukumPageHeader } from "@/components/layout/HukumPageHeader";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbLd, faqPageLd } from "@/modules/seo/jsonld";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale: raw } = await params;
-  const isAr = raw === "ar";
-  return staticPageMetadata(
-    params,
-    "/faq",
-    isAr ? "الأسئلة الشائعة | Hukum" : "FAQ | Hukum",
-    isAr ? "إجابات عن التسجيل وطلبات عروض الأسعار والمنصة ثنائية اللغة." : "Answers about registration, RFQs and the bilingual Hukum platform."
-  );
+  return staticPageMetadata(params, "/faq", "ignored", undefined, { seoKey: "faq" });
 }
 
 const fallbackFaqs = (isAr: boolean) =>
   isAr
     ? [
-        { q: "من يمكنه التسجيل؟", a: "المشترون المؤسسيون والموردون المعتمدون عبر عملية تحقق." },
-        { q: "كيف تعمل طلبات عروض الأسعار؟", a: "ينشئ المشتري RFQ، ثم تتم مطابقة الموردين وإرسال الدعوات." },
-        { q: "هل المنصة ثنائية اللغة؟", a: "نعم — العربية والإنجليزية مدعومتان في الواجهة والمحتوى." },
+        {
+          q: "من يمكنه التسجيل؟",
+          a: "المشترون المؤسسيون والموردون الذين يكملون التحقق عبر حكوم.",
+        },
+        {
+          q: "كيف تعمل طلبات عروض الأسعار؟",
+          a: "ينشئ المشتري طلباً واحداً، ثم تتم مطابقة الموردين المناسبين وإرسال الدعوات.",
+        },
+        {
+          q: "هل المنصة ثنائية اللغة؟",
+          a: "نعم — العربية والإنجليزية مدعومتان في الواجهة والمحتوى.",
+        },
+        {
+          q: "ماذا تعني مستويات التحقق؟",
+          a: "مسجّل، وفحص السجل التجاري، وموثّق — تُكتسب عبر فحوصات حكوم ولا تُشترى.",
+        },
       ]
     : [
-        { q: "Who can register?", a: "Enterprise buyers and vendors who complete verification." },
-        { q: "How do RFQs work?", a: "Buyers publish an RFQ; the platform matches and invites relevant vendors." },
-        { q: "Is the platform bilingual?", a: "Yes — Arabic and English are supported across the experience." },
+        {
+          q: "Who can register?",
+          a: "Enterprise buyers and suppliers who complete Hukum verification.",
+        },
+        {
+          q: "How do RFQs work?",
+          a: "Buyers submit one request; Hukum matches relevant suppliers and invites them to quote.",
+        },
+        {
+          q: "Is the platform bilingual?",
+          a: "Yes — Arabic and English are supported across the experience.",
+        },
+        {
+          q: "What do verification levels mean?",
+          a: "Registered, CR checked and Verified — earned through Hukum checks, never bought.",
+        },
       ];
 
 export default async function FaqPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -47,40 +69,73 @@ export default async function FaqPage({ params }: { params: Promise<{ locale: st
   }
 
   const staticFaqs = fallbackFaqs(isAr);
+  const displayedFaqs =
+    cmsFaqs.length > 0
+      ? cmsFaqs.map((item) => ({
+          q: t(locale, item.title as { en?: string; ar?: string }),
+          a: t(locale, item.body as { en?: string; ar?: string }),
+        }))
+      : staticFaqs;
 
   return (
-    <div className="container-custom section max-w-3xl">
-      <div className="mb-10 space-y-3">
-        <p className="label-caps">FAQ</p>
-        <h1 className="text-3xl md:text-4xl font-semibold text-[var(--ink)]">
-          {isAr ? "الأسئلة الشائعة" : "Frequently asked questions"}
-        </h1>
-      </div>
+    <>
+      <JsonLd
+        data={[
+          faqPageLd(displayedFaqs),
+          breadcrumbLd(locale, [
+            { name: isAr ? "الرئيسية" : "Home", path: "/" },
+            { name: isAr ? "الأسئلة الشائعة" : "FAQ" },
+          ]),
+        ]}
+      />
+      <div className="hukum-page">
+        <div className="hukum-page__wrap hukum-page__wrap--narrow">
+        <HukumPageHeader
+          locale={locale}
+          eyebrow={isAr ? "المساعدة" : "Help"}
+          title={isAr ? "الأسئلة الشائعة" : "Frequently asked questions"}
+          arabic={isAr ? undefined : "الأسئلة الشائعة"}
+          lead={
+            isAr
+              ? "إجابات مباشرة عن التسجيل، طلبات العروض، والتحقق على حكوم."
+              : "Straight answers on registration, quote requests and verification on Hukum."
+          }
+          crumbs={[
+            { label: isAr ? "الرئيسية" : "Home", href: `/${locale}` },
+            { label: isAr ? "الأسئلة الشائعة" : "FAQ" },
+          ]}
+        />
 
-      <div className="space-y-4">
-        {cmsFaqs.map((item) => (
-          <details key={String(item._id)} className="surface-card p-5 group">
-            <summary className="font-semibold cursor-pointer list-none flex justify-between gap-4">
-              {t(locale, item.title as { en?: string; ar?: string })}
-              <span className="text-[var(--muted)] group-open:rotate-45 transition-transform">+</span>
-            </summary>
-            <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed whitespace-pre-wrap">
-              {t(locale, item.body as { en?: string; ar?: string })}
-            </p>
-          </details>
-        ))}
-
-        {cmsFaqs.length === 0 &&
-          staticFaqs.map((item) => (
-            <details key={item.q} className="surface-card p-5 group">
-              <summary className="font-semibold cursor-pointer list-none flex justify-between gap-4">
-                {item.q}
-                <span className="text-[var(--muted)] group-open:rotate-45 transition-transform">+</span>
+        <div className="hukum-accordion">
+          {cmsFaqs.map((item) => (
+            <details key={String(item._id)} className="hukum-accordion__item group">
+              <summary className="hukum-accordion__summary">
+                {t(locale, item.title as { en?: string; ar?: string })}
+                <span className="text-[var(--hukum-muted)] transition-transform group-open:rotate-45" aria-hidden>
+                  +
+                </span>
               </summary>
-              <p className="mt-4 text-sm text-[var(--muted)] leading-relaxed">{item.a}</p>
+              <p className="hukum-accordion__body whitespace-pre-wrap">
+                {t(locale, item.body as { en?: string; ar?: string })}
+              </p>
             </details>
           ))}
+
+          {cmsFaqs.length === 0 &&
+            staticFaqs.map((item) => (
+              <details key={item.q} className="hukum-accordion__item group">
+                <summary className="hukum-accordion__summary">
+                  {item.q}
+                  <span className="text-[var(--hukum-muted)] transition-transform group-open:rotate-45" aria-hidden>
+                    +
+                  </span>
+                </summary>
+                <p className="hukum-accordion__body">{item.a}</p>
+              </details>
+            ))}
+        </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

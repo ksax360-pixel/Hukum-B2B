@@ -102,7 +102,7 @@ function RegisterForm() {
 
   return (
     <AuthShell locale={locale} wide>
-      <h1 className="mb-5 text-center text-sm font-medium uppercase tracking-[0.32em] text-[#071D27] sm:mb-8">
+      <h1 className="mb-5 text-center text-sm font-medium tracking-[0.08em] text-[#111C17] sm:mb-8">
         {isAr ? "إنشاء حساب" : "Create account"}
       </h1>
       <div className="mb-6 grid gap-2 sm:grid-cols-2">
@@ -110,7 +110,7 @@ function RegisterForm() {
           type="button"
           disabled={loading}
           onClick={() => void sso("google")}
-          className="rounded-xl border border-[#071D27]/15 bg-white px-3 py-2.5 text-sm font-semibold text-[#071D27] hover:bg-[#f7f7f5] disabled:opacity-50"
+          className="rounded-xl border border-[#111C17]/15 bg-white px-3 py-2.5 text-sm font-semibold text-[#111C17] hover:border-[#17634B]/30 hover:bg-[#f3f5f4] disabled:opacity-50"
         >
           Google
         </button>
@@ -118,7 +118,7 @@ function RegisterForm() {
           type="button"
           disabled={loading}
           onClick={() => void sso("microsoft")}
-          className="rounded-xl border border-[#071D27]/15 bg-white px-3 py-2.5 text-sm font-semibold text-[#071D27] hover:bg-[#f7f7f5] disabled:opacity-50"
+          className="rounded-xl border border-[#111C17]/15 bg-white px-3 py-2.5 text-sm font-semibold text-[#111C17] hover:border-[#17634B]/30 hover:bg-[#f3f5f4] disabled:opacity-50"
         >
           Microsoft
         </button>
@@ -128,7 +128,7 @@ function RegisterForm() {
           <button
             type="button"
             className={`rounded-xl py-3 text-xs font-semibold uppercase tracking-[0.14em] ${
-              accountType === "buyer" ? "bg-[#071d27] text-white" : "border border-[#071d27]/15 text-[#071d27]"
+              accountType === "buyer" ? "bg-[#17634B] text-white" : "border border-[#111C17]/15 text-[#111C17]"
             }`}
             onClick={() => setAccountType("buyer")}
           >
@@ -137,7 +137,7 @@ function RegisterForm() {
           <button
             type="button"
             className={`rounded-xl py-3 text-xs font-semibold uppercase tracking-[0.14em] ${
-              accountType === "vendor" ? "bg-[#071d27] text-white" : "border border-[#071d27]/15 text-[#071d27]"
+              accountType === "vendor" ? "bg-[#17634B] text-white" : "border border-[#111C17]/15 text-[#111C17]"
             }`}
             onClick={() => setAccountType("vendor")}
           >
@@ -154,9 +154,9 @@ function RegisterForm() {
         <button type="submit" className="auth-lux-btn" disabled={loading}>
           {loading ? (isAr ? "جارٍ إنشاء الحساب…" : "Registering…") : isAr ? "إنشاء حساب" : "Register"}
         </button>
-        <p className="text-center text-sm text-[#071D27]/50">
+        <p className="text-center text-sm text-[#111C17]/50">
           {isAr ? "لديك حساب؟" : "Already have an account?"}{" "}
-          <Link href={`/${locale}/login`} className="font-semibold text-[#071D27]">
+          <Link href={`/${locale}/login`} className="font-semibold text-[#17634B]">
             {isAr ? "دخول" : "Sign in"}
           </Link>
         </p>

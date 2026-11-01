@@ -185,7 +185,7 @@ export default function LoginPage() {
 
   return (
     <AuthShell locale={locale}>
-      <h1 className="mb-5 text-center text-sm font-medium uppercase tracking-[0.32em] text-[#071D27] sm:mb-8">
+      <h1 className="mb-5 text-center text-sm font-medium tracking-[0.08em] text-[#111C17] sm:mb-8">
         {isAr ? "مرحباً بعودتك" : "Welcome back"}
       </h1>
       <div className="mb-6 grid gap-2 sm:grid-cols-2">
@@ -193,7 +193,7 @@ export default function LoginPage() {
           type="button"
           disabled={loading}
           onClick={() => void sso("google")}
-          className="rounded-xl border border-[#071D27]/15 bg-white px-3 py-2.5 text-sm font-semibold text-[#071D27] hover:bg-[#f7f7f5] disabled:opacity-50"
+          className="rounded-xl border border-[#111C17]/15 bg-white px-3 py-2.5 text-sm font-semibold text-[#111C17] hover:border-[#17634B]/30 hover:bg-[#f3f5f4] disabled:opacity-50"
         >
           Google
         </button>
@@ -201,7 +201,7 @@ export default function LoginPage() {
           type="button"
           disabled={loading}
           onClick={() => void sso("microsoft")}
-          className="rounded-xl border border-[#071D27]/15 bg-white px-3 py-2.5 text-sm font-semibold text-[#071D27] hover:bg-[#f7f7f5] disabled:opacity-50"
+          className="rounded-xl border border-[#111C17]/15 bg-white px-3 py-2.5 text-sm font-semibold text-[#111C17] hover:border-[#17634B]/30 hover:bg-[#f3f5f4] disabled:opacity-50"
         >
           Microsoft
         </button>
@@ -209,14 +209,14 @@ export default function LoginPage() {
       <div className="mb-4 flex justify-center gap-2 text-xs">
         <button
           type="button"
-          className={`rounded-full px-3 py-1 ${mode === "password" ? "bg-[#071D27] text-white" : "border border-[#071D27]/15"}`}
+          className={`rounded-full px-3 py-1 ${mode === "password" ? "bg-[#17634B] text-white" : "border border-[#111C17]/15 text-[#111C17]"}`}
           onClick={() => setMode("password")}
         >
           {isAr ? "بريد" : "Email"}
         </button>
         <button
           type="button"
-          className={`rounded-full px-3 py-1 ${mode === "otp" ? "bg-[#071D27] text-white" : "border border-[#071D27]/15"}`}
+          className={`rounded-full px-3 py-1 ${mode === "otp" ? "bg-[#17634B] text-white" : "border border-[#111C17]/15 text-[#111C17]"}`}
           onClick={() => setMode("otp")}
         >
           {isAr ? "جوال OTP" : "Mobile OTP"}
@@ -269,7 +269,7 @@ export default function LoginPage() {
             ) : null}
           </AuthLuxStack>
           {demoOtp ? (
-            <p className="text-xs text-[#071D27]/50">
+            <p className="text-xs text-[#111C17]/50">
               {isAr ? "رمز تجريبي:" : "Demo code:"} {demoOtp}
             </p>
           ) : null}
@@ -284,11 +284,11 @@ export default function LoginPage() {
           )}
         </form>
       )}
-      <div className="mt-6 flex items-center justify-between text-sm text-[#071D27]/50">
-        <Link href={`/${locale}/forgot-password`} className="font-semibold text-[#071D27] hover:opacity-80">
+      <div className="mt-6 flex items-center justify-between text-sm text-[#111C17]/50">
+        <Link href={`/${locale}/forgot-password`} className="font-semibold text-[#17634B] hover:opacity-80">
           {isAr ? "نسيت كلمة المرور" : "Forgot password"}
         </Link>
-        <Link href={`/${locale}/register`} className="font-semibold text-[#071D27] hover:opacity-80">
+        <Link href={`/${locale}/register`} className="font-semibold text-[#17634B] hover:opacity-80">
           {isAr ? "إنشاء حساب" : "Sign up"}
         </Link>
       </div>

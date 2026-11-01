@@ -1,0 +1,967 @@
+/* =========================================================
+   Hukum design system — extracted from approved homepage
+   Do not redefine homepage-only sections here.
+   ========================================================= */
+
+:root {
+  --hukum-green: #17634B;
+  --hukum-green-hover: #134f3c;
+  --hukum-green-dark: #10251C;
+  --hukum-green-deep: #0B3D2E;
+  --hukum-ink: #111C17;
+  --hukum-muted: #718078;
+  --hukum-muted-soft: #8A9490;
+  --hukum-border: #E9EEEA;
+  --hukum-border-strong: #E2E6E4;
+  --hukum-badge: #C4A574;
+  --hukum-badge-hover: #D4B88A;
+  --hukum-gold: #B89A6D;
+  --hukum-surface: #F3F5F4;
+  --hukum-surface-soft: #F4F4F4;
+  --hukum-white: #ffffff;
+  --hukum-radius-sm: 0.55rem;
+  --hukum-radius-md: 0.95rem;
+  --hukum-radius-lg: 1.15rem;
+  --hukum-radius-xl: 1.35rem;
+  --hukum-radius-pill: 999px;
+  --hukum-shadow-sm: 0 6px 16px rgba(16, 37, 28, 0.05);
+  --hukum-shadow-md: 0 10px 28px rgba(16, 37, 28, 0.08);
+  --hukum-shadow-cta: 0 8px 18px rgba(23, 99, 75, 0.18);
+  --hukum-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --hukum-duration: 0.2s;
+  --hukum-container: 1280px;
+  --hukum-page-pad: clamp(2rem, 4vw, 3.25rem);
+  --hukum-gutter: clamp(1.15rem, 3.5vw, 3rem);
+}
+
+/* —— Page shell —— */
+.hukum-page {
+  background: var(--hukum-white);
+  color: var(--hukum-ink);
+  padding-block: var(--hukum-page-pad) clamp(2.5rem, 5vw, 4rem);
+}
+
+.hukum-page__wrap {
+  width: 100%;
+  max-width: var(--hukum-container);
+  margin-inline: auto;
+  padding-inline: var(--hukum-gutter);
+}
+
+.hukum-page__wrap--narrow {
+  max-width: 48rem;
+}
+
+.hukum-page__wrap--wide {
+  max-width: 1280px;
+}
+
+/* —— Page header (inner pages) —— */
+.hukum-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
+  padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-bottom: 1px solid var(--hukum-border);
+}
+
+.hukum-page-header__main {
+  min-width: min(100%, 20rem);
+  max-width: 40rem;
+}
+
+.hukum-page-header__crumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  margin: 0 0 0.75rem;
+  padding: 0;
+  list-style: none;
+  color: var(--hukum-muted-soft);
+  font-size: 0.75rem;
+}
+
+.hukum-page-header__crumb a {
+  color: var(--hukum-muted);
+  transition: color var(--hukum-duration) ease;
+}
+
+.hukum-page-header__crumb a:hover {
+  color: var(--hukum-green);
+}
+
+.hukum-page-header__crumb-sep {
+  color: #C5CBC7;
+}
+
+.hukum-page-header__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0 0 0.7rem;
+  color: #5f6b65;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.hukum-page-header__eyebrow-rule {
+  width: 1.75rem;
+  height: 1.5px;
+  background: var(--hukum-green);
+  flex-shrink: 0;
+}
+
+.hukum-page-header__eyebrow--gold {
+  color: var(--hukum-gold);
+}
+
+.hukum-page-header__eyebrow--gold .hukum-page-header__eyebrow-rule {
+  background: var(--hukum-badge);
+}
+
+.hukum-page-header__title {
+  margin: 0;
+  color: var(--hukum-ink);
+  font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.hukum-page-header__lead {
+  margin: 0.7rem 0 0;
+  max-width: 36rem;
+  color: var(--hukum-muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.hukum-page-header__arabic {
+  margin: 0.45rem 0 0;
+  color: var(--hukum-gold);
+  font-size: 0.975rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.hukum-page-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* —— Buttons —— */
+.hukum-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--hukum-radius-pill);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition:
+    background-color var(--hukum-duration) ease,
+    color var(--hukum-duration) ease,
+    border-color var(--hukum-duration) ease,
+    gap var(--hukum-duration) ease,
+    transform 0.15s ease,
+    box-shadow var(--hukum-duration) ease;
+}
+
+.hukum-btn:focus-visible {
+  outline: 2px solid var(--hukum-green);
+  outline-offset: 2px;
+}
+
+.hukum-btn--primary {
+  background: var(--hukum-green);
+  color: #fff;
+  box-shadow: var(--hukum-shadow-cta);
+}
+
+.hukum-btn--primary:hover {
+  background: var(--hukum-green-hover);
+  gap: 0.55rem;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(23, 99, 75, 0.22);
+}
+
+.hukum-btn--secondary {
+  border: 1px solid var(--hukum-border-strong);
+  background: #fff;
+  color: var(--hukum-ink);
+}
+
+.hukum-btn--secondary:hover {
+  border-color: rgba(23, 99, 75, 0.35);
+  color: var(--hukum-green);
+}
+
+.hukum-btn--gold {
+  background: var(--hukum-badge);
+  color: var(--hukum-green-dark);
+}
+
+.hukum-btn--gold:hover {
+  background: var(--hukum-badge-hover);
+  gap: 0.55rem;
+  transform: translateY(-1px);
+}
+
+.hukum-btn--ghost {
+  border: 1.5px solid rgba(17, 28, 23, 0.18);
+  background: transparent;
+  color: var(--hukum-ink);
+}
+
+.hukum-btn--ghost:hover {
+  border-color: rgba(23, 99, 75, 0.4);
+  color: var(--hukum-green);
+}
+
+.hukum-btn--lg {
+  min-height: 2.75rem;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.875rem;
+}
+
+/* —— Surfaces —— */
+.hukum-card {
+  background: #fff;
+  border: 1px solid var(--hukum-border);
+  border-radius: var(--hukum-radius-lg);
+  box-shadow: var(--hukum-shadow-sm);
+}
+
+.hukum-card--soft {
+  background: var(--hukum-surface-soft);
+  border: 0;
+  box-shadow: none;
+}
+
+.hukum-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 1.85rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--hukum-radius-pill);
+  border: 1px solid var(--hukum-border);
+  background: #fff;
+  color: var(--hukum-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.hukum-chip--active {
+  border-color: rgba(23, 99, 75, 0.3);
+  background: rgba(23, 99, 75, 0.08);
+  color: var(--hukum-green);
+}
+
+.hukum-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.55rem;
+  border-radius: var(--hukum-radius-pill);
+  background: rgba(23, 99, 75, 0.1);
+  color: var(--hukum-green);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.hukum-badge-pill--gold {
+  background: rgba(196, 165, 116, 0.18);
+  color: #8a6f45;
+}
+
+/* —— Forms —— */
+.hukum-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.hukum-field__label {
+  color: var(--hukum-ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.hukum-input,
+.hukum-select,
+.hukum-textarea {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--hukum-border-strong);
+  border-radius: 0.85rem;
+  background: #fff;
+  color: var(--hukum-ink);
+  font-size: 16px; /* prevents iOS input zoom */
+  line-height: 1.4;
+  transition: border-color var(--hukum-duration) ease, box-shadow var(--hukum-duration) ease;
+}
+
+/* Categories page search — flex row so the icon stays vertically centered */
+.hukum-catalogue-search {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--hukum-border-strong);
+  border-radius: 0.85rem;
+  background: #fff;
+  transition: border-color var(--hukum-duration) ease, box-shadow var(--hukum-duration) ease;
+}
+
+.hukum-catalogue-search:focus-within {
+  border-color: rgba(23, 99, 75, 0.45);
+  box-shadow: 0 0 0 3px rgba(23, 99, 75, 0.12);
+}
+
+.hukum-catalogue-search__icon {
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  color: #9aa39d;
+  display: block;
+}
+
+.hukum-catalogue-search__input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--hukum-ink);
+  font-size: 16px;
+  line-height: 1.4;
+  padding: 0;
+}
+
+.hukum-catalogue-search__input::placeholder {
+  color: #9aa39d;
+}
+
+.hukum-catalogue-search__input::-webkit-search-decoration,
+.hukum-catalogue-search__input::-webkit-search-cancel-button,
+.hukum-catalogue-search__input::-webkit-search-results-button,
+.hukum-catalogue-search__input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+.hukum-textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.hukum-input:focus,
+.hukum-select:focus,
+.hukum-textarea:focus {
+  outline: none;
+  border-color: rgba(23, 99, 75, 0.45);
+  box-shadow: 0 0 0 3px rgba(23, 99, 75, 0.12);
+}
+
+/* —— Empty / system states —— */
+.hukum-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.65rem;
+  padding: clamp(2rem, 5vw, 3.5rem) 1.25rem;
+  border: 1px dashed var(--hukum-border);
+  border-radius: var(--hukum-radius-lg);
+  background: var(--hukum-surface);
+  color: var(--hukum-muted);
+}
+
+.hukum-empty__title {
+  margin: 0;
+  color: var(--hukum-ink);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.hukum-empty__text {
+  margin: 0;
+  max-width: 28rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.hukum-skeleton {
+  border-radius: var(--hukum-radius-md);
+  background: linear-gradient(90deg, #eef1ef 25%, #f7f8f7 50%, #eef1ef 75%);
+  background-size: 200% 100%;
+  animation: hukum-skeleton 1.2s ease-in-out infinite;
+}
+
+@keyframes hukum-skeleton {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* —— Premium dark panel (VIP / concierge style) —— */
+.hukum-premium-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.75rem;
+  background:
+    #0B3D2E
+    url("/brand/hukum-concierge-bg.jpg")
+    center / cover
+    no-repeat;
+  color: #fff;
+  border: 1px solid rgba(16, 37, 28, 0.18);
+  box-shadow:
+    0 18px 48px rgba(16, 37, 28, 0.18),
+    0 6px 18px rgba(16, 37, 28, 0.1);
+}
+
+/* —— Accordion (FAQ) —— */
+.hukum-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.hukum-accordion__item {
+  border: 1px solid var(--hukum-border);
+  border-radius: var(--hukum-radius-lg);
+  background: #fff;
+  overflow: hidden;
+}
+
+.hukum-accordion__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.15rem;
+  cursor: pointer;
+  list-style: none;
+  color: var(--hukum-ink);
+  font-size: 0.95rem;
+  font-weight: 650;
+}
+
+.hukum-accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+.hukum-accordion__body {
+  padding: 0 1.15rem 1.15rem;
+  color: var(--hukum-muted);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* —— Align legacy public chrome to Hukum tokens —— */
+.kt-public .label-caps {
+  color: var(--hukum-gold);
+  letter-spacing: 0.14em;
+}
+
+.kt-public .btn-primary,
+.kt-public a.btn-primary {
+  background: var(--hukum-green) !important;
+  color: #fff !important;
+  border-radius: var(--hukum-radius-pill) !important;
+  box-shadow: var(--hukum-shadow-cta);
+}
+
+.kt-public .btn-primary:hover,
+.kt-public a.btn-primary:hover {
+  background: var(--hukum-green-hover) !important;
+}
+
+.kt-public .btn-secondary,
+.kt-public a.btn-secondary {
+  border: 1px solid var(--hukum-border-strong) !important;
+  color: var(--hukum-ink) !important;
+  border-radius: var(--hukum-radius-pill) !important;
+  background: #fff !important;
+}
+
+.kt-public .surface-card {
+  border: 1px solid var(--hukum-border) !important;
+  border-radius: var(--hukum-radius-lg) !important;
+  box-shadow: var(--hukum-shadow-sm) !important;
+}
+
+.kt-public .empty-state {
+  border: 1px dashed var(--hukum-border);
+  border-radius: var(--hukum-radius-lg);
+  background: var(--hukum-surface);
+  color: var(--hukum-muted);
+}
+
+.kt-public .products-intro__title,
+.kt-public .cats-page__title {
+  color: var(--hukum-ink);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.kt-public .products-intro__copy,
+.kt-public .cats-page__copy {
+  color: var(--hukum-muted);
+}
+
+.kt-public .cats-page__eyebrow,
+.kt-public .products-intro .label-caps {
+  color: var(--hukum-gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hukum-btn,
+  .hukum-skeleton {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* —— Auth bridge: keep legacy auth structure on Hukum tokens —— */
+.kt-public .auth-stage {
+  background: var(--hukum-white);
+  color: var(--hukum-ink);
+}
+
+.kt-public .auth-dot-field {
+  background-image: radial-gradient(rgba(23, 99, 75, 0.16) 1px, transparent 1px);
+}
+
+.kt-public .auth-glass {
+  border-color: var(--hukum-border);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: var(--hukum-shadow-md);
+}
+
+.kt-public .auth-lux-stack {
+  border-color: var(--hukum-border-strong);
+  box-shadow: var(--hukum-shadow-sm);
+}
+
+.kt-public .auth-lux-field + .auth-lux-field {
+  border-top-color: var(--hukum-border);
+}
+
+.kt-public .auth-lux-field .auth-lux-input,
+.kt-public .auth-lux-field input {
+  color: var(--hukum-ink) !important;
+  caret-color: var(--hukum-green);
+}
+
+.kt-public .auth-lux-label {
+  color: var(--hukum-ink);
+}
+
+.kt-public .auth-lux-field:focus-within .auth-lux-label,
+.kt-public .auth-lux-reveal:hover {
+  color: var(--hukum-green);
+}
+
+.kt-public .auth-lux-reveal {
+  color: rgba(17, 28, 23, 0.48);
+}
+
+.kt-public .auth-lux-btn {
+  border-radius: var(--hukum-radius-pill);
+  background: var(--hukum-green) !important;
+  box-shadow: var(--hukum-shadow-cta);
+}
+
+.kt-public .auth-lux-btn:hover {
+  background: var(--hukum-green-hover) !important;
+  opacity: 1;
+}
+
+/* —— RFQ bridge: legacy structure on Hukum field and action tokens —— */
+.kt-rfq {
+  background:
+    radial-gradient(ellipse 70% 40% at 50% -10%, rgba(196, 165, 116, 0.1), transparent 55%),
+    linear-gradient(180deg, var(--hukum-surface) 0%, var(--hukum-white) 28%);
+  color: var(--hukum-ink);
+}
+
+.kt-rfq__hero,
+.kt-rfq__section-head {
+  border-color: var(--hukum-border);
+}
+
+.kt-rfq__eyebrow,
+.kt-rfq__steps span,
+.kt-rfq__section-num,
+.kt-rfq__field label em {
+  color: var(--hukum-gold);
+}
+
+.kt-rfq__title,
+.kt-rfq__section-head h2,
+.kt-rfq__toggle strong {
+  color: var(--hukum-ink);
+}
+
+.kt-rfq__aside-card {
+  border-color: rgba(16, 37, 28, 0.25);
+  background: var(--hukum-green-dark);
+}
+
+.kt-rfq__aside-label,
+.kt-rfq__check-icon,
+.kt-rfq__aside-note svg {
+  color: var(--hukum-badge);
+}
+
+.kt-rfq__check-icon {
+  background: rgba(196, 165, 116, 0.14);
+}
+
+.kt-rfq__section,
+.kt-rfq__foot {
+  border-color: var(--hukum-border);
+  background: var(--hukum-white);
+  box-shadow: var(--hukum-shadow-sm);
+}
+
+.kt-rfq__input,
+.kt-rfq__toggle {
+  border-color: var(--hukum-border-strong);
+  background: var(--hukum-surface);
+  color: var(--hukum-ink);
+}
+
+.kt-rfq__input:focus {
+  border-color: rgba(23, 99, 75, 0.45);
+  background: var(--hukum-white);
+  box-shadow: 0 0 0 3px rgba(23, 99, 75, 0.12);
+}
+
+.kt-rfq__toggle:hover {
+  border-color: rgba(23, 99, 75, 0.3);
+}
+
+.kt-rfq__toggle input {
+  accent-color: var(--hukum-green);
+}
+
+.kt-rfq__login-hint a,
+.kt-rfq__match {
+  color: var(--hukum-green);
+}
+
+.kt-rfq__submit {
+  background: var(--hukum-green);
+  box-shadow: var(--hukum-shadow-cta);
+}
+
+.kt-rfq__submit:hover {
+  background: var(--hukum-green-hover);
+}
+
+.kt-rfq__match {
+  border-color: rgba(23, 99, 75, 0.25);
+}
+
+.kt-rfq__match:hover {
+  border-color: rgba(23, 99, 75, 0.4);
+  background: rgba(23, 99, 75, 0.06);
+}
+
+/* Shared empty-state bridge for marketplace surfaces. */
+.kt-marketplace-empty,
+.kt-vendor-empty {
+  border: 1px dashed var(--hukum-border);
+  border-radius: var(--hukum-radius-lg);
+  background: var(--hukum-surface);
+  color: var(--hukum-muted);
+  text-align: center;
+}
+
+/* —— Marketplace listings: final Hukum token overrides —— */
+.kt-public .cats-page,
+.kt-public .products-shell {
+  background: var(--hukum-white);
+  color: var(--hukum-ink);
+}
+
+.kt-public .cats-page.hukum-page {
+  padding-block: 0;
+}
+
+.kt-public .cats-page__inner {
+  padding-block: var(--hukum-page-pad) clamp(2.5rem, 5vw, 4rem);
+}
+
+.kt-public .cats-page .hukum-page-header {
+  margin-bottom: 1.5rem;
+}
+
+.kt-public .cats-page__eyebrow {
+  color: var(--hukum-gold);
+}
+
+.kt-public .cats-page__title,
+.kt-public .cats-page__segment-title,
+.kt-public .cats-page__selected-title,
+.kt-public .cats-page__card-name {
+  color: var(--hukum-ink);
+}
+
+.kt-public .cats-page__copy,
+.kt-public .cats-page__segment-desc,
+.kt-public .cats-page__selected-desc,
+.kt-public .cats-page__segment-count {
+  color: var(--hukum-muted);
+}
+
+.kt-public .cats-page__jump {
+  justify-content: flex-start;
+  max-width: none;
+  margin-bottom: 2rem;
+}
+
+.kt-public .cats-page__jump-chip,
+.kt-public .cats-page__sub {
+  border-color: var(--hukum-border-strong);
+  background: var(--hukum-white);
+  color: var(--hukum-ink);
+}
+
+.kt-public .cats-page__jump-chip em {
+  color: var(--hukum-muted-soft);
+}
+
+.kt-public .cats-page__jump-chip:hover,
+.kt-public .cats-page__sub:hover {
+  border-color: rgba(23, 99, 75, 0.38);
+  background: var(--hukum-surface);
+  color: var(--hukum-green);
+}
+
+.kt-public .cats-page__jump-chip.is-active {
+  border-color: var(--hukum-green);
+  background: var(--hukum-green);
+  color: var(--hukum-white);
+  box-shadow: var(--hukum-shadow-cta);
+}
+
+.kt-public .cats-page__jump-chip.is-active em {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.kt-public .cats-page__segment,
+.kt-public .cats-page__selected {
+  border-color: var(--hukum-border);
+  background: linear-gradient(180deg, var(--hukum-surface) 0%, var(--hukum-white) 42%);
+}
+
+.kt-public .cats-page__segment.is-focus {
+  border-color: rgba(23, 99, 75, 0.35);
+  box-shadow: 0 16px 40px rgba(16, 37, 28, 0.07);
+}
+
+.kt-public .cats-page__segment-head,
+.kt-public .cats-page__subs {
+  border-color: var(--hukum-border);
+}
+
+.kt-public .cats-page__segment-count strong {
+  color: var(--hukum-ink);
+}
+
+.kt-public .cats-page__card {
+  border-color: var(--hukum-border);
+  background: var(--hukum-white);
+}
+
+.kt-public .cats-page__card:hover {
+  border-color: rgba(23, 99, 75, 0.28);
+  box-shadow: var(--hukum-shadow-md);
+}
+
+.kt-public .cats-page__card.is-active {
+  border-color: var(--hukum-green);
+  box-shadow: 0 12px 30px rgba(23, 99, 75, 0.12);
+}
+
+.kt-public .cats-page__concierge {
+  margin-top: clamp(2.25rem, 5vw, 4rem);
+  padding: clamp(1.75rem, 5vw, 3rem);
+}
+
+.kt-public .cats-page__concierge-content {
+  position: relative;
+  z-index: 1;
+  max-width: 43rem;
+}
+
+.kt-public .cats-page__concierge-title {
+  margin: 1.1rem 0 0;
+  color: var(--hukum-white);
+  font-size: clamp(1.5rem, 3vw, 2.15rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.kt-public .cats-page__concierge-copy {
+  margin: 0.9rem 0 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+.kt-public .cats-page__concierge-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.kt-public .cats-page__concierge-secondary {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--hukum-white);
+}
+
+.kt-public .cats-page__concierge-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.kt-public .products-shell {
+  --products-listing-border: var(--hukum-border);
+}
+
+.kt-public .products-shell .hukum-page-header {
+  margin-bottom: 0;
+}
+
+.kt-public .products-intro {
+  color: var(--hukum-ink);
+}
+
+.kt-public .products-intro__title {
+  color: var(--hukum-ink);
+  font-weight: 700;
+}
+
+.kt-public .products-intro__copy,
+.kt-public .products-toolbar__count {
+  color: var(--hukum-muted);
+}
+
+.kt-public .products-toolbar {
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--products-listing-border);
+}
+
+.kt-public .products-chip {
+  border-color: var(--hukum-border-strong);
+  background: var(--hukum-white);
+  color: var(--hukum-ink);
+}
+
+.kt-public .products-chip:hover {
+  border-color: rgba(23, 99, 75, 0.4);
+  background: var(--hukum-surface);
+  color: var(--hukum-green);
+}
+
+.kt-public .kt-vendor-grid > .hukum-empty,
+.kt-public .kt-product-grid > .hukum-empty {
+  width: 100%;
+  min-height: 12rem;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .kt-public .products-page {
+    padding-block: var(--hukum-page-pad) clamp(2.5rem, 5vw, 4rem);
+  }
+}
+
+/* —— Industries catalogue —— */
+.kt-public .kt-industries {
+  background:
+    radial-gradient(900px 420px at 8% -10%, rgba(196, 165, 116, 0.1), transparent 55%),
+    radial-gradient(700px 380px at 92% 8%, rgba(23, 99, 75, 0.05), transparent 50%),
+    var(--hukum-white);
+  color: var(--hukum-ink);
+}
+
+.kt-public .kt-industries-hero__eyebrow {
+  color: var(--hukum-gold);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-weight: 500;
+  font-size: 0.8125rem;
+}
+
+.kt-public .kt-industries-hero__title {
+  color: var(--hukum-ink);
+  font-weight: 700;
+}
+
+.kt-public .kt-industries a:focus-visible,
+.kt-public .hukum-btn:focus-visible {
+  outline: 2px solid var(--hukum-green);
+  outline-offset: 2px;
+}
+
+/* —— Dashboard light brand accent —— */
+.kt-admin-root:not([data-theme="dark"]) {
+  --accent: var(--hukum-green);
+  --accent-hover: var(--hukum-green-hover);
+  --ink: var(--hukum-ink);
+  --gold: var(--hukum-badge);
+}
+
+/* —— System alerts —— */
+.hukum-alert {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  padding: 0.85rem 1rem;
+  border-radius: var(--hukum-radius-md);
+  border: 1px solid var(--hukum-border);
+  background: var(--hukum-surface);
+  color: var(--hukum-ink);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.hukum-alert--success {
+  border-color: rgba(23, 99, 75, 0.25);
+  background: rgba(23, 99, 75, 0.08);
+  color: var(--hukum-green-deep);
+}
+
+.hukum-alert--error {
+  border-color: rgba(180, 60, 60, 0.25);
+  background: rgba(180, 60, 60, 0.06);
+  color: #8f2f2f;
+}
+
+[dir="rtl"] .hukum-page-header__eyebrow-rule {
+  order: 2;
+}

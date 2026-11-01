@@ -149,10 +149,10 @@ function DashboardChrome({
 
   const sidebar = (
     <>
-      <div className={cn("mb-2 border-b px-3 pb-6", dark ? "border-slate-700/50" : "border-[#071D27]/8")}>
+      <div className={cn("mb-2 border-b px-3 pb-6", dark ? "border-slate-700/50" : "border-[var(--hukum-border)]")}>
         <div className="flex flex-col items-center gap-2">
           <BrandMark size={44} />
-          <span className={cn("text-sm font-semibold uppercase tracking-[0.16em]", dark ? "text-white" : "text-[#001730]")}>
+          <span className={cn("text-sm font-semibold uppercase tracking-[0.16em]", dark ? "text-white" : "text-[var(--hukum-ink)]")}>
             Hukum
           </span>
         </div>
@@ -178,10 +178,10 @@ function DashboardChrome({
                     active
                       ? dark
                         ? "bg-slate-700/40 text-white"
-                        : "bg-[#071D27]/[0.04] text-[#071D27]"
+                        : "bg-[#17634B]/[0.08] text-[var(--hukum-green)]"
                       : dark
                         ? "text-slate-300 hover:bg-slate-800/40 hover:text-white"
-                        : "text-[#071D27]/55 hover:bg-[#071D27]/[0.03] hover:text-[#071D27]",
+                        : "text-[var(--hukum-muted)] hover:bg-[#17634B]/[0.05] hover:text-[var(--hukum-green)]",
                   )}
                 >
                   <span
@@ -192,12 +192,12 @@ function DashboardChrome({
                   </span>
                   <span className={cn("text-[10px] font-medium", locale === "ar" ? "tracking-normal" : "uppercase tracking-[0.14em]")}>{item.label}</span>
                   {active ? (
-                    <span className={cn("absolute inset-y-0 start-0 w-1 rounded-e", dark ? "bg-[#0075FF]" : "bg-[#D21F1F]")} />
+                    <span className={cn("absolute inset-y-0 start-0 w-1 rounded-e", dark ? "bg-[#0075FF]" : "bg-[var(--hukum-green)]")} />
                   ) : null}
                 </Link>
               );
             })}
-            {i < segments.length - 1 ? <div className={cn("mx-3 my-3 h-px", dark ? "bg-slate-700/50" : "bg-[#071D27]/8")} /> : null}
+            {i < segments.length - 1 ? <div className={cn("mx-3 my-3 h-px", dark ? "bg-slate-700/50" : "bg-[var(--hukum-border)]")} /> : null}
           </div>
         ))}
       </nav>
@@ -205,16 +205,16 @@ function DashboardChrome({
         <div
           className="relative overflow-hidden rounded-xl p-4"
           data-onboarding="help"
-          style={dark ? { background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" } : { background: "#f2f2f2", border: "1px solid rgba(7, 29, 39, 0.06)" }}
+          style={dark ? { background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" } : { background: "var(--hukum-surface)", border: "1px solid var(--hukum-border)" }}
         >
-          <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.16em]" style={{ color: dark ? "#ffffff" : "#071D27" }}>
+          <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.16em]" style={{ color: dark ? "#ffffff" : "var(--hukum-ink)" }}>
             {dashT(locale, "Product tour")}
           </p>
           <button
             type="button"
             className={cn(
               "w-full rounded-lg py-2.5 text-center text-[10px] font-medium uppercase tracking-[0.16em] transition-all",
-              dark ? "border border-white/10 bg-white/10 text-white hover:bg-white/15" : "bg-[#071D27] text-white hover:opacity-90",
+              dark ? "border border-white/10 bg-white/10 text-white hover:bg-white/15" : "bg-[var(--hukum-green)] text-white hover:bg-[var(--hukum-green-hover)]",
             )}
             onClick={() => {
               requestTourReplay();
@@ -236,7 +236,7 @@ function DashboardChrome({
           style={{
             background: dark
               ? "linear-gradient(180deg, rgba(0, 117, 255, 0.45) 0%, rgba(0, 117, 255, 0.08) 100%)"
-              : "linear-gradient(180deg, rgba(210, 31, 31, 0.28) 0%, rgba(7, 29, 39, 0.04) 100%)",
+              : "linear-gradient(180deg, rgba(23, 99, 75, 0.32) 0%, rgba(23, 99, 75, 0.04) 100%)",
           }}
         />
         {sidebar}
@@ -244,7 +244,7 @@ function DashboardChrome({
 
       {mobileOpen ? (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <button type="button" className="absolute inset-0 bg-[#071D27]/35" aria-label={dashT(locale, "Close menu")} onClick={() => setMobileOpen(false)} />
+          <button type="button" className="absolute inset-0 bg-[#111C17]/35" aria-label={dashT(locale, "Close menu")} onClick={() => setMobileOpen(false)} />
           <aside className="dash-sidebar relative flex h-full w-56 flex-col overflow-y-auto px-3 py-5">{sidebar}</aside>
         </div>
       ) : null}
@@ -283,7 +283,7 @@ function DashboardChrome({
               )}
               <div className="relative">
                 <button type="button" className="dash-chip" onClick={() => setMenuOpen((v) => !v)}>
-                  <span className={cn("grid h-5 w-5 place-items-center rounded-full", dark ? "bg-white/10" : "bg-[#071D27]/8")}>
+                  <span className={cn("grid h-5 w-5 place-items-center rounded-full", dark ? "bg-white/10" : "bg-[#17634B]/10 text-[var(--hukum-green)]")}>
                     <User size={12} />
                   </span>
                   <span className="hidden max-w-[110px] truncate md:inline">{user?.name || dashT(locale, "Account")}</span>

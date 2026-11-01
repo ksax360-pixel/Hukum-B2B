@@ -19,7 +19,7 @@ export function AuthShell({
     document.documentElement.style.backgroundColor = "#ffffff";
     document.documentElement.style.colorScheme = "light";
     document.body.style.backgroundColor = "#ffffff";
-    document.body.style.color = "#071D27";
+    document.body.style.color = "#111C17";
   }, []);
 
   return (

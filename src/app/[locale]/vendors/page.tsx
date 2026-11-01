@@ -13,18 +13,10 @@ import { t as loc } from "@/lib/utils";
 import { toPlain, type VendorLike } from "@/components/products/product-helpers";
 import { staticPageMetadata } from "@/modules/seo/static-metadata";
 import { stripVendorContacts } from "@/lib/public-vendor";
+import { HukumPageHeader } from "@/components/layout/HukumPageHeader";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale: raw } = await params;
-  const isAr = raw === "ar";
-  return staticPageMetadata(
-    params,
-    "/vendors",
-    isAr ? "الموردون | Hukum" : "Verified Vendors | Hukum",
-    isAr
-      ? "اكتشف الموردين والمصانع والموزعين المعتمدين على Hukum."
-      : "Discover verified manufacturers, distributors and suppliers on Hukum."
-  );
+  return staticPageMetadata(params, "/vendors", "ignored", undefined, { seoKey: "vendors" });
 }
 
 export default async function VendorsPage({
@@ -180,19 +172,25 @@ export default async function VendorsPage({
           />
 
           <div className="products-main min-w-0">
-            <header className="products-intro">
-              <p className="label-caps">{isAr ? "الموردون" : "Suppliers"}</p>
-              <h1 className="products-intro__title">{isAr ? "الموردون" : "Vendors"}</h1>
-              <p className="products-intro__copy">
-                {isAr
+            <HukumPageHeader
+              locale={locale}
+              eyebrow={isAr ? "الموردون" : "Suppliers"}
+              title={isAr ? "الموردون" : "Vendors"}
+              lead={
+                isAr
                   ? "اكتشف المصنّعين والموزّعين وتجار الجملة الموثّقين عبر المملكة."
-                  : "Discover verified manufacturers, distributors, and wholesalers across Saudi Arabia."}
-              </p>
-            </header>
+                  : "Discover verified manufacturers, distributors, and wholesalers across Saudi Arabia."
+              }
+              crumbs={[
+                { label: isAr ? "الرئيسية" : "Home", href: `/${locale}` },
+                { label: isAr ? "الموردون" : "Vendors" },
+              ]}
+              goldEyebrow
+            />
 
             <div className="products-toolbar">
               <p className="products-toolbar__count">
-                <span className="font-semibold text-[#001730] tabular-nums">{total}</span>{" "}
+                <span className="font-semibold text-[var(--hukum-ink)] tabular-nums">{total}</span>{" "}
                 {isAr ? "مورد" : "vendors"}
               </p>
               {activeChips.length > 0 && (
@@ -211,7 +209,7 @@ export default async function VendorsPage({
 
             <div className="kt-vendor-grid">
               {items.length === 0 && (
-                <div className="col-span-full empty-state">
+                <div className="hukum-empty col-span-full">
                   {isAr ? "لا يوجد موردون مطابقون." : "No vendors match these filters."}
                 </div>
               )}

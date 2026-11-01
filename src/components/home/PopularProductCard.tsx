@@ -85,7 +85,6 @@ export function PopularProductCard({
   item: PopularProductItem;
 }) {
   const isAr = locale === "ar";
-  const meta = [item.brand, item.sku].filter(Boolean).join(" · ");
 
   return (
     <article className="hukum-pop-card">
@@ -96,14 +95,28 @@ export function PopularProductCard({
         ) : (
           <span className="hukum-pop-card__placeholder">{item.title.slice(0, 1)}</span>
         )}
-        <HeartSave productId={item.id} locale={locale} />
+        <div className="hukum-pop-card__media-actions">
+          {item.verified ? (
+            <span
+              className="hukum-pop-card__verified-badge"
+              title={item.verifiedLabel}
+              aria-label={item.verifiedLabel}
+            >
+              <BadgeCheck size={14} strokeWidth={2} aria-hidden />
+            </span>
+          ) : null}
+          <HeartSave productId={item.id} locale={locale} />
+        </div>
       </div>
 
       <div className="hukum-pop-card__body">
-        {meta ? <p className="hukum-pop-card__meta">{meta}</p> : null}
         <Link href={item.href} className="hukum-pop-card__title">
           {item.title}
         </Link>
+
+        {item.vendorName ? (
+          <p className="hukum-pop-card__company">{item.vendorName}</p>
+        ) : null}
 
         {item.tags.length > 0 ? (
           <div className="hukum-pop-card__tags">
@@ -129,13 +142,6 @@ export function PopularProductCard({
             <dd>{item.leadTimeLabel}</dd>
           </div>
         </dl>
-
-        {item.verified ? (
-          <p className="hukum-pop-card__verified">
-            <BadgeCheck size={13} strokeWidth={2} />
-            {item.verifiedLabel}
-          </p>
-        ) : null}
 
         <Link href={item.rfqHref} className="hukum-pop-card__quote">
           {isAr ? "اطلب عرض سعر" : "Request quote"}

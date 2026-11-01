@@ -1,12 +1,11 @@
 import { setRequestLocale } from "next-intl/server";
 import Link from "next/link";
+import { HukumPageHeader } from "@/components/layout/HukumPageHeader";
 import { isLocale, type Locale } from "@/i18n/config";
 import { staticPageMetadata } from "@/modules/seo/static-metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  return staticPageMetadata(params, "/privacy", "Privacy Policy | Hukum", "Hukum PDPL privacy policy.", {
-    indexable: true,
-  });
+  return staticPageMetadata(params, "/privacy", "ignored", undefined, { seoKey: "privacy" });
 }
 
 export default async function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -17,22 +16,23 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
   const region = process.env.DATA_REGION || "SA-central (target)";
 
   return (
-    <div className="container-custom section max-w-3xl">
-      <p className="label-caps mb-3">{isAr ? "قانوني · PDPL" : "Legal · PDPL"}</p>
-      <h1 className="mb-2 text-3xl font-semibold text-[var(--ink)] md:text-4xl">
-        {isAr ? "سياسة الخصوصية" : "Privacy policy"}
-      </h1>
-      <p className="mb-6 text-xs text-[var(--muted)]">
-        {isAr ? `منطقة المعالجة الأساسية: ${region}` : `Primary processing region: ${region}`}
-      </p>
-      <div className="surface-card space-y-6 p-8 text-sm leading-relaxed text-[var(--ink-soft)]">
+    <main className="hukum-page">
+      <div className="hukum-page__wrap hukum-page__wrap--narrow">
+        <HukumPageHeader
+          locale={locale}
+          eyebrow={isAr ? "قانوني · PDPL" : "Legal · PDPL"}
+          title={isAr ? "سياسة الخصوصية" : "Privacy policy"}
+          lead={isAr ? `منطقة المعالجة الأساسية: ${region}` : `Primary processing region: ${region}`}
+          goldEyebrow
+        />
+        <div className="hukum-card space-y-6 p-8 text-sm leading-relaxed text-[var(--hukum-muted)]">
         <p className="rounded-lg border border-[var(--border)] bg-[var(--bg)] p-3 text-xs">
           {isAr
             ? "مسودة متوافقة مع نظام حماية البيانات الشخصية (PDPL) — للمراجعة القانونية قبل الإطلاق."
             : "PDPL-aligned scaffold for counsel review before public launch."}
         </p>
         <section className="space-y-2">
-          <h2 className="font-semibold text-[var(--ink)]">{isAr ? "جمع البيانات" : "Data we collect"}</h2>
+          <h2 className="font-semibold text-[var(--hukum-ink)]">{isAr ? "جمع البيانات" : "Data we collect"}</h2>
           <p>
             {isAr
               ? "حسابات، طلبات أسعار، سجلات الكشف عن جهات الاتصال (مُجزّأة)، رسائل الوسيط، ومقاييس الاستخدام."
@@ -40,7 +40,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
           </p>
         </section>
         <section className="space-y-2">
-          <h2 className="font-semibold text-[var(--ink)]">{isAr ? "الموافقة والكشف" : "Consent & reveal"}</h2>
+          <h2 className="font-semibold text-[var(--hukum-ink)]">{isAr ? "الموافقة والكشف" : "Consent & reveal"}</h2>
           <p>
             {isAr
               ? "لا نكشف أرقام الموردين عبر الوكيل دون تسجيل أو تحقق جوال + موافقة PDPL. التواصل الأول عبر وسيط حكم."
@@ -48,7 +48,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
           </p>
         </section>
         <section className="space-y-2">
-          <h2 className="font-semibold text-[var(--ink)]">{isAr ? "النقل خارج المملكة" : "Cross-border transfers"}</h2>
+          <h2 className="font-semibold text-[var(--hukum-ink)]">{isAr ? "النقل خارج المملكة" : "Cross-border transfers"}</h2>
           <p>
             {isAr
               ? "إن لزم نقل محدود خارج السعودية، يُجرى تقييم نقل وفق PDPL. الهدف: استضافة النواة في منطقة سعودية."
@@ -56,12 +56,12 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
           </p>
         </section>
         <section className="space-y-2">
-          <h2 className="font-semibold text-[var(--ink)]">{isAr ? "حقوقك" : "Your rights"}</h2>
+          <h2 className="font-semibold text-[var(--hukum-ink)]">{isAr ? "حقوقك" : "Your rights"}</h2>
           <p>
             {isAr ? (
               <>
                 اطلب التصدير أو الحذف من{" "}
-                <Link href={`/${locale}/buyer/privacy`} className="text-[var(--accent)]">
+                <Link href={`/${locale}/buyer/privacy`} className="text-[var(--hukum-green)]">
                   خصوصية المشتري
                 </Link>
                 .
@@ -69,7 +69,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
             ) : (
               <>
                 Request export or deletion from{" "}
-                <Link href={`/${locale}/buyer/privacy`} className="text-[var(--accent)]">
+                <Link href={`/${locale}/buyer/privacy`} className="text-[var(--hukum-green)]">
                   buyer privacy
                 </Link>
                 .
@@ -77,7 +77,8 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
             )}
           </p>
         </section>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

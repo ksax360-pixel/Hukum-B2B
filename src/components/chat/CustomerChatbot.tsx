@@ -167,25 +167,27 @@ export function CustomerChatbot({ locale }: { locale: Locale }) {
   }
 
   return (
-    <div className="kt-customer-chat pointer-events-none fixed bottom-5 end-5 z-[55] flex flex-col items-end gap-3">
+    <div className="hukum-ask pointer-events-none fixed bottom-6 end-6 z-[55] flex flex-col items-end gap-3.5">
       {open ? (
         <div
-          className="pointer-events-auto flex h-[min(78vh,620px)] w-[min(94vw,420px)] flex-col overflow-hidden rounded-2xl border border-[#e6e2da] bg-white shadow-[0_20px_50px_rgba(0,23,48,0.22)]"
+          className="hukum-ask__panel pointer-events-auto flex h-[min(78vh,620px)] w-[min(94vw,400px)] flex-col overflow-hidden"
           role="dialog"
           aria-label={isAr ? "وكيل Hukum" : "Hukum agent"}
         >
-          <div className="flex items-center justify-between gap-2 bg-[#001730] px-4 py-3 text-white">
+          <div className="hukum-ask__panel-head flex items-center justify-between gap-2 px-4 py-3.5 text-white">
             <div className="flex min-w-0 items-center gap-2.5">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#c9a962]/20 text-[#c9a962]">
-                <PackageSearch size={18} />
+              <span className="hukum-ask__panel-mark flex h-9 w-9 items-center justify-center">
+                <Sparkles size={16} strokeWidth={1.75} />
               </span>
               <div className="min-w-0">
-                <p className="m-0 text-sm font-semibold">{isAr ? "وكيل Hukum" : "Hukum agent"}</p>
-                <p className="m-0 flex items-center gap-1 text-[11px] text-white/70">
-                  <Sparkles size={11} className="text-[#c9a962]" />
-                  {isAr ? `الخطوة: ${step}` : `Step: ${step}`}
-                  <span className="text-white/40">·</span>
-                  {isAr ? "ذاكرة محفوظة" : "Memory on"}
+                <p className="m-0 text-[0.8125rem] font-semibold tracking-wide">
+                  {isAr ? "وكيل Hukum" : "Hukum concierge"}
+                </p>
+                <p className="m-0 flex items-center gap-1.5 text-[11px] text-white/65">
+                  <span className="hukum-ask__live" aria-hidden />
+                  {isAr ? "متاح الآن" : "Online now"}
+                  <span className="text-white/35">·</span>
+                  <span className="truncate opacity-80">{step}</span>
                 </p>
               </div>
             </div>
@@ -402,17 +404,19 @@ export function CustomerChatbot({ locale }: { locale: Locale }) {
 
       <button
         type="button"
-        className="pointer-events-auto inline-flex h-14 items-center gap-2 rounded-full bg-[#001730] px-4 text-white shadow-[0_12px_30px_rgba(0,23,48,0.35)] transition hover:bg-[#002d52] sm:w-auto"
+        className={cn("hukum-ask__fab pointer-events-auto", open && "is-open")}
         aria-label={open ? (isAr ? "إغلاق المحادثة" : "Close chat") : isAr ? "اسأل Hukum" : "Ask Hukum"}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
         {open ? (
-          <X size={22} />
+          <X size={16} strokeWidth={1.75} aria-hidden />
         ) : (
           <>
-            <MessageCircle size={22} strokeWidth={1.75} />
-            <span className="hidden text-sm font-semibold sm:inline">
+            <span className="hukum-ask__fab-icon" aria-hidden>
+              <MessageCircle size={15} strokeWidth={1.7} />
+            </span>
+            <span className="hukum-ask__fab-label">
               {isAr ? "اسأل Hukum" : "Ask Hukum"}
             </span>
           </>

@@ -10,10 +10,10 @@
   gap: 1.5rem;
   padding: 1.75rem 1.85rem;
   border-radius: 1.25rem;
-  border: 1px solid rgba(201, 169, 98, 0.28);
+  border: 1px solid rgba(196, 165, 116, 0.28);
   background:
-    linear-gradient(135deg, rgba(201, 169, 98, 0.12), transparent 42%),
-    #001730;
+    linear-gradient(135deg, rgba(196, 165, 116, 0.12), transparent 42%),
+    var(--hukum-green-dark);
   color: #fff;
 }
 .kt-pdp-help__eyebrow {
@@ -21,7 +21,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #C9A962;
+  color: var(--hukum-badge);
   margin-bottom: 0.55rem;
 }
 .kt-pdp-help__title {
@@ -59,12 +59,12 @@
   gap: 0.65rem;
 }
 .kt-pdp-help__actions .btn-primary {
-  background: #C9A962;
-  border-color: #C9A962;
-  color: #001730;
+  background: var(--hukum-badge);
+  border-color: var(--hukum-badge);
+  color: var(--hukum-green-dark);
 }
 .kt-pdp-help__actions .btn-primary:hover {
-  background: #d4b978;
+  background: var(--hukum-badge-hover);
 }
 .kt-pdp-help__actions .btn-secondary {
   background: transparent;

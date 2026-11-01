@@ -68,7 +68,7 @@ const SeoSettingsSchema = new Schema(
     key: { type: String, unique: true },
     robotsTxt: { type: String, default: "" },
     siteName: { type: String, default: "Hukum" },
-    defaultOgImage: { type: String, default: "/og/kingdom-trade-social-share.png" },
+    defaultOgImage: { type: String, default: "/og/hukum-share.jpg" },
     indexNowKey: String,
     allowPublicIndex: { type: Boolean, default: true },
   },

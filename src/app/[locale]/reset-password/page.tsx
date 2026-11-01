@@ -55,8 +55,8 @@ function ResetForm({ locale }: { locale: Locale }) {
   return (
     <form onSubmit={onSubmit} className="space-y-6">
       {error ? <p className="text-sm text-[#b42318]">{error}</p> : null}
-      {message ? <p className="text-sm text-[#071D27]/70">{message}</p> : null}
-      <p className="text-xs text-[#071D27]/50">{email}</p>
+      {message ? <p className="text-sm text-[#111C17]/70">{message}</p> : null}
+      <p className="text-xs text-[#111C17]/50">{email}</p>
       <AuthLuxStack>
         <AuthLuxField
           label={isAr ? "كلمة المرور الجديدة" : "New password"}
@@ -84,14 +84,14 @@ export default function ResetPasswordPage() {
 
   return (
     <AuthShell locale={locale}>
-      <h1 className="mb-5 text-center text-sm font-medium uppercase tracking-[0.32em] text-[#071D27]">
+      <h1 className="mb-5 text-center text-sm font-medium tracking-[0.08em] text-[#111C17]">
         {isAr ? "إعادة تعيين كلمة المرور" : "Reset password"}
       </h1>
-      <Suspense fallback={<p className="text-sm text-[#071D27]/50">…</p>}>
+      <Suspense fallback={<p className="text-sm text-[#111C17]/50">…</p>}>
         <ResetForm locale={locale} />
       </Suspense>
       <div className="mt-6 text-center text-sm">
-        <Link href={`/${locale}/login`} className="font-semibold text-[#071D27]">
+        <Link href={`/${locale}/login`} className="font-semibold text-[#17634B]">
           {isAr ? "تسجيل الدخول" : "Sign in"}
         </Link>
       </div>

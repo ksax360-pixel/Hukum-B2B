@@ -13,16 +13,7 @@ import { IndustryIcon } from "@/components/industries/IndustryIcon";
 import { staticPageMetadata } from "@/modules/seo/static-metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale: raw } = await params;
-  const isAr = raw === "ar";
-  return staticPageMetadata(
-    params,
-    "/industries",
-    isAr ? "القطاعات | Hukum" : "Industries | Hukum",
-    isAr
-      ? "استكشف القطاعات التي تغطيها Hukum."
-      : "Explore every sector Hukum covers — from industrial and energy to IT and professional services."
-  );
+  return staticPageMetadata(params, "/industries", "ignored", undefined, { seoKey: "industries" });
 }
 
 export default async function IndustriesPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -55,11 +46,24 @@ export default async function IndustriesPage({ params }: { params: Promise<{ loc
   };
 
   return (
-    <div className="kt-industries">
+    <div className="hukum-page kt-industries">
       <section className="kt-industries-hero">
         <div className="container-custom kt-industries-hero__inner">
           <div className="kt-industries-hero__copy">
             <p className="kt-industries-hero__eyebrow">{isAr ? "قطاعات المملكة" : "Kingdom sectors"}</p>
+            <nav aria-label={isAr ? "مسار التنقل" : "Breadcrumb"} className="mb-3">
+              <ol className="hukum-page-header__crumb">
+                <li>
+                  <Link href={`/${locale}`}>{isAr ? "الرئيسية" : "Home"}</Link>
+                </li>
+                <li className="inline-flex items-center gap-2">
+                  <span className="hukum-page-header__crumb-sep" aria-hidden>
+                    /
+                  </span>
+                  <span>{isAr ? "القطاعات" : "Industries"}</span>
+                </li>
+              </ol>
+            </nav>
             <h1 className="kt-industries-hero__title">
               {isAr ? "قطاعات الأعمال في المملكة" : "Industries across the Kingdom"}
             </h1>

@@ -345,7 +345,7 @@ export default async function MarketplaceEntityPage({
   void page;
 
   return (
-    <div className="min-h-screen bg-[#f5f3ef]">
+    <div className="min-h-screen bg-[var(--hukum-surface)] text-[var(--hukum-ink)]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd()) }} />
       <script
         type="application/ld+json"

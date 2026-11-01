@@ -9,7 +9,7 @@
   display: inline-flex;
   padding: 0.28rem 0.65rem;
   border-radius: 999px;
-  border: 1px solid rgba(0, 23, 48, 0.1);
+  border: 1px solid rgba(17, 28, 23, 0.1);
   background: #fafbfc;
   font-size: 0.72rem;
   font-weight: 600;
@@ -28,9 +28,9 @@
   min-height: 2rem;
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
-  border: 1px solid rgba(0, 23, 48, 0.12);
+  border: 1px solid rgba(17, 28, 23, 0.12);
   background: #fff;
-  color: #001730;
+  color: var(--hukum-ink);
   font-size: 0.72rem;
   font-weight: 650;
   cursor: pointer;
@@ -38,7 +38,7 @@
 }
 .kt-pdp-share__btn:hover,
 .kt-pdp-share__btn.is-on {
-  border-color: rgba(0, 23, 48, 0.28);
+  border-color: rgba(23, 99, 75, 0.28);
   background: #f7f8f9;
 }
 
@@ -53,7 +53,7 @@
 }
 .kt-pdp-acc__item {
   border-radius: 0.95rem;
-  border: 1px solid rgba(0, 23, 48, 0.08);
+  border: 1px solid rgba(17, 28, 23, 0.08);
   background: #fff;
   overflow: hidden;
 }
@@ -68,13 +68,13 @@
   list-style: none;
   font-size: 0.95rem;
   font-weight: 650;
-  color: #001730;
+  color: var(--hukum-ink);
 }
 .kt-pdp-acc__trigger::-webkit-details-marker {
   display: none;
 }
 .kt-pdp-acc__item[open] .kt-pdp-acc__trigger {
-  border-bottom: 1px solid rgba(0, 23, 48, 0.06);
+  border-bottom: 1px solid rgba(17, 28, 23, 0.06);
 }
 .kt-pdp-acc__panel {
   padding: 1rem 1.1rem 1.15rem;
@@ -101,17 +101,17 @@
   padding: 0.7rem 0.85rem;
   border-radius: 0.75rem;
   background: #fafbfc;
-  border: 1px solid rgba(0, 23, 48, 0.06);
+  border: 1px solid rgba(17, 28, 23, 0.06);
 }
 .kt-pdp-cert-list svg {
-  color: #C9A962;
+  color: var(--hukum-badge);
   margin-top: 0.15rem;
   flex-shrink: 0;
 }
 .kt-pdp-cert-list strong {
   display: block;
   font-size: 0.88rem;
-  color: #001730;
+  color: var(--hukum-ink);
 }
 .kt-pdp-cert-list em {
   display: block;
@@ -128,7 +128,7 @@
 }
 .kt-pdp-faq__item {
   border-radius: 0.9rem;
-  border: 1px solid rgba(0, 23, 48, 0.08);
+  border: 1px solid rgba(17, 28, 23, 0.08);
   background: #fff;
   padding: 0.9rem 1.05rem;
 }
@@ -136,7 +136,7 @@
   cursor: pointer;
   font-size: 0.92rem;
   font-weight: 650;
-  color: #001730;
+  color: var(--hukum-ink);
   list-style: none;
 }
 .kt-pdp-faq__item summary::-webkit-details-marker {
@@ -157,5 +157,5 @@
   text-transform: uppercase;
   color: #8a969b;
   padding: 0.45rem 0.65rem;
-  border-bottom: 1px solid rgba(0, 23, 48, 0.08);
+  border-bottom: 1px solid rgba(17, 28, 23, 0.08);
 }

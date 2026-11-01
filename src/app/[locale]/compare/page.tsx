@@ -65,10 +65,10 @@ export default function ComparePage() {
     <div className="container-custom py-10">
       <header className="mb-8">
         <p className="label-caps m-0">{isAr ? "مقارنة" : "Compare"}</p>
-        <h1 className="mt-2 text-2xl font-bold text-[#001730]">
+        <h1 className="mt-2 text-2xl font-bold text-[var(--hukum-ink)]">
           {isAr ? "مقارنة المنتجات جنباً إلى جنب" : "Side-by-side product compare"}
         </h1>
-        <p className="mt-2 max-w-xl text-sm text-[#5c5c5c]">
+        <p className="mt-2 max-w-xl text-sm text-[var(--hukum-muted)]">
           {isAr
             ? "اختر حتى 4 منتجات ثم اطلب ملخص الذكاء الاصطناعي لأفضل تطابق."
             : "Select up to 4 products, then ask AI for the best fit and trade-offs."}
@@ -76,28 +76,28 @@ export default function ComparePage() {
       </header>
 
       {items.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-[#e6e2da] p-10 text-center">
-          <p className="m-0 text-sm text-[#6b6b6b]">
+        <div className="hukum-empty">
+          <p className="m-0 text-sm text-[var(--hukum-muted)]">
             {isAr ? "لا توجد منتجات في المقارنة." : "No products in your compare tray."}
           </p>
-          <Link href={`/${locale}/products`} className="mt-4 inline-flex text-sm font-semibold text-[#c9a962]">
+          <Link href={`/${locale}/products`} className="mt-4 inline-flex text-sm font-semibold text-[var(--hukum-green)]">
             {isAr ? "تصفح المنتجات" : "Browse products"}
           </Link>
         </div>
       ) : (
         <>
-          <div className="overflow-x-auto rounded-xl border border-[#e6e2da]">
+          <div className="overflow-x-auto rounded-xl border border-[var(--hukum-border)]">
             <table className="min-w-full border-collapse text-sm">
               <thead>
-                <tr className="bg-[#faf9f7]">
-                  <th className="p-3 text-start font-semibold text-[#5c5c5c]">{isAr ? "المعيار" : "Spec"}</th>
+                <tr className="bg-[var(--hukum-surface)]">
+                  <th className="p-3 text-start font-semibold text-[var(--hukum-muted)]">{isAr ? "المعيار" : "Spec"}</th>
                   {items.map((it) => (
                     <th key={it.id} className="min-w-[160px] p-3 text-start">
                       <div className="flex items-start justify-between gap-2">
                         <Link
                           href={`/${locale}/products/${it.slug}`}
-                          className={`font-semibold hover:text-[#b8953d] ${
-                            ai?.bestId === it.id ? "text-[#1b7a3d]" : "text-[#001730]"
+                          className={`font-semibold hover:text-[var(--hukum-gold)] ${
+                            ai?.bestId === it.id ? "text-[var(--hukum-green)]" : "text-[var(--hukum-ink)]"
                           }`}
                         >
                           {it.name}
@@ -105,7 +105,7 @@ export default function ComparePage() {
                         </Link>
                         <button
                           type="button"
-                          className="text-[11px] text-[#8a8a8a] underline"
+                          className="text-[11px] text-[var(--hukum-muted-soft)] underline"
                           onClick={() => setItems(removeFromCompare(it.id))}
                         >
                           {isAr ? "إزالة" : "Remove"}
@@ -117,10 +117,10 @@ export default function ComparePage() {
               </thead>
               <tbody>
                 {rows.map((row) => (
-                  <tr key={row.key} className="border-t border-[#eee]">
-                    <td className="p-3 font-medium text-[#5c5c5c]">{row.label}</td>
+                  <tr key={row.key} className="border-t border-[var(--hukum-border)]">
+                    <td className="p-3 font-medium text-[var(--hukum-muted)]">{row.label}</td>
                     {items.map((it) => (
-                      <td key={it.id + row.key} className="p-3 text-[#1a1612]">
+                      <td key={it.id + row.key} className="p-3 text-[var(--hukum-ink)]">
                         {row.get(it)}
                       </td>
                     ))}
@@ -130,15 +130,15 @@ export default function ComparePage() {
             </table>
           </div>
 
-          <div className="mt-6 rounded-xl border border-[#e6e2da] bg-[#faf9f7] p-4">
-            <label className="block text-xs font-semibold uppercase tracking-wide text-[#5c5c5c]">
+          <div className="mt-6 rounded-xl border border-[var(--hukum-border)] bg-[var(--hukum-surface)] p-4">
+            <label className="block text-xs font-semibold uppercase tracking-wide text-[var(--hukum-muted)]">
               {isAr ? "وصف احتياجك (اختياري)" : "Describe your need (optional)"}
             </label>
             <textarea
               value={need}
               onChange={(e) => setNeed(e.target.value)}
               rows={2}
-              className="mt-2 w-full rounded-lg border border-[#e6e2da] bg-white px-3 py-2 text-sm"
+              className="mt-2 w-full rounded-lg border border-[var(--hukum-border)] bg-white px-3 py-2 text-sm"
               placeholder={isAr ? "مثال: خوذات للمشاريع، توصيل الرياض…" : "e.g. helmets for projects, Riyadh delivery…"}
             />
             <div className="mt-3 flex flex-wrap gap-2">
@@ -146,7 +146,7 @@ export default function ComparePage() {
                 type="button"
                 disabled={busy || items.length < 2}
                 onClick={() => void runAi()}
-                className="rounded-lg bg-[#001730] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                className="rounded-lg bg-[var(--hukum-green)] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
               >
                 {busy
                   ? isAr
@@ -163,16 +163,16 @@ export default function ComparePage() {
                   setItems([]);
                   setAi(null);
                 }}
-                className="rounded-lg border border-[#e6e2da] px-4 py-2 text-sm"
+                className="rounded-lg border border-[var(--hukum-border)] px-4 py-2 text-sm text-[var(--hukum-ink)]"
               >
                 {isAr ? "مسح الكل" : "Clear all"}
               </button>
             </div>
             {ai?.reply ? (
-              <div className="mt-4 space-y-2 text-sm text-[#1a1612]">
+              <div className="mt-4 space-y-2 text-sm text-[var(--hukum-ink)]">
                 <p className="m-0 font-medium">{ai.reply}</p>
                 {ai.tradeoffs?.length ? (
-                  <ul className="m-0 list-disc ps-5 text-[#5c5c5c]">
+                  <ul className="m-0 list-disc ps-5 text-[var(--hukum-muted)]">
                     {ai.tradeoffs.map((t) => (
                       <li key={t}>{t}</li>
                     ))}
@@ -181,7 +181,7 @@ export default function ComparePage() {
                 {ai.questions?.length ? (
                   <div>
                     <p className="mb-1 font-semibold">{isAr ? "أسئلة للموردين" : "Questions to ask suppliers"}</p>
-                    <ul className="m-0 list-disc ps-5 text-[#5c5c5c]">
+                    <ul className="m-0 list-disc ps-5 text-[var(--hukum-muted)]">
                       {ai.questions.map((q) => (
                         <li key={q}>{q}</li>
                       ))}

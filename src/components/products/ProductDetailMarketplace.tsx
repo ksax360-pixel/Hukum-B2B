@@ -126,7 +126,7 @@ function Gallery({
               type="button"
               onClick={() => setIndex(i)}
               className={`relative aspect-square w-full overflow-hidden rounded-lg border bg-[#f0eeea] ${
-                i === index ? "border-[#c9a962] ring-1 ring-[#c9a962]/40" : "border-[#e6e2da]"
+                i === index ? "border-[#C4A574] ring-1 ring-[#C4A574]/40" : "border-[var(--hukum-border)]"
               }`}
             >
               {item.type === "video" ? (
@@ -171,7 +171,7 @@ function Gallery({
 
         <button
           type="button"
-          className="absolute end-3 bottom-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#e6e2da] bg-[#f5f3ef]/95 text-[#1a1612]"
+          className="absolute end-3 bottom-3 flex h-9 w-9 items-center justify-center rounded-full border border-[var(--hukum-border)] bg-[var(--hukum-surface)]/95 text-[var(--hukum-ink)]"
           aria-label="Expand"
           onClick={() => current?.url && window.open(current.url, "_blank")}
         >
@@ -183,7 +183,7 @@ function Gallery({
             <button
               type="button"
               onClick={prev}
-              className="absolute start-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#e6e2da] bg-[#f5f3ef]/95 text-[#1a1612]"
+              className="absolute start-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--hukum-border)] bg-[var(--hukum-surface)]/95 text-[var(--hukum-ink)]"
               aria-label="Previous"
             >
               <ChevronLeft size={18} />
@@ -191,7 +191,7 @@ function Gallery({
             <button
               type="button"
               onClick={next}
-              className="absolute end-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#e6e2da] bg-[#f5f3ef]/95 text-[#1a1612]"
+              className="absolute end-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--hukum-border)] bg-[var(--hukum-surface)]/95 text-[var(--hukum-ink)]"
               aria-label="Next"
             >
               <ChevronRight size={18} />
@@ -252,7 +252,7 @@ function RelatedCard({
       <div className="px-3 py-3">
         <Link
           href={href}
-          className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-[#1a1612] hover:text-[#b8953d]"
+          className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-[var(--hukum-ink)] hover:text-[var(--hukum-green)]"
         >
           {name}
         </Link>
@@ -316,7 +316,7 @@ function RelatedRail({
         onClick={() => scrollByDir(-1)}
         disabled={!canPrev}
         aria-label={isAr ? "السابق" : "Previous"}
-        className="absolute start-0 top-[38%] z-10 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#e6e2da] bg-[#f5f3ef] text-[#1a1612] shadow-sm disabled:pointer-events-none disabled:opacity-30 md:start-0 md:-translate-x-1/2"
+        className="absolute start-0 top-[38%] z-10 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--hukum-border)] bg-[var(--hukum-surface)] text-[var(--hukum-ink)] shadow-sm disabled:pointer-events-none disabled:opacity-30 md:start-0 md:-translate-x-1/2"
       >
         <ChevronLeft size={20} />
       </button>
@@ -325,7 +325,7 @@ function RelatedRail({
         onClick={() => scrollByDir(1)}
         disabled={!canNext}
         aria-label={isAr ? "التالي" : "Next"}
-        className="absolute end-0 top-[38%] z-10 flex h-10 w-10 translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[#e6e2da] bg-[#f5f3ef] text-[#1a1612] shadow-sm disabled:pointer-events-none disabled:opacity-30"
+        className="absolute end-0 top-[38%] z-10 flex h-10 w-10 translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--hukum-border)] bg-[var(--hukum-surface)] text-[var(--hukum-ink)] shadow-sm disabled:pointer-events-none disabled:opacity-30"
       >
         <ChevronRight size={20} />
       </button>
@@ -492,7 +492,7 @@ export function ProductDetailMarketplace({
         ];
 
   return (
-    <div className="min-h-screen bg-[#f5f3ef]">
+    <div className="min-h-screen bg-[var(--hukum-surface)]">
       <div className="container-custom py-6 md:py-8">
         <nav className="mb-5 flex flex-wrap items-center gap-2 text-xs text-[#8a8a8a]">
           <Link href={`/${locale}`} className="hover:text-[#1a1612]">
@@ -569,15 +569,15 @@ export function ProductDetailMarketplace({
             {rating != null && reviews != null ? (
               <div className="mt-3 flex flex-wrap items-center gap-2 text-sm text-[#5c5c5c]">
                 <span className="inline-flex items-center gap-1 font-semibold text-[#1a1612]">
-                  <Star size={14} className="fill-[#c9a962] text-[#c9a962]" />
+                  <Star size={14} className="fill-[var(--hukum-badge)] text-[var(--hukum-badge)]" />
                   {rating}
                 </span>
-                <span className="inline-flex items-center gap-0.5 text-[#c9a962]">
+                <span className="inline-flex items-center gap-0.5 text-[var(--hukum-badge)]">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star
                       key={i}
                       size={12}
-                      className={i < Math.round(rating) ? "fill-[#c9a962] text-[#c9a962]" : "text-[#d9d3c8]"}
+                      className={i < Math.round(rating) ? "fill-[var(--hukum-badge)] text-[var(--hukum-badge)]" : "text-[#d9d3c8]"}
                     />
                   ))}
                 </span>
@@ -621,7 +621,7 @@ export function ProductDetailMarketplace({
                   const Icon = FEATURE_ICONS[i % FEATURE_ICONS.length];
                   return (
                     <div key={`${item.label}-${i}`} className="text-center">
-                      <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full border border-[#c9a962] text-[#c9a962]">
+                      <div className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-full border border-[var(--hukum-badge)] text-[var(--hukum-badge)]">
                         <Icon size={20} strokeWidth={1.6} />
                       </div>
                       <p className="m-0 text-[0.72rem] font-semibold leading-snug text-[#1a1612]">
@@ -635,7 +635,7 @@ export function ProductDetailMarketplace({
             ) : null}
 
             <div className={`mt-5 flex items-start gap-3 px-4 py-3.5 ${SOFT}`}>
-              <ClipboardList size={18} className="mt-0.5 shrink-0 text-[#c9a962]" />
+              <ClipboardList size={18} className="mt-0.5 shrink-0 text-[var(--hukum-badge)]" />
               <div>
                 <p className="m-0 text-sm font-semibold text-[#1a1612]">
                   {isAr ? "طلبات بالجملة ومواصفات مخصصة" : "Bulk Orders & Custom Specifications"}
@@ -657,7 +657,7 @@ export function ProductDetailMarketplace({
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={vendorLogoUrl(vendor)} alt="" className="h-full w-full object-cover" />
                 ) : (
-                  <span className="text-sm font-bold text-[#c9a962]">{vendorName.slice(0, 1)}</span>
+                  <span className="text-sm font-bold text-[var(--hukum-badge)]">{vendorName.slice(0, 1)}</span>
                 )}
               </div>
               <div className="min-w-0">
@@ -709,7 +709,7 @@ export function ProductDetailMarketplace({
               />
               <Link
                 href={`/${locale}/rfq?product=${productId}`}
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#c9a962] px-3 py-3 text-sm font-semibold text-white hover:bg-[#b8953d]"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--hukum-green)] px-3 py-3 text-sm font-semibold text-white hover:bg-[var(--hukum-green-hover)]"
               >
                 <Mail size={16} />
                 {isAr ? "طلب عرض سعر" : "Request a Quote"}
@@ -727,7 +727,7 @@ export function ProductDetailMarketplace({
               ) : (
                 <Link
                   href={`/${locale}/rfq?product=${productId}&intent=inquiry`}
-                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#e6e2da] bg-transparent px-3 py-2.5 text-sm font-semibold text-[#1a1612] hover:border-[#c9a962]/50"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-[var(--hukum-border)] bg-transparent px-3 py-2.5 text-sm font-semibold text-[var(--hukum-ink)] hover:border-[#C4A574]/50"
                 >
                   <MessageCircle size={16} />
                   {isAr ? "أرسل استفساراً" : "Send Inquiry"}
@@ -735,7 +735,7 @@ export function ProductDetailMarketplace({
               )}
               <Link
                 href={`/${locale}/rfq?product=${productId}&intent=add`}
-                className="inline-flex items-center justify-center rounded-lg border border-[#e6e2da] bg-transparent px-2 py-2 text-xs font-semibold text-[#1a1612] hover:border-[#c9a962]/50"
+                className="inline-flex items-center justify-center rounded-lg border border-[var(--hukum-border)] bg-transparent px-2 py-2 text-xs font-semibold text-[var(--hukum-ink)] hover:border-[#C4A574]/50"
               >
                 {isAr ? "أضف لطلب السعر" : "Add to RFQ"}
               </Link>
@@ -756,7 +756,7 @@ export function ProductDetailMarketplace({
               {contactPhone ? (
                 <a
                   href={`tel:${contactPhone.replace(/\s/g, "")}`}
-                  className="mt-2 flex items-center gap-2 text-xs text-[#1a1612] hover:text-[#c9a962]"
+                  className="mt-2 flex items-center gap-2 text-xs text-[var(--hukum-ink)] hover:text-[var(--hukum-green)]"
                 >
                   <Phone size={12} />
                   {contactPhone}
@@ -765,7 +765,7 @@ export function ProductDetailMarketplace({
               {contactEmail ? (
                 <a
                   href={`mailto:${contactEmail}`}
-                  className="mt-1 flex items-center gap-2 text-xs text-[#1a1612] hover:text-[#c9a962]"
+                  className="mt-1 flex items-center gap-2 text-xs text-[var(--hukum-ink)] hover:text-[var(--hukum-green)]"
                 >
                   <Mail size={12} />
                   {contactEmail}
@@ -776,7 +776,7 @@ export function ProductDetailMarketplace({
                   href={contactWebsite.startsWith("http") ? contactWebsite : `https://${contactWebsite}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-1 flex items-center gap-2 text-xs text-[#1a1612] hover:text-[#c9a962]"
+                  className="mt-1 flex items-center gap-2 text-xs text-[var(--hukum-ink)] hover:text-[var(--hukum-green)]"
                 >
                   {contactWebsite}
                 </a>
@@ -831,7 +831,7 @@ export function ProductDetailMarketplace({
                 onClick={() => setTab(t.key)}
                 className={`px-3.5 py-3 text-sm font-semibold transition md:px-4 ${
                   tab === t.key
-                    ? "border-b-2 border-[#c9a962] text-[#1a1612]"
+                    ? "border-b-2 border-[var(--hukum-green)] text-[var(--hukum-ink)]"
                     : "text-[#8a8a8a] hover:text-[#1a1612]"
                 }`}
               >
@@ -874,7 +874,7 @@ export function ProductDetailMarketplace({
                 <ul className="m-0 grid list-none gap-2.5 p-0 sm:grid-cols-2">
                   {featuresList.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-[#4a4a4a]">
-                      <Check size={14} className="mt-0.5 shrink-0 text-[#c9a962]" strokeWidth={2.5} />
+                      <Check size={14} className="mt-0.5 shrink-0 text-[var(--hukum-green)]" strokeWidth={2.5} />
                       <span>{f}</span>
                     </li>
                   ))}
@@ -916,7 +916,7 @@ export function ProductDetailMarketplace({
                           key={c}
                           className="flex aspect-[3/4] flex-col items-center justify-center rounded-lg border border-[#e6e2da] bg-[#ebe7df]/45 p-2 text-center"
                         >
-                          <FileText size={20} className="mb-2 text-[#c9a962]" />
+                          <FileText size={20} className="mb-2 text-[var(--hukum-badge)]" />
                           <span className="text-[0.62rem] font-semibold leading-tight text-[#1a1612]">
                             {c}
                           </span>
@@ -941,7 +941,7 @@ export function ProductDetailMarketplace({
                   </p>
                   <Link
                     href={`/${locale}/rfq?product=${productId}&intent=custom`}
-                    className="inline-flex w-full items-center justify-center rounded-lg bg-[#c9a962] px-3 py-2.5 text-sm font-semibold text-white hover:bg-[#b8953d]"
+                    className="inline-flex w-full items-center justify-center rounded-lg bg-[var(--hukum-green)] px-3 py-2.5 text-sm font-semibold text-white hover:bg-[var(--hukum-green-hover)]"
                   >
                     {isAr ? "طلب عرض مخصص" : "Request a Custom Quote"}
                   </Link>
@@ -962,7 +962,7 @@ export function ProductDetailMarketplace({
                       key={c}
                       className="flex items-center gap-3 rounded-lg border border-[#e6e2da] bg-[#ebe7df]/45 p-3"
                     >
-                      <BadgeCheck className="text-[#c9a962]" size={20} />
+                      <BadgeCheck className="text-[var(--hukum-badge)]" size={20} />
                       <span className="text-sm font-semibold text-[#1a1612]">{c}</span>
                     </div>
                   ))}
@@ -988,9 +988,9 @@ export function ProductDetailMarketplace({
                       href={doc.fileUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center gap-3 rounded-lg border border-[#e6e2da] bg-transparent px-3 py-3 hover:border-[#c9a962]"
+                      className="flex items-center gap-3 rounded-lg border border-[var(--hukum-border)] bg-transparent px-3 py-3 hover:border-[var(--hukum-green)]"
                     >
-                      <Download size={16} className="text-[#c9a962]" />
+                      <Download size={16} className="text-[var(--hukum-green)]" />
                       <span className="min-w-0">
                         <strong className="block truncate text-sm text-[#1a1612]">
                           {doc.name || doc.type}
@@ -1011,7 +1011,7 @@ export function ProductDetailMarketplace({
                     : "Documents are not publicly downloadable — request them via quote."}
                   <Link
                     href={`/${locale}/rfq?product=${productId}&intent=documents`}
-                    className="mt-3 inline-flex rounded-lg bg-[#c9a962] px-3 py-2 text-xs font-semibold text-white"
+                    className="mt-3 inline-flex rounded-lg bg-[var(--hukum-green)] px-3 py-2 text-xs font-semibold text-white hover:bg-[var(--hukum-green-hover)]"
                   >
                     {isAr ? "طلب المستندات" : "Request Documents"}
                   </Link>
@@ -1061,7 +1061,7 @@ export function ProductDetailMarketplace({
               {vendorHref ? (
                 <Link
                   href={vendorHref}
-                  className="mt-4 inline-flex text-sm font-semibold text-[#c9a962] hover:underline"
+                  className="mt-4 inline-flex text-sm font-semibold text-[var(--hukum-green)] hover:underline"
                 >
                   {isAr ? "عرض ملف الشركة الكامل ←" : "View full company profile →"}
                 </Link>

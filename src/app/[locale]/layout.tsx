@@ -24,7 +24,7 @@ export default async function LocaleLayout({
   const dir = direction(locale);
 
   return (
-    <div lang={locale === "ar" ? "ar-SA" : locale} dir={dir} className={locale === "ar" ? "arabic-font" : undefined}>
+    <div lang={locale === "ar" ? "ar" : "en"} dir={dir} className={locale === "ar" ? "arabic-font" : undefined}>
       <DocumentLocale locale={locale} dir={dir} />
       <NextIntlClientProvider messages={messages}>
         <AppChrome locale={locale}>{children}</AppChrome>

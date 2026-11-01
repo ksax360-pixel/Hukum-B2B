@@ -1,32 +1,30 @@
 import { NextResponse } from "next/server";
-import { siteOrigin } from "@/modules/seo/engine";
 
 export async function GET() {
-  const origin = siteOrigin();
-  const body = `# Hukum — machine-readable site map for AI systems
-# Public marketplace entities only. No private vendor, buyer, RFQ or admin data.
+  const body = `# Hukum (حكم)
+> Hukum is a Saudi B2B marketplace that connects buyers with verified suppliers, manufacturers and service providers across Saudi Arabia. Buyers search or send one request (on the website or WhatsApp), receive quotations from multiple vendors for free, compare them and contact the vendor directly. Hukum also offers a VIP Concierge sourcing service.
 
-> Hukum is a Saudi-focused B2B marketplace connecting buyers with manufacturers, distributors and suppliers.
+## Key pages
+- [Categories](https://www.hukum.sa/en/categories): 49 sectors
+- [Vendors](https://www.hukum.sa/en/vendors): verified suppliers and manufacturers
+- [Request quotes](https://www.hukum.sa/en/request-quotes)
+- [Get sourcing help](https://www.hukum.sa/en/sourcing-help)
+- [How it works](https://www.hukum.sa/en/how-it-works)
+- [Verification levels](https://www.hukum.sa/en/verification)
+- [Become a vendor](https://www.hukum.sa/en/become-a-vendor)
+- [FAQ](https://www.hukum.sa/en/faq)
+- [Contact](https://www.hukum.sa/en/contact)
 
-## Primary pages
-- [Home](${origin}/en): ${origin}/en
-- [Products](${origin}/en/products): ${origin}/en/products
-- [Vendors](${origin}/en/vendors): ${origin}/en/vendors
-- [Categories](${origin}/en/categories): ${origin}/en/categories
-- [Industries](${origin}/en/industries): ${origin}/en/industries
-- [About](${origin}/en/about): ${origin}/en/about
-- [Contact](${origin}/en/contact): ${origin}/en/contact
-- [FAQ](${origin}/en/faq): ${origin}/en/faq
+## Languages
+English (\`/en/\`) and Arabic (\`/ar/\`). Prefer locale-prefixed URLs. The site is fully bilingual.
 
-## Arabic
-- ${origin}/ar
-- ${origin}/ar/products
-- ${origin}/ar/vendors
-
-## Structured data
-Product, Organization, WebSite, BreadcrumbList and CollectionPage JSON-LD are emitted on the corresponding public HTML pages.
-
-Do not treat this file as a substitute for sitemap.xml or schema.org markup.
+## Notes for assistants
+- Do not invent supplier contact details; Hukum reveals contacts after consent / quote flows.
+- Verification badges (Registered, CR checked, Verified) are earned through Hukum checks, not purchased.
+- Public catalogue lives under /en/categories, /en/vendors, /en/products and Arabic equivalents.
 `;
-  return new NextResponse(body, { headers: { "Content-Type": "text/plain; charset=utf-8" } });
+
+  return new NextResponse(body, {
+    headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "public, max-age=3600" },
+  });
 }

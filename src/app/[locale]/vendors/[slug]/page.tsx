@@ -5,13 +5,13 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { isLocale, type Locale } from "@/i18n/config";
 import { connectDB } from "@/lib/db";
-import { getSession } from "@/lib/auth";
 import { Vendor } from "@/modules/vendors/vendor.model";
 import { Product } from "@/modules/products/product.model";
 import { t as loc } from "@/lib/utils";
 import { stripVendorContacts } from "@/lib/public-vendor";
-import { composeMetadata, generateFromEntity, absUrl, localePath } from "@/modules/seo/engine";
-import { breadcrumbLd, webPageLd } from "@/modules/seo/jsonld";
+import { composeMetadata, generateFromEntity, type SeoRecord } from "@/modules/seo/engine";
+import { breadcrumbLd, localBusinessLd, webPageLd } from "@/modules/seo/jsonld";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { recordAnalyticsEvent } from "@/lib/analytics";
 import { toPlain, vendorLogoUrl, type ProductLike, type VendorLike } from "@/components/products/product-helpers";
 import { VendorStorefront } from "@/components/vendors/VendorStorefront";
@@ -43,13 +43,15 @@ export async function generateMetadata({
         : "",
     });
     const indexable = vendor.verificationStatus === "verified" && vendor.seo?.indexable !== false;
+    const logo = typeof vendor.logo === "string" ? vendor.logo : undefined;
+    const seo = vendor.seo ? (JSON.parse(JSON.stringify(vendor.seo)) as SeoRecord) : undefined;
     return composeMetadata({
       locale,
       path: `/vendors/${vendor.slug?.en || slug}`,
       title: gen.title,
       description: loc(locale, vendor.description) || gen.description,
-      image: vendor.logo,
-      seo: vendor.seo,
+      image: logo,
+      seo,
       indexable,
     });
   } catch {
@@ -73,8 +75,7 @@ export default async function VendorDetailPage({
   }).lean();
   if (!rawVendor) notFound();
 
-  const session = await getSession();
-  const plainVendor = toPlain(rawVendor) as VendorLike & {
+  const plainVendor = toPlain(rawVendor) as unknown as VendorLike & {
     yearEstablished?: number;
     whatsapp?: string;
     coverImage?: string;
@@ -119,52 +120,30 @@ export default async function VendorDetailPage({
     /* ignore */
   }
 
-  const orgLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name,
-    url: absUrl(localePath(locale, `/vendors/${vendor.slug?.en || slug}`)),
-    logo: logo || undefined,
-    description: desc || undefined,
-    telephone: session ? vendor.phone || undefined : undefined,
-    email: session ? vendor.email || undefined : undefined,
-    address: city
-      ? {
-          "@type": "PostalAddress",
-          addressLocality: city,
-          addressCountry: vendor.location?.country || "SA",
-          streetAddress: vendor.location?.address || undefined,
-        }
-      : undefined,
-  };
-
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgLd) }} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            breadcrumbLd(locale, [
-              { name: isAr ? "الرئيسية" : "Home", path: "/" },
-              { name: isAr ? "الموردون" : "Vendors", path: "/vendors" },
-              { name },
-            ])
-          ),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            webPageLd({
-              name,
-              description: desc,
-              path: `/vendors/${vendor.slug?.en || slug}`,
-              locale,
-            })
-          ),
-        }}
+      <JsonLd
+        data={[
+          localBusinessLd({
+            name,
+            description: desc,
+            path: `/vendors/${vendor.slug?.en || slug}`,
+            locale,
+            city,
+            image: logo,
+          }),
+          breadcrumbLd(locale, [
+            { name: isAr ? "الرئيسية" : "Home", path: "/" },
+            { name: isAr ? "الموردون" : "Vendors", path: "/vendors" },
+            { name },
+          ]),
+          webPageLd({
+            name,
+            description: desc,
+            path: `/vendors/${vendor.slug?.en || slug}`,
+            locale,
+          }),
+        ]}
       />
       <VendorStorefront
         locale={locale}

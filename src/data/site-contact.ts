@@ -1,14 +1,14 @@
 /** Public contact channels — only list addresses that are officially in use. */
 export const SITE_CONTACT = {
-  generalEmail: "hello@kingdomtrade.sa",
-  businessEmail: "hello@kingdomtrade.sa",
-  vendorsEmail: "hello@kingdomtrade.sa",
-  buyersEmail: "hello@kingdomtrade.sa",
-  partnershipsEmail: "hello@kingdomtrade.sa",
-  supportEmail: "hello@kingdomtrade.sa",
+  generalEmail: "hello@hukum.sa",
+  businessEmail: "hello@hukum.sa",
+  vendorsEmail: "vendors@hukum.sa",
+  buyersEmail: "buyers@hukum.sa",
+  partnershipsEmail: "partners@hukum.sa",
+  supportEmail: "support@hukum.sa",
   /** Set when a public phone line is confirmed */
   phone: "" as string,
-  /** Set when a public WhatsApp business line is confirmed */
+  /** Set when a public WhatsApp business line is confirmed (E.164 without +). */
   whatsapp: "" as string,
   office: {
     name: { en: "Hukum", ar: "Hukum" },

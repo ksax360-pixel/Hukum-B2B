@@ -1,5 +1,13 @@
 import { setRequestLocale } from "next-intl/server";
 import { isLocale, type Locale } from "@/i18n/config";
+import { HukumPageHeader } from "@/components/layout/HukumPageHeader";
+import { staticPageMetadata } from "@/modules/seo/static-metadata";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  return staticPageMetadata(params, "/marketplace-rules", "ignored", undefined, {
+    seoKey: "marketplace-rules",
+  });
+}
 
 export default async function MarketplaceRulesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params;
@@ -8,12 +16,15 @@ export default async function MarketplaceRulesPage({ params }: { params: Promise
   const isAr = locale === "ar";
 
   return (
-    <div className="container-custom section max-w-3xl">
-      <p className="label-caps mb-3">{isAr ? "قانوني" : "Legal"}</p>
-      <h1 className="text-3xl md:text-4xl font-semibold text-[var(--ink)] mb-6">
-        {isAr ? "قواعد السوق" : "Marketplace rules"}
-      </h1>
-      <div className="surface-card p-8 space-y-6 text-sm text-[var(--ink-soft)] leading-relaxed">
+    <main className="hukum-page">
+      <div className="hukum-page__wrap hukum-page__wrap--narrow">
+        <HukumPageHeader
+          locale={locale}
+          eyebrow={isAr ? "قانوني" : "Legal"}
+          title={isAr ? "قواعد السوق" : "Marketplace rules"}
+          goldEyebrow
+        />
+        <div className="hukum-card space-y-6 p-8 text-sm leading-relaxed text-[var(--hukum-muted)]">
         <p>
           {isAr
             ? "قواعد السلوك والامتثال للمشترين والموردين — محتوى قابل للتكوين من الإدارة."
@@ -25,12 +36,13 @@ export default async function MarketplaceRulesPage({ params }: { params: Promise
           <li>{isAr ? "امتثال للوائح المحلية والضريبية" : "Compliance with local and tax regulations"}</li>
           <li>{isAr ? "حظر المحتوى المحظور أو المضلل" : "Prohibition of restricted or misleading content"}</li>
         </ul>
-        <p className="text-xs text-[var(--muted)]">
+        <p className="text-xs text-[var(--hukum-muted)]">
           {isAr
             ? "En / Ar: يمكن نشر النسخة الكاملة عبر CMS بنوع page أو faq."
             : "En / Ar: publish the full rulebook via CMS as page or faq entries."}
         </p>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

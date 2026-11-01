@@ -1,12 +1,20 @@
 import Link from "next/link";
-import { Handshake, MessageCircle, Search } from "lucide-react";
+import {
+  ArrowUpRight,
+  Handshake,
+  Image as ImageIcon,
+  MessageCircle,
+  Mic,
+  Search,
+} from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import {
   sourcingWhatsAppHref,
   sourcingWhatsAppIsExternal,
 } from "@/lib/sourcing-contact";
+import { WhatsAppPhoneVideo } from "@/components/home/WhatsAppPhoneVideo";
 
-function WhatsAppIcon({ className, size = 18 }: { className?: string; size?: number }) {
+function WhatsAppIcon({ className, size = 16 }: { className?: string; size?: number }) {
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} className={className} aria-hidden>
       <path
@@ -17,157 +25,78 @@ function WhatsAppIcon({ className, size = 18 }: { className?: string; size?: num
   );
 }
 
-function PhoneMock({ isAr }: { isAr: boolean }) {
-  const vendors = isAr
-    ? [
-        { name: "الصفوة للسلامة", badge: "موثّق", tone: "verified" as const },
-        { name: "إيسترن غلف سبلاي", badge: "موثّق", tone: "verified" as const },
-        { name: "نجد الصناعية", badge: "سجل تجاري", tone: "cr" as const },
-      ]
-    : [
-        { name: "Al Safwa Safety", badge: "Verified", tone: "verified" as const },
-        { name: "Eastern Gulf Supply", badge: "Verified", tone: "verified" as const },
-        { name: "Najd Industrial", badge: "CR checked", tone: "cr" as const },
-      ];
-
-  return (
-    <div className="hukum-wa__phone" aria-hidden>
-      <div className="hukum-wa__phone-bezel">
-        <div className="hukum-wa__phone-notch" />
-        <div className="hukum-wa__chat">
-          <div className="hukum-wa__chat-head">
-            <span className="hukum-wa__avatar">ح</span>
-            <div>
-              <p className="hukum-wa__chat-name">
-                {isAr ? "توريد حكوم" : "Hukum Sourcing"}
-              </p>
-              <p className="hukum-wa__chat-status">
-                {isAr ? "فريق توريد حكوم" : "Hukum sourcing team"}
-              </p>
-            </div>
-          </div>
-          <div className="hukum-wa__chat-body">
-            <div className="hukum-wa__bubble hukum-wa__bubble--out">
-              {isAr
-                ? "السلام عليكم، أحتاج 500 خوذة سلامة للرياض هذا الأسبوع."
-                : "Salam, I need 500 safety helmets delivered to Riyadh this week."}
-              <span className="hukum-wa__time">10:02</span>
-            </div>
-            <div className="hukum-wa__bubble hukum-wa__bubble--in">
-              {isAr
-                ? "وعليكم السلام! نرسل طلبك الآن لموردين موثّقين في الرياض."
-                : "Wa alaikum assalam! Sending your request to verified suppliers in Riyadh now."}
-              <span className="hukum-wa__time">10:02</span>
-            </div>
-            <div className="hukum-wa__vendors">
-              <p className="hukum-wa__vendors-title">
-                {isAr ? "3 موردين موثّقين" : "3 verified vendors found"}
-              </p>
-              <p className="hukum-wa__vendors-sub">
-                {isAr ? "مطابقة لطلبك" : "Matched to your request"}
-              </p>
-              {vendors.map((v) => (
-                <span key={v.name} className="hukum-wa__vendor-row">
-                  <span className="hukum-wa__vendor-name">{v.name}</span>
-                  <span className={`hukum-wa__vendor-badge hukum-wa__vendor-badge--${v.tone}`}>
-                    {v.tone === "verified" ? (
-                      <span className="hukum-wa__vendor-check" />
-                    ) : null}
-                    {v.badge}
-                  </span>
-                </span>
-              ))}
-              <p className="hukum-wa__vendors-hint">
-                {isAr ? "رد بـ 1 أو 2 أو 3 للتواصل مباشرة." : "Reply 1, 2 or 3 to connect directly."}
-              </p>
-              <span className="hukum-wa__time hukum-wa__time--block">10:06</span>
-            </div>
-            <div className="hukum-wa__bubble hukum-wa__bubble--out">
-              {isAr ? "1 من فضلك" : "1 please"}
-              <span className="hukum-wa__time">10:07</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function WhatsAppSourcing({ locale }: { locale: Locale }) {
   const isAr = locale === "ar";
   const href = sourcingWhatsAppHref(locale);
   const external = sourcingWhatsAppIsExternal();
 
-  const steps = [
-    {
-      Icon: MessageCircle,
-      title: isAr ? "راسلنا" : "Message us",
-      text: isAr ? "الصنف، الكمية، المدينة" : "Item, quantity, city",
-    },
-    {
-      Icon: Search,
-      title: isAr ? "نطابق" : "We match",
-      text: isAr ? "موثّق أو سجل تجاري" : "Verified or CR-checked",
-    },
-    {
-      Icon: Handshake,
-      title: isAr ? "تتواصل" : "You connect",
-      text: isAr ? "مباشرة في نفس المحادثة" : "Directly, in the same chat",
-    },
+  const icons = [
+    { Icon: MessageCircle, label: isAr ? "رسالة" : "Message" },
+    { Icon: Mic, label: isAr ? "ملاحظة صوتية" : "Voice note" },
+    { Icon: ImageIcon, label: isAr ? "صورة" : "Photo" },
+    { Icon: Search, label: isAr ? "نطابق" : "We match" },
+    { Icon: Handshake, label: isAr ? "تتواصل" : "You connect" },
   ];
 
+  const cta = (
+    <>
+      <WhatsAppIcon />
+      <span>{isAr ? "راسل توريد حكوم" : "Message Hukum sourcing"}</span>
+      <ArrowUpRight size={14} strokeWidth={1.75} aria-hidden />
+    </>
+  );
+
   return (
-    <section className="hukum-wa">
-      <div className="container-custom">
-        <div className="hukum-wa__panel">
+    <section className="hukum-wa" aria-labelledby="hukum-wa-title">
+      <img
+        className="hukum-wa__mark"
+        src="/brand/hukum-logo-green-watermark.png"
+        alt=""
+        aria-hidden
+        draggable={false}
+      />
+      <div className="container-custom hukum-wa__wrap">
+        <div className="hukum-wa__grid">
           <div className="hukum-wa__copy">
-            <span className="hukum-wa__tag">
-              <WhatsAppIcon size={15} />
-              {isAr ? "تواصل مع توريد حكوم" : "Contact Hukum sourcing"}
-            </span>
-            <h2 className="hukum-wa__title">
+            <p className="hukum-wa__eyebrow">
+              <span className="hukum-wa__eyebrow-rule" aria-hidden />
+              <span>{isAr ? "توريد عبر واتساب" : "WhatsApp sourcing"}</span>
+            </p>
+            <h2 id="hukum-wa-title" className="hukum-wa__title">
               {isAr
                 ? "أرسل طلبك عبر واتساب. بهذه البساطة."
                 : "Send a request on WhatsApp. It’s that easy."}
             </h2>
-            <p className="hukum-wa__subtitle" lang={isAr ? "en" : "ar"} dir={isAr ? "ltr" : "rtl"}>
-              {isAr
-                ? "Send a quote request on WhatsApp"
-                : "أرسل طلب عرض السعر عبر واتساب"}
-            </p>
-            <p className="hukum-wa__lead">
-              {isAr
-                ? "أخبرنا بما تحتاجه بالعربية أو الإنجليزية، برسالة أو ملاحظة صوتية أو صورة. يطابق فريق التوريد طلبك بموردين مناسبين ويرد في نفس المحادثة."
-                : "Tell us what you need in Arabic or English, as a message, voice note or photo. Our sourcing team matches it with suitable suppliers and replies in the same chat."}
-            </p>
 
-            <div className="hukum-wa__steps">
-              {steps.map((s) => (
-                <div key={s.title} className="hukum-wa__step">
-                  <span className="hukum-wa__step-icon" aria-hidden>
-                    <s.Icon size={18} strokeWidth={1.75} />
+            <ul className="hukum-wa__icons" aria-label={isAr ? "خطوات التوريد" : "Sourcing steps"}>
+              {icons.map(({ Icon, label }, index) => (
+                <li key={label} className="hukum-wa__icon-item">
+                  {index > 0 ? <span className="hukum-wa__icon-dot" aria-hidden /> : null}
+                  <span className="hukum-wa__icon" title={label} aria-label={label}>
+                    <Icon size={18} strokeWidth={1.75} aria-hidden />
                   </span>
-                  <p className="hukum-wa__step-title">{s.title}</p>
-                  <p className="hukum-wa__step-text">{s.text}</p>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
 
             {external ? (
               <a href={href} target="_blank" rel="noreferrer" className="hukum-wa__cta">
-                <WhatsAppIcon />
-                {isAr ? "راسل توريد حكوم" : "Message Hukum sourcing"}
+                {cta}
               </a>
             ) : (
               <Link href={href} className="hukum-wa__cta">
-                <WhatsAppIcon />
-                {isAr ? "راسل توريد حكوم" : "Message Hukum sourcing"}
+                {cta}
               </Link>
             )}
           </div>
 
           <div className="hukum-wa__visual">
-            <PhoneMock isAr={isAr} />
+            <div className="hukum-wa__stage">
+              <WhatsAppPhoneVideo
+                src="/hero/Hukum_WhatsApp_RFQ_Square.mp4"
+                label={isAr ? "فيديو توريد واتساب حكوم" : "Hukum WhatsApp sourcing video"}
+              />
+            </div>
           </div>
         </div>
       </div>

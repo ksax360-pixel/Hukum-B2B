@@ -24,16 +24,17 @@ export function PopularInCategory({
   const isAr = locale === "ar";
   const titleName = isAr ? categoryNameAr || categoryNameEn : categoryNameEn || categoryNameAr;
   const subName = isAr ? categoryNameEn : categoryNameAr;
+  const loop = products.length > 0 ? [...products, ...products] : [];
 
   return (
     <section className="hukum-popular">
-      <div className="container-custom">
+      <div className="container-custom hukum-popular__wrap">
         <div className="hukum-popular__head">
           <div>
             <h2 className="hukum-popular__title">
               {isAr ? `الأكثر طلباً في ${titleName}` : `Popular in ${titleName}`}
             </h2>
-            <p className="hukum-popular__subtitle" lang={isAr ? "en" : "ar"} dir={isAr ? "ltr" : "rtl"}>
+            <p className="hukum-popular__subtitle" lang={isAr ? "en" : "ar"} dir="ltr">
               {isAr
                 ? `Popular in ${subName || titleName}`
                 : `الأكثر طلباً في ${subName || titleName}`}
@@ -44,17 +45,27 @@ export function PopularInCategory({
             <ArrowRight size={14} strokeWidth={2.25} className="rtl:rotate-180" />
           </Link>
         </div>
+      </div>
 
-        {products.length === 0 ? (
+      {products.length === 0 ? (
+        <div className="container-custom">
           <p className="hukum-popular__empty">{emptyLabel}</p>
-        ) : (
-          <div className="hukum-popular__grid">
-            {products.map((item) => (
-              <PopularProductCard key={item.id} locale={locale} item={item} />
+        </div>
+      ) : (
+        <div className="hukum-popular__rail" aria-label={isAr ? "منتجات شائعة" : "Popular products"}>
+          <div className="hukum-popular__track">
+            {loop.map((item, index) => (
+              <div
+                key={`${item.id}-${index}`}
+                className="hukum-popular__slide"
+                aria-hidden={index >= products.length ? true : undefined}
+              >
+                <PopularProductCard locale={locale} item={item} />
+              </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

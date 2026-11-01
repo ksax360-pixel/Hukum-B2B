@@ -11,6 +11,7 @@ import { ProductCard } from "@/components/products/ProductCard";
 import { t as loc } from "@/lib/utils";
 import { toPlain, type ProductLike, type VendorLike } from "@/components/products/product-helpers";
 import { staticPageMetadata } from "@/modules/seo/static-metadata";
+import { HukumPageHeader } from "@/components/layout/HukumPageHeader";
 
 export async function generateMetadata({
   params,
@@ -19,18 +20,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
-  const { locale: raw } = await params;
   const sp = await searchParams;
   const faceted = Object.keys(sp).some((k) => !["page"].includes(k));
-  const isAr = raw === "ar";
   return staticPageMetadata(
     params,
     "/products",
-    isAr ? "المنتجات | Hukum" : "B2B Products | Hukum",
-    isAr
-      ? "ابحث عن منتجات B2B عبر القطاعات مع فلاتر دقيقة للشراء."
-      : "Browse B2B products across Saudi industries with precise procurement filters.",
-    { indexable: !faceted }
+    "ignored",
+    undefined,
+    { indexable: !faceted, seoKey: "products" }
   );
 }
 
@@ -145,21 +142,25 @@ export default async function ProductsPage({
           />
 
           <div className="products-main min-w-0">
-            <header className="products-intro">
-              <p className="label-caps">{isAr ? "السوق" : "Marketplace"}</p>
-              <h1 className="products-intro__title">
-                {isAr ? "المنتجات" : "Products"}
-              </h1>
-              <p className="products-intro__copy">
-                {isAr
+            <HukumPageHeader
+              locale={locale}
+              eyebrow={isAr ? "السوق" : "Marketplace"}
+              title={isAr ? "المنتجات" : "Products"}
+              lead={
+                isAr
                   ? "تصفّح منتجات B2B عبر القطاعات والتصنيفات مع فلاتر دقيقة للمشتريات."
-                  : "Browse B2B products across Saudi industries with precise procurement filters."}
-              </p>
-            </header>
+                  : "Browse B2B products across Saudi industries with precise procurement filters."
+              }
+              crumbs={[
+                { label: isAr ? "الرئيسية" : "Home", href: `/${locale}` },
+                { label: isAr ? "المنتجات" : "Products" },
+              ]}
+              goldEyebrow
+            />
 
             <div className="products-toolbar">
               <p className="products-toolbar__count">
-                <span className="font-semibold text-[#001730] tabular-nums">{total}</span>{" "}
+                <span className="font-semibold text-[var(--hukum-ink)] tabular-nums">{total}</span>{" "}
                 {isAr ? "منتج" : "products"}
               </p>
               {activeChips.length > 0 && (
@@ -182,7 +183,7 @@ export default async function ProductsPage({
 
             <div className="kt-product-grid">
               {items.length === 0 && (
-                <div className="col-span-full empty-state">
+                <div className="hukum-empty col-span-full">
                   {isAr ? "لا توجد منتجات مطابقة." : "No products match these filters."}
                 </div>
               )}

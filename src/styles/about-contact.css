@@ -3,18 +3,18 @@
 .kt-about-eyebrow {
   font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(0, 23, 48, 0.42);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: #B89A6D;
   margin-bottom: 0.75rem;
 }
-.kt-about-eyebrow--gold { color: #C9A962; }
+.kt-about-eyebrow--gold { color: #C4A574; }
 
 .kt-about-h2 {
   font-size: clamp(1.55rem, 3vw, 2.35rem);
   font-weight: 600;
   letter-spacing: -0.03em;
-  color: #001730;
+  color: #111C17;
   line-height: 1.15;
 }
 .kt-about-h2--light { color: #f7f5f0; }
@@ -23,7 +23,7 @@
   font-size: clamp(1.65rem, 3.4vw, 2.6rem);
   font-weight: 600;
   letter-spacing: -0.03em;
-  color: #001730;
+  color: #111C17;
   line-height: 1.18;
 }
 
@@ -41,7 +41,7 @@
 }
 .kt-about-section--soft { background: #fafbfc; }
 .kt-about-section--ink {
-  background: #001730;
+  background: #10251C;
   color: #fff;
   padding-block: 4.5rem;
 }
@@ -96,7 +96,7 @@
   width: 0.55rem;
   height: 0.55rem;
   border-radius: 999px;
-  background: #001730;
+  background: #17634B;
   opacity: 0.35;
 }
 .kt-about-hero__node--core {
@@ -104,7 +104,7 @@
   height: 0.9rem;
   right: 28%;
   top: 42%;
-  background: #C9A962;
+  background: #C4A574;
   opacity: 0.85;
   box-shadow: 0 0 0 8px rgba(201, 169, 98, 0.12);
 }
@@ -136,7 +136,7 @@
   font-size: clamp(2.2rem, 5vw, 3.6rem);
   font-weight: 600;
   letter-spacing: -0.035em;
-  color: #001730;
+  color: #111C17;
   line-height: 1.08;
   margin-bottom: 1.15rem;
 }
@@ -193,8 +193,8 @@
   background: #fff;
 }
 .kt-about-compare__col--accent {
-  background: #001730;
-  border-color: #001730;
+  background: #0B3D2E;
+  border-color: #0B3D2E;
   color: #fff;
 }
 .kt-about-compare__col h3 {
@@ -218,7 +218,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #C9A962;
+  color: #C4A574;
 }
 
 /* Vision */
@@ -255,7 +255,7 @@
 .kt-about-pillar h3 {
   font-size: 1rem;
   font-weight: 650;
-  color: #001730;
+  color: #111C17;
   margin-bottom: 0.4rem;
 }
 .kt-about-pillar p {
@@ -277,11 +277,11 @@
   justify-items: center;
   padding: 1.5rem 2rem;
   border-radius: 1.25rem;
-  background: #001730;
+  background: #0B3D2E;
   color: #fff;
   min-width: min(100%, 16rem);
 }
-.kt-about-eco__hub svg { color: #C9A962; }
+.kt-about-eco__hub svg { color: #C4A574; }
 .kt-about-eco__hub strong { font-size: 1.05rem; }
 .kt-about-eco__hub span {
   font-size: 0.75rem;
@@ -304,7 +304,7 @@
   background: #fff;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #001730;
+  color: #111C17;
 }
 .kt-about-eco__foot {
   font-size: 0.88rem;
@@ -337,13 +337,13 @@
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.12em;
-  color: #C9A962;
+  color: #C4A574;
   margin-bottom: 0.55rem;
 }
 .kt-about-steps h3 {
   font-size: 1rem;
   font-weight: 650;
-  color: #001730;
+  color: #111C17;
   margin-bottom: 0.35rem;
 }
 .kt-about-steps p {
@@ -371,11 +371,11 @@
   display: grid;
   gap: 0.55rem;
 }
-.kt-about-tech svg { color: #001730; opacity: 0.7; }
+.kt-about-tech svg { color: #17634B; opacity: 0.8; }
 .kt-about-tech h3 {
   font-size: 0.95rem;
   font-weight: 650;
-  color: #001730;
+  color: #111C17;
 }
 .kt-about-tech p {
   font-size: 0.84rem;
@@ -412,9 +412,9 @@
   background: #fafbfc;
   font-size: 0.9rem;
   font-weight: 550;
-  color: #001730;
+  color: #111C17;
 }
-.kt-about-trust__list svg { color: #C9A962; flex-shrink: 0; }
+.kt-about-trust__list svg { color: #C4A574; flex-shrink: 0; }
 
 .kt-about-techwords {
   display: flex;
@@ -446,11 +446,11 @@
   display: grid;
   gap: 0.45rem;
 }
-.kt-about-market svg { color: #C9A962; }
+.kt-about-market svg { color: #C4A574; }
 .kt-about-market h3 {
   font-size: 1.05rem;
   font-weight: 650;
-  color: #001730;
+  color: #111C17;
 }
 .kt-about-market p {
   font-size: 0.84rem;
@@ -481,7 +481,7 @@
 .kt-about-industry strong {
   font-size: 1rem;
   font-weight: 650;
-  color: #001730;
+  color: #111C17;
 }
 .kt-about-industry span {
   font-size: 0.88rem;
@@ -508,13 +508,13 @@
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: #C9A962;
+  color: #C4A574;
   padding-top: 0.2rem;
 }
 .kt-about-timeline h3 {
   font-size: 1.05rem;
   font-weight: 650;
-  color: #001730;
+  color: #111C17;
   margin-bottom: 0.3rem;
 }
 .kt-about-timeline p {
@@ -538,7 +538,7 @@
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 600;
   letter-spacing: -0.03em;
-  color: #001730;
+  color: #111C17;
   margin-bottom: 0.35rem;
 }
 .kt-about-stats span {
@@ -555,7 +555,7 @@
   gap: 0.85rem;
   justify-items: center;
 }
-.kt-about-people svg { color: #C9A962; }
+.kt-about-people svg { color: #C4A574; }
 .kt-about-people p {
   font-size: 1rem;
   line-height: 1.65;
@@ -584,7 +584,7 @@
 .kt-about-valuegrid h3 {
   font-size: 0.95rem;
   font-weight: 650;
-  color: #001730;
+  color: #111C17;
 }
 .kt-about-valuegrid p {
   font-size: 0.84rem;
@@ -619,7 +619,7 @@
   font-size: clamp(2rem, 4.5vw, 3.2rem);
   font-weight: 600;
   letter-spacing: -0.03em;
-  color: #001730;
+  color: #111C17;
   line-height: 1.1;
   margin-bottom: 0.9rem;
 }
@@ -645,7 +645,7 @@
 .kt-contact-aside__title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #001730;
+  color: #111C17;
   margin-bottom: 0.45rem;
 }
 .kt-contact-aside__copy {
@@ -676,7 +676,7 @@
 .kt-contact-desk strong {
   font-size: 0.86rem;
   font-weight: 650;
-  color: #001730;
+  color: #111C17;
 }
 .kt-contact-desk span {
   font-size: 0.76rem;
@@ -710,14 +710,14 @@
   display: grid;
   place-items: center;
   background: rgba(0, 23, 48, 0.05);
-  color: #001730;
+  color: #17634B;
   flex-shrink: 0;
 }
 .kt-contact-channels__item strong {
   display: block;
   font-size: 0.78rem;
   font-weight: 650;
-  color: #001730;
+  color: #111C17;
 }
 .kt-contact-channels__item em {
   display: block;
@@ -745,7 +745,7 @@
 .kt-contact-panel__head h2 {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #001730;
+  color: #111C17;
   margin-bottom: 0.35rem;
 }
 .kt-contact-panel__head p {
@@ -776,7 +776,7 @@
   color: rgba(0, 23, 48, 0.52);
 }
 .kt-contact-field label em {
-  color: #C9A962;
+  color: #C4A574;
   font-style: normal;
 }
 .kt-contact-input {
@@ -786,7 +786,7 @@
   border-radius: 0.7rem;
   border: 1px solid rgba(0, 23, 48, 0.12);
   background: #fafbfc;
-  color: #001730;
+  color: #111C17;
   font-size: 0.92rem;
 }
 .kt-contact-input:focus {
@@ -816,7 +816,7 @@
   background: #fff;
   font-size: 0.8rem;
   font-weight: 650;
-  color: #001730;
+  color: #111C17;
   cursor: pointer;
 }
 .kt-contact-file__hint {
@@ -832,7 +832,7 @@
   background: rgba(0, 23, 48, 0.06);
   font-size: 0.72rem;
   font-weight: 600;
-  color: #001730;
+  color: #111C17;
   border: none;
   cursor: pointer;
 }
@@ -849,14 +849,14 @@
   min-height: 2.85rem;
   padding: 0.7rem 1.5rem;
   border-radius: 999px;
-  background: #001730;
+  background: #17634B;
   color: #fff;
   font-size: 0.9rem;
   font-weight: 700;
   border: none;
   cursor: pointer;
 }
-.kt-contact-submit:hover { background: #002d52; }
+.kt-contact-submit:hover { background: #134f3c; }
 .kt-contact-submit:disabled { opacity: 0.55; cursor: not-allowed; }
 
 .kt-contact-success {
@@ -864,7 +864,7 @@
   gap: 0.65rem;
   justify-items: start;
   padding: 0.5rem 0;
-  color: #001730;
+  color: #111C17;
 }
 .kt-contact-success svg { color: #166534; }
 .kt-contact-success h2 {
@@ -911,9 +911,9 @@
 }
 .kt-contact-office__meta dd {
   font-size: 0.95rem;
-  color: #001730;
+  color: #111C17;
 }
-.kt-contact-office__meta a { color: #001730; text-decoration: underline; text-underline-offset: 2px; }
+.kt-contact-office__meta a { color: #17634B; text-decoration: underline; text-underline-offset: 2px; }
 .kt-contact-directions {
   display: inline-flex;
   margin-top: 1.25rem;
@@ -922,7 +922,7 @@
   border: 1px solid rgba(0, 23, 48, 0.16);
   font-size: 0.82rem;
   font-weight: 700;
-  color: #001730;
+  color: #17634B;
 }
 .kt-contact-markets ul {
   list-style: none;
@@ -941,7 +941,7 @@
 }
 .kt-contact-markets strong {
   font-size: 0.92rem;
-  color: #001730;
+  color: #111C17;
 }
 .kt-contact-markets span {
   font-size: 0.8rem;
@@ -966,7 +966,7 @@
   cursor: pointer;
   font-size: 0.95rem;
   font-weight: 650;
-  color: #001730;
+  color: #111C17;
   list-style: none;
 }
 .kt-contact-faq__item summary::-webkit-details-marker { display: none; }
@@ -982,8 +982,29 @@
   color: #6b7a80;
 }
 .kt-contact-faq__alt a {
-  color: #001730;
+  color: #17634B;
   font-weight: 650;
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+/* Hukum system alignment for legacy about/contact structures */
+.kt-about,
+.kt-contact-page {
+  background: var(--hukum-white);
+  color: var(--hukum-ink);
+}
+
+.kt-about .home-band--black,
+.kt-about-cta.home-band--black {
+  background: var(--hukum-green-dark);
+}
+
+.kt-contact-hero .hukum-page-header {
+  margin-bottom: 0;
+}
+
+.kt-contact-input:focus {
+  border-color: rgba(23, 99, 75, 0.45);
+  box-shadow: 0 0 0 3px rgba(23, 99, 75, 0.12);
 }

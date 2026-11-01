@@ -82,8 +82,8 @@ export function VendorStorefront({
   const isAr = locale === "ar";
   const vendorId = String(vendor._id);
   const design = vendor.storefront?.published || null;
-  const primary = design?.primaryColor || "#1a1612";
-  const accent = design?.accentColor || "#c9a962";
+  const primary = design?.primaryColor || "#17634B";
+  const accent = design?.accentColor || "#C4A574";
   const layout = design?.layout || "classic";
   const displayName =
     (isAr ? design?.headline?.ar || design?.headline?.en : design?.headline?.en || design?.headline?.ar) ||
@@ -199,13 +199,13 @@ export function VendorStorefront({
     },
     {
       icon: Globe2,
-      label: isAr ? "معايير عالمية" : "Global Standards",
+      label: isAr ? "معايير سعودية" : "Saudi Standards",
     },
   ];
 
   return (
     <div
-      className={`min-h-screen text-[#1a1612] ${layout === "bold" ? "bg-[#111]" : "bg-[#f8f8f8]"}`}
+      className={`min-h-screen text-[var(--hukum-ink)] ${layout === "bold" ? "bg-[var(--hukum-green-dark)]" : "bg-[var(--hukum-surface)]"}`}
       style={
         {
           ["--sf-primary" as string]: primary,
@@ -220,7 +220,7 @@ export function VendorStorefront({
         </div>
       ) : null}
       {/* Vendor utility bar — mockup style */}
-      <div className="bg-[#2b2b2b] text-white">
+      <div className="bg-[var(--hukum-green-dark)] text-white">
         <div className="container-custom flex flex-wrap items-center justify-between gap-2 py-2 text-xs">
           <div className="flex flex-wrap items-center gap-4 text-white/85">
             {contactPhone ? (
@@ -270,7 +270,7 @@ export function VendorStorefront({
       <header className="sticky top-0 z-30 border-b border-[#e6e2da] bg-white/95 backdrop-blur">
         <div className="container-custom flex flex-wrap items-center gap-4 py-3">
           <div className="flex min-w-0 items-center gap-3">
-            <Link href={`/${locale}`} className="hidden text-[11px] font-semibold text-[#8a8a8a] hover:text-[#c9a962] sm:inline">
+            <Link href={`/${locale}`} className="hidden text-[11px] font-semibold text-[#8a8a8a] hover:text-[var(--hukum-green)] sm:inline">
               Hukum
             </Link>
             <Link href={`/${locale}/vendors/${vendor.slug?.en || vendorId}`} className="flex min-w-0 items-center gap-2.5">
@@ -287,25 +287,25 @@ export function VendorStorefront({
           </div>
 
           <nav className="hidden items-center gap-5 text-sm font-medium text-[#4a4a4a] lg:flex">
-            <a href="#home" className="hover:text-[#c9a962]">
+            <a href="#home" className="hover:text-[var(--hukum-green)]">
               {isAr ? "الرئيسية" : "Home"}
             </a>
-            <a href="#about" className="hover:text-[#c9a962]">
+            <a href="#about" className="hover:text-[var(--hukum-green)]">
               {isAr ? "من نحن" : "About Us"}
             </a>
-            <a href="#products" className="hover:text-[#c9a962]">
+            <a href="#products" className="hover:text-[var(--hukum-green)]">
               {isAr ? "المنتجات" : "Products"}
             </a>
-            <a href="#certs" className="hover:text-[#c9a962]">
+            <a href="#certs" className="hover:text-[var(--hukum-green)]">
               {isAr ? "الشهادات" : "Certifications"}
             </a>
-            <a href="#contact" className="hover:text-[#c9a962]">
+            <a href="#contact" className="hover:text-[var(--hukum-green)]">
               {isAr ? "تواصل" : "Contact"}
             </a>
           </nav>
 
           <div className="ms-auto flex min-w-[180px] max-w-xs flex-1 items-center gap-2 rounded-lg border border-[#e6e2da] bg-[#f8f8f8] px-3 py-2">
-            <Search size={14} className="shrink-0 text-[#c9a962]" />
+            <Search size={14} className="shrink-0 text-[var(--hukum-green)]" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
@@ -370,7 +370,7 @@ export function VendorStorefront({
                 <Link
                   href={`/${locale}/rfq?vendor=${vendorId}`}
                   className="inline-flex items-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold text-white hover:opacity-90"
-                  style={{ background: accent }}
+                  style={{ background: primary }}
                 >
                   <Mail size={16} />
                   {ctaLabel}
@@ -427,7 +427,7 @@ export function VendorStorefront({
         <div className="container-custom grid grid-cols-2 gap-4 py-5 md:grid-cols-4">
           {features.map((f) => (
             <div key={f.label} className="flex items-center gap-3 text-sm font-semibold text-[#1a1612]">
-              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#c9a962]/50 text-[#c9a962]">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#C4A574]/50 text-[var(--hukum-badge)]">
                 <f.icon size={16} />
               </span>
               {f.label}
@@ -444,7 +444,7 @@ export function VendorStorefront({
               <h2 className="m-0 text-xl font-bold text-[#1a1612]">
                 {isAr ? "فئات المنتجات" : "Our Product Categories"}
               </h2>
-              <a href="#products" className="inline-flex items-center gap-1 text-sm font-semibold text-[#c9a962]">
+              <a href="#products" className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--hukum-green)]">
                 {isAr ? "عرض الكل" : "View All Categories"}
                 <ArrowRight size={14} />
               </a>
@@ -454,7 +454,7 @@ export function VendorStorefront({
                 type="button"
                 onClick={() => setActiveCat("all")}
                 className={`w-[140px] shrink-0 overflow-hidden rounded-xl border bg-white text-start ${
-                  activeCat === "all" ? "border-[#c9a962] ring-1 ring-[#c9a962]/40" : "border-[#e6e2da]"
+                  activeCat === "all" ? "border-[#C4A574] ring-1 ring-[#C4A574]/40" : "border-[var(--hukum-border)]"
                 }`}
               >
                 <span className="block aspect-[4/3] bg-[#f0eeea]">
@@ -473,7 +473,7 @@ export function VendorStorefront({
                   type="button"
                   onClick={() => setActiveCat(c.key)}
                   className={`w-[140px] shrink-0 overflow-hidden rounded-xl border bg-white text-start capitalize ${
-                    activeCat === c.key ? "border-[#c9a962] ring-1 ring-[#c9a962]/40" : "border-[#e6e2da]"
+                    activeCat === c.key ? "border-[#C4A574] ring-1 ring-[#C4A574]/40" : "border-[var(--hukum-border)]"
                   }`}
                 >
                   <span className="block aspect-[4/3] bg-[#f0eeea]">
@@ -508,7 +508,7 @@ export function VendorStorefront({
             </div>
             <Link
               href={`/${locale}/rfq?vendor=${vendorId}`}
-              className="inline-flex items-center gap-1 text-sm font-semibold text-[#c9a962]"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--hukum-green)]"
             >
               {isAr ? "عرض الكل" : "View All Products"}
               <ArrowRight size={14} />
@@ -516,7 +516,7 @@ export function VendorStorefront({
           </div>
 
           {filtered.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-[#e6e2da] bg-white px-6 py-14 text-center text-sm text-[#8a8a8a]">
+            <div className="kt-vendor-empty rounded-xl px-6 py-14 text-sm">
               {isAr ? "لا توجد منتجات مطابقة." : "No products match this filter."}
             </div>
           ) : (
@@ -557,7 +557,7 @@ export function VendorStorefront({
                     <div className="flex flex-1 flex-col gap-1 px-3.5 pb-3.5 pt-3">
                       <Link
                         href={href}
-                        className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-[#1a1612] hover:text-[#b8953d]"
+                        className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-[var(--hukum-ink)] hover:text-[var(--hukum-green)]"
                       >
                         {title}
                       </Link>
@@ -570,7 +570,7 @@ export function VendorStorefront({
                       </div>
                       <Link
                         href={`/${locale}/rfq?product=${p._id}&vendorId=${vendorId}`}
-                        className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#c9a962] px-3 py-2.5 text-sm font-semibold text-white hover:bg-[#b8953d]"
+                        className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--hukum-green)] px-3 py-2.5 text-sm font-semibold text-white hover:bg-[var(--hukum-green-hover)]"
                       >
                         <Mail size={14} />
                         {isAr ? "طلب عرض سعر" : "Request a Quote"}
@@ -645,14 +645,14 @@ export function VendorStorefront({
           </h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 text-sm">
             {contactPhone ? (
-              <a href={`tel:${contactPhone.replace(/\s/g, "")}`} className="inline-flex items-center gap-2 text-[#1a1612] hover:text-[#c9a962]">
-                <Phone size={14} className="text-[#c9a962]" />
+              <a href={`tel:${contactPhone.replace(/\s/g, "")}`} className="inline-flex items-center gap-2 text-[var(--hukum-ink)] hover:text-[var(--hukum-green)]">
+                <Phone size={14} className="text-[var(--hukum-green)]" />
                 {contactPhone}
               </a>
             ) : null}
             {contactEmail ? (
-              <a href={`mailto:${contactEmail}`} className="inline-flex items-center gap-2 text-[#1a1612] hover:text-[#c9a962]">
-                <Mail size={14} className="text-[#c9a962]" />
+              <a href={`mailto:${contactEmail}`} className="inline-flex items-center gap-2 text-[var(--hukum-ink)] hover:text-[var(--hukum-green)]">
+                <Mail size={14} className="text-[var(--hukum-green)]" />
                 {contactEmail}
               </a>
             ) : null}
@@ -668,7 +668,7 @@ export function VendorStorefront({
             ) : null}
             {place ? (
               <span className="inline-flex items-center gap-2 text-[#1a1612]">
-                <MapPin size={14} className="text-[#c9a962]" />
+                <MapPin size={14} className="text-[var(--hukum-green)]" />
                 {place}
               </span>
             ) : null}

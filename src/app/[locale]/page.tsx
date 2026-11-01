@@ -3,7 +3,6 @@ export const dynamic = "force-dynamic";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { HeroSection } from "@/components/home/HeroSection";
 import { BrowseBySector } from "@/components/home/BrowseBySector";
-import { SuppliersNearYou, type NearSupplier } from "@/components/home/SuppliersNearYou";
 import { PopularInCategory } from "@/components/home/PopularInCategory";
 import type { PopularProductItem } from "@/components/home/PopularProductCard";
 import { HowHukumWorks } from "@/components/home/HowHukumWorks";
@@ -11,35 +10,184 @@ import { SupplierLevels } from "@/components/home/SupplierLevels";
 import { WhatsAppSourcing } from "@/components/home/WhatsAppSourcing";
 import { ConciergeSourcing } from "@/components/home/ConciergeSourcing";
 import { SellOnHukum } from "@/components/home/SellOnHukum";
+import { TrustedByBuyers } from "@/components/home/TrustedByBuyers";
+import { HomeSnapSection } from "@/components/home/HomeSnapSection";
 import { isLocale, type Locale } from "@/i18n/config";
 import { connectDB } from "@/lib/db";
 import { Product } from "@/modules/products/product.model";
 import { Category } from "@/modules/categories/taxonomy.model";
-import { Vendor } from "@/modules/vendors/vendor.model";
 import { fetchFeaturedProducts } from "@/modules/products/catalog-search";
 import { t as loc } from "@/lib/utils";
 import {
   formatPrice,
   mediaList,
   toPlain,
-  vendorLogoUrl,
 } from "@/components/products/product-helpers";
 import { staticPageMetadata } from "@/modules/seo/static-metadata";
 import { organizationLd, websiteLd, webPageLd } from "@/modules/seo/jsonld";
 import { LandingViewTracker } from "@/components/analytics/LandingViewTracker";
 import type { ShowcaseCardItem } from "@/components/home/ShowcaseCards";
+import { MARKETPLACE_CATEGORIES } from "@/data/marketplace-categories";
+
+/** Fixed homepage sector order (10 cards). */
+const HOME_SECTOR_KEYS = [
+  "safety-equipment",
+  "building-materials",
+  "electrical",
+  "fmcg",
+  "oil-gas",
+  "medical-equipment",
+  "textiles",
+  "lab-scientific",
+  "stationery",
+  "furniture-fitout",
+] as const;
+
+/** Homepage card titles (override catalog when we want a shorter label). */
+const HOME_SECTOR_LABELS: Partial<Record<(typeof HOME_SECTOR_KEYS)[number], { en: string; ar: string }>> = {
+  "oil-gas": { en: "Oil & Gas", ar: "النفط والغاز" },
+  "furniture-fitout": { en: "Furniture", ar: "الأثاث" },
+  electrical: { en: "Electrical & Electronics", ar: "الكهرباء والإلكترونيات" },
+};
+
+function mockPopularProducts(locale: Locale): PopularProductItem[] {
+  const isAr = locale === "ar";
+  const items = [
+    {
+      id: "mock-safety-helmet",
+      slug: "industrial-safety-helmet",
+      cover: "/categories/safety-equipment.jpg",
+      brand: "Hukum Spec",
+      sku: "HK-SH-100",
+      titleEn: "Industrial Safety Helmet",
+      titleAr: "خوذة سلامة صناعية",
+      tags: isAr ? ["سلامة", "PPE"] : ["Safety", "PPE"],
+      moq: "50 pcs",
+      price: isAr ? "من 45 ر.س" : "From SAR 45",
+      lead: isAr ? "5–7 أيام" : "5–7 days",
+      vendor: isAr ? "مورد الرياض" : "Riyadh Supply Co.",
+    },
+    {
+      id: "mock-building-steel",
+      slug: "structural-steel-beam",
+      cover: "/categories/building-materials.jpg",
+      brand: "Najd Steel",
+      sku: "NS-BEAM-200",
+      titleEn: "Structural Steel Beam",
+      titleAr: "عارضة فولاذ إنشائية",
+      tags: isAr ? ["بناء", "فولاذ"] : ["Construction", "Steel"],
+      moq: "10 tons",
+      price: isAr ? "اطلب السعر" : "Request price",
+      lead: isAr ? "10–14 يومًا" : "10–14 days",
+      vendor: isAr ? "نجد ستيل" : "Najd Steel",
+    },
+    {
+      id: "mock-cable",
+      slug: "copper-power-cable",
+      cover: "/categories/electrical.jpg",
+      brand: "VoltArc",
+      sku: "VA-CBL-16",
+      titleEn: "Copper Power Cable 16mm",
+      titleAr: "كابل طاقة نحاسي 16مم",
+      tags: isAr ? ["كهرباء", "كابل"] : ["Electrical", "Cable"],
+      moq: "500 m",
+      price: isAr ? "من 12 ر.س/م" : "From SAR 12/m",
+      lead: isAr ? "3–5 أيام" : "3–5 days",
+      vendor: isAr ? "فولت آرك" : "VoltArc KSA",
+    },
+    {
+      id: "mock-fmcg-dates",
+      slug: "premium-medjool-dates",
+      cover: "/categories/fmcg.jpg",
+      brand: "Oasis Grove",
+      sku: "OG-DATE-5K",
+      titleEn: "Premium Medjool Dates 5kg",
+      titleAr: "تمر مجهول فاخر 5 كجم",
+      tags: isAr ? ["FMCG", "أغذية"] : ["FMCG", "Food"],
+      moq: "20 cartons",
+      price: isAr ? "من 95 ر.س" : "From SAR 95",
+      lead: isAr ? "2–4 أيام" : "2–4 days",
+      vendor: isAr ? "واحة النخيل" : "Oasis Grove",
+    },
+    {
+      id: "mock-oil-valve",
+      slug: "industrial-gate-valve",
+      cover: "/categories/oil-gas.jpg",
+      brand: "PetroFit",
+      sku: "PF-GV-4IN",
+      titleEn: "Industrial Gate Valve 4\"",
+      titleAr: "صمام بوابة صناعي 4 بوصة",
+      tags: isAr ? ["نفط", "صمام"] : ["Oil & Gas", "Valve"],
+      moq: "8 units",
+      price: isAr ? "اطلب السعر" : "Request price",
+      lead: isAr ? "12–18 يومًا" : "12–18 days",
+      vendor: isAr ? "بتروفيت" : "PetroFit",
+    },
+    {
+      id: "mock-bp-monitor",
+      slug: "digital-bp-monitor",
+      cover: "/categories/medical-equipment.jpg",
+      brand: "MediCare SA",
+      sku: "MC-BP-200",
+      titleEn: "Digital Blood Pressure Monitor",
+      titleAr: "جهاز قياس ضغط الدم الرقمي",
+      tags: isAr ? ["طبي", "تشخيص"] : ["Medical", "Diagnostics"],
+      moq: "25 units",
+      price: isAr ? "من 180 ر.س" : "From SAR 180",
+      lead: isAr ? "4–6 أيام" : "4–6 days",
+      vendor: isAr ? "ميدي كير" : "MediCare SA",
+    },
+    {
+      id: "mock-textiles",
+      slug: "industrial-linen-set",
+      cover: "/categories/textiles.jpg",
+      brand: "WeaveHouse",
+      sku: "WH-LN-30",
+      titleEn: "Industrial Linen Set",
+      titleAr: "طقم منسوجات صناعية",
+      tags: isAr ? ["منسوجات", "فندقة"] : ["Textiles", "Hospitality"],
+      moq: "100 sets",
+      price: isAr ? "من 65 ر.س" : "From SAR 65",
+      lead: isAr ? "7–10 أيام" : "7–10 days",
+      vendor: isAr ? "ويف هاوس" : "WeaveHouse",
+    },
+    {
+      id: "mock-lab-scope",
+      slug: "compound-lab-microscope",
+      cover: "/categories/lab-scientific.jpg",
+      brand: "LabPrime",
+      sku: "LP-MIC-40",
+      titleEn: "Compound Lab Microscope",
+      titleAr: "مجهر مختبري مركّب",
+      tags: isAr ? ["مختبر", "علمي"] : ["Lab", "Scientific"],
+      moq: "5 units",
+      price: isAr ? "من 1,250 ر.س" : "From SAR 1,250",
+      lead: isAr ? "8–12 يومًا" : "8–12 days",
+      vendor: isAr ? "لاب برايم" : "LabPrime",
+    },
+  ];
+
+  return items.map((item) => ({
+    id: item.id,
+    href: `/${locale}/products/${item.slug}`,
+    cover: item.cover,
+    brand: item.brand,
+    sku: item.sku,
+    title: isAr ? item.titleAr : item.titleEn,
+    tags: item.tags,
+    moqLabel: item.moq,
+    priceLabel: item.price,
+    leadTimeLabel: item.lead,
+    verified: true,
+    verifiedLabel: isAr ? "مورد موثّق" : "Verified supplier",
+    vendorName: item.vendor,
+    slug: item.slug,
+    rfqHref: `/${locale}/rfq?productId=${encodeURIComponent(item.id)}`,
+  }));
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale: raw } = await params;
-  const isAr = raw === "ar";
-  return staticPageMetadata(
-    params,
-    "/",
-    isAr ? "Hukum | سوق B2B للمشترين والموردين" : "Hukum | Global B2B Marketplace for Buyers & Suppliers",
-    isAr
-      ? "اكتشف الموردين والمنتجات الصناعية عبر منصة Hukum للتجارة بين الشركات."
-      : "Discover verified products, manufacturers and suppliers across industries through one intelligent B2B marketplace."
-  );
+  return staticPageMetadata(params, "/", "home", undefined, { seoKey: "home" });
 }
 
 function sectorIconFor(name: string): "medical" | "electrical" | "logistics" | "default" {
@@ -59,21 +207,6 @@ type HomeCat = {
   slug?: { en?: string; ar?: string };
   featured?: boolean;
   order?: number;
-};
-
-type HomeVendor = {
-  _id: unknown;
-  tradeName?: string;
-  legalName?: { en?: string; ar?: string };
-  slug?: { en?: string };
-  logo?: string;
-  coverImage?: string;
-  verificationStatus?: string;
-  companyType?: string;
-  certifications?: string[];
-  capabilities?: string[];
-  location?: { city?: string; region?: string; country?: string };
-  citiesServed?: string[];
 };
 
 type RichProduct = {
@@ -127,7 +260,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   let popularCategories: HomeCat[] = [];
   let otherCategories: HomeCat[] = [];
   let allL1: HomeCat[] = [];
-  let nearSuppliers: NearSupplier[] = [];
   let focusCategory: HomeCat | null = null;
 
   try {
@@ -137,7 +269,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       level: 1,
       $or: [{ parentId: null }, { parentId: { $exists: false } }],
     };
-    const [featuredProducts, fallbackProducts, featuredRows, l1Rows, vendorRows] = await Promise.all([
+    const [featuredProducts, fallbackProducts, featuredRows, l1Rows] = await Promise.all([
       fetchFeaturedProducts(18),
       Product.find({ status: "published" })
         .populate("vendorId", "verificationStatus tradeName legalName")
@@ -146,19 +278,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         .lean(),
       Category.find({ ...l1Query, featured: true }).sort({ order: 1 }).limit(12).lean(),
       Category.find(l1Query).sort({ order: 1 }).lean(),
-      Vendor.find({
-        $or: [
-          { verificationStatus: "verified" },
-          { status: "verified" },
-          { verificationStatus: "pending" },
-        ],
-      })
-        .sort({ verificationStatus: -1, updatedAt: -1 })
-        .limit(48)
-        .select(
-          "tradeName slug legalName logo coverImage verificationStatus companyType certifications capabilities location citiesServed"
-        )
-        .lean(),
     ]);
 
     products = (featuredProducts.length ? featuredProducts : fallbackProducts) as RichProduct[];
@@ -192,54 +311,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       }
     }
 
-    const vendors = vendorRows as HomeVendor[];
-    const vendorIds = vendors.map((v) => v._id);
-    const countRows =
-      vendorIds.length > 0
-        ? ((await Product.aggregate([
-            { $match: { status: "published", vendorId: { $in: vendorIds } } },
-            { $group: { _id: "$vendorId", n: { $sum: 1 } } },
-          ])) as Array<{ _id: unknown; n: number }>)
-        : [];
-    const countMap = new Map(countRows.map((r) => [String(r._id), r.n]));
-
-    nearSuppliers = vendors.map((v) => {
-      const name =
-        v.tradeName ||
-        (isAr ? v.legalName?.ar || v.legalName?.en : v.legalName?.en || v.legalName?.ar) ||
-        "Supplier";
-      const slug = v.slug?.en || String(v._id);
-      const thumb =
-        (v.coverImage && String(v.coverImage).trim()) ||
-        vendorLogoUrl({
-          logo: v.logo,
-          tradeName: v.tradeName,
-          legalName: v.legalName,
-          slug: v.slug,
-        }) ||
-        "/vendors/demo.jpg";
-      const tags = [
-        ...(v.capabilities || []).slice(0, 2),
-        ...(v.certifications || []).slice(0, 1),
-      ]
-        .map((t) => String(t).trim())
-        .filter(Boolean);
-
-      return {
-        id: String(v._id),
-        href: `/${locale}/vendors/${slug}`,
-        name,
-        city: v.location?.city || "",
-        citiesServed: Array.isArray(v.citiesServed) ? v.citiesServed.map(String) : [],
-        companyType: v.companyType,
-        verificationStatus: v.verificationStatus,
-        certifications: Array.isArray(v.certifications) ? v.certifications.map(String) : [],
-        capabilities: Array.isArray(v.capabilities) ? v.capabilities.map(String) : [],
-        productCount: countMap.get(String(v._id)) || 0,
-        thumb,
-        tags,
-      };
-    });
   } catch {
     /* offline */
   }
@@ -340,21 +411,36 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     });
   }
 
-  const sectorPool = [
-    ...popularCategories,
-    ...allL1.filter((c) => !popularCategories.some((p) => String(p._id) === String(c._id))),
-  ].slice(0, 10);
+  const allCats = [...popularCategories, ...allL1];
+  const findCatByKey = (key: string) =>
+    allCats.find((c) => {
+      const k = catKey(c).toLowerCase();
+      const slug = String(c.slug?.en || "").toLowerCase();
+      return k === key || slug === key || slug.startsWith(key);
+    });
 
-  const sectorItems = sectorPool.map((c) => ({
-    id: String(c._id),
-    href: catHref(c),
-    nameEn: c.name?.en || c.name?.ar || "Sector",
-    nameAr: c.name?.ar || c.name?.en || "قطاع",
-    image: c.image,
-    catalogKey: catKey(c),
-  }));
-
-  const plainSuppliers = toPlain(nearSuppliers);
+  const sectorItems = HOME_SECTOR_KEYS.map((key) => {
+    const fromDb = findCatByKey(key);
+    const fromCatalog = MARKETPLACE_CATEGORIES.find((c) => c.key === key);
+    const label = HOME_SECTOR_LABELS[key];
+    if (fromDb) {
+      return {
+        id: String(fromDb._id),
+        href: catHref(fromDb),
+        nameEn: label?.en || fromDb.name?.en || fromCatalog?.name.en || "Sector",
+        nameAr: label?.ar || fromDb.name?.ar || fromCatalog?.name.ar || "قطاع",
+        image: fromDb.image,
+        catalogKey: key,
+      };
+    }
+    return {
+      id: key,
+      href: `/${locale}/c/${fromCatalog?.slug.en || key}`,
+      nameEn: label?.en || fromCatalog?.name.en || key,
+      nameAr: label?.ar || fromCatalog?.name.ar || key,
+      catalogKey: key,
+    };
+  });
 
   const focusNameEn =
     focusCategory?.name?.en || focusCategory?.name?.ar || "Featured products";
@@ -364,7 +450,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     ? catHref(focusCategory)
     : `/${locale}/products?featured=true&sort=featured`;
 
-  const popularCardItems: PopularProductItem[] = popularProducts.map((p) => {
+  const livePopularCards: PopularProductItem[] = popularProducts.map((p) => {
     const id = String(p._id);
     const slug = p.slug?.en || id;
     const vendor = p.vendorId;
@@ -417,6 +503,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     };
   });
 
+  const mockCards = mockPopularProducts(locale);
+  const popularCardItems =
+    livePopularCards.length >= 6
+      ? livePopularCards.slice(0, 8)
+      : [...livePopularCards, ...mockCards].slice(0, 8);
+
   return (
     <>
       <LandingViewTracker />
@@ -438,38 +530,56 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         }}
       />
 
-      <HeroSection
-        locale={locale}
-        showcaseItems={showcaseItems}
-        emptyLabel={tr("empty.products")}
-      />
+      <HomeSnapSection hero>
+        <HeroSection
+          locale={locale}
+          showcaseItems={showcaseItems}
+          emptyLabel={tr("empty.products")}
+        />
+      </HomeSnapSection>
 
-      <BrowseBySector
-        locale={locale}
-        sectors={sectorItems}
-        totalSectors={Math.max(allL1.length, sectorItems.length)}
-      />
+      <HomeSnapSection>
+        <BrowseBySector
+          locale={locale}
+          sectors={sectorItems}
+          totalSectors={Math.max(allL1.length, sectorItems.length)}
+        />
+      </HomeSnapSection>
 
-      <SuppliersNearYou locale={locale} suppliers={plainSuppliers} />
+      <HomeSnapSection>
+        <PopularInCategory
+          locale={locale}
+          categoryNameEn={focusNameEn}
+          categoryNameAr={focusNameAr}
+          viewAllHref={focusHref}
+          products={toPlain(popularCardItems)}
+          emptyLabel={tr("empty.products")}
+        />
+      </HomeSnapSection>
 
-      <PopularInCategory
-        locale={locale}
-        categoryNameEn={focusNameEn}
-        categoryNameAr={focusNameAr}
-        viewAllHref={focusHref}
-        products={toPlain(popularCardItems)}
-        emptyLabel={tr("empty.products")}
-      />
+      <HomeSnapSection>
+        <HowHukumWorks locale={locale} />
+      </HomeSnapSection>
 
-      <HowHukumWorks locale={locale} />
+      <HomeSnapSection>
+        <WhatsAppSourcing locale={locale} />
+      </HomeSnapSection>
 
-      <SupplierLevels locale={locale} />
+      <HomeSnapSection>
+        <SupplierLevels locale={locale} />
+      </HomeSnapSection>
 
-      <WhatsAppSourcing locale={locale} />
+      <HomeSnapSection>
+        <ConciergeSourcing locale={locale} />
+      </HomeSnapSection>
 
-      <ConciergeSourcing locale={locale} />
+      <HomeSnapSection>
+        <TrustedByBuyers locale={locale} />
+      </HomeSnapSection>
 
-      <SellOnHukum locale={locale} />
+      <HomeSnapSection>
+        <SellOnHukum locale={locale} />
+      </HomeSnapSection>
     </>
   );
 }

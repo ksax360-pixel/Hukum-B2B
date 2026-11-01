@@ -2,12 +2,13 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-import { SiteHeader } from "@/components/layout/SiteHeader";
+import { HukumHeader } from "@/components/layout/hukum-header";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SplashGate } from "@/components/splash/SplashGate";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import { CustomerChatbot } from "@/components/chat/CustomerChatbot";
 import { CompareTray } from "@/components/compare/CompareTray";
+import { HomeSnapScroller } from "@/components/home/HomeSnapScroller";
 import type { Locale } from "@/i18n/config";
 import type { ReactNode } from "react";
 
@@ -16,6 +17,7 @@ function isAuthPath(pathname: string) {
 }
 
 function isDashPath(pathname: string) {
+  if (/\/vendor\/sign-in(\/|$)/.test(pathname)) return false;
   return /\/(admin|buyer|vendor)(\/|$)/.test(pathname);
 }
 
@@ -23,7 +25,7 @@ function isHomePath(pathname: string) {
   return /^\/(en|ar)\/?$/.test(pathname);
 }
 
-/** Seller microsite — uses its own header (mockup storefront), not SiteHeader. */
+/** Seller microsite — uses its own header (mockup storefront), not HukumHeader. */
 function isVendorMicrositePath(pathname: string) {
   return /^\/(en|ar)\/vendors\/[^/]+\/?$/.test(pathname);
 }
@@ -50,10 +52,22 @@ export function AppChrome({
     }
   }, [dash]);
 
-  // Homepage uses normal document scroll (reference design), not snap-lock.
+  // Homepage: lock document scroll; snap lives on .home-snap-scroller.
   useEffect(() => {
-    document.documentElement.style.overflow = "";
-    document.body.style.overflow = "";
+    if (!home) {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.documentElement.classList.remove("home-snap-active");
+      return;
+    }
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    document.documentElement.classList.add("home-snap-active");
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      document.documentElement.classList.remove("home-snap-active");
+    };
   }, [home]);
 
   const showChat = !auth && !dash;
@@ -65,23 +79,27 @@ export function AppChrome({
       ) : dash ? (
         <div className="kt-admin-root min-h-screen">{children}</div>
       ) : home ? (
-        <div className="kt-public-root relative flex min-h-screen flex-col bg-white text-[#111C17]">
+        <div className="kt-public-root home-snap-shell relative flex flex-col bg-white text-[#111C17]">
           <SplashGate locale={locale} />
-          <SiteHeader locale={locale} />
-          <main className="flex-1">{children}</main>
-          <SiteFooter locale={locale} />
+          <HukumHeader locale={locale} />
+          <HomeSnapScroller>
+            <main className="home-snap-main">{children}</main>
+            <div className="home-snap-section home-snap-section--footer">
+              <SiteFooter locale={locale} />
+            </div>
+          </HomeSnapScroller>
           {showChat ? <CustomerChatbot locale={locale} /> : null}
           {!dash ? <CompareTray locale={locale} /> : null}
         </div>
       ) : vendorSite ? (
-        <div className="kt-public-root min-h-screen bg-[#f8f8f8] text-[#001730]">
+        <div className="kt-public-root hukum-site min-h-screen bg-[var(--hukum-surface-soft,#F4F4F4)] text-[var(--hukum-ink,#111C17)]">
           {children}
           {showChat ? <CustomerChatbot locale={locale} /> : null}
           <CompareTray locale={locale} />
         </div>
       ) : (
-        <div className="kt-public-root min-h-screen flex flex-col bg-white text-[#001730]">
-          <SiteHeader locale={locale} />
+        <div className="kt-public-root hukum-site min-h-screen flex flex-col bg-white text-[var(--hukum-ink,#111C17)]">
+          <HukumHeader locale={locale} />
           <main className="flex-1">{children}</main>
           <SiteFooter locale={locale} />
           {showChat ? <CustomerChatbot locale={locale} /> : null}

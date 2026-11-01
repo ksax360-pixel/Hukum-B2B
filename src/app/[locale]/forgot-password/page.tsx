@@ -50,13 +50,13 @@ export default function ForgotPasswordPage() {
 
   return (
     <AuthShell locale={locale}>
-      <h1 className="mb-5 text-center text-sm font-medium uppercase tracking-[0.32em] text-[#071D27]">
+      <h1 className="mb-5 text-center text-sm font-medium tracking-[0.08em] text-[#111C17]">
         {isAr ? "نسيت كلمة المرور" : "Forgot password"}
       </h1>
       {error ? <p className="mb-3 text-sm text-[#b42318]">{error}</p> : null}
-      {message ? <p className="mb-3 text-sm text-[#071D27]/70">{message}</p> : null}
+      {message ? <p className="mb-3 text-sm text-[#111C17]/70">{message}</p> : null}
       {demoUrl ? (
-        <p className="mb-3 break-all text-xs text-[#071D27]/50">
+        <p className="mb-3 break-all text-xs text-[#111C17]/50">
           Demo:{" "}
           <a className="underline" href={demoUrl}>
             {demoUrl}
@@ -79,7 +79,7 @@ export default function ForgotPasswordPage() {
         </button>
       </form>
       <div className="mt-6 text-center text-sm">
-        <Link href={`/${locale}/login`} className="font-semibold text-[#071D27]">
+        <Link href={`/${locale}/login`} className="font-semibold text-[#17634B]">
           {isAr ? "العودة لتسجيل الدخول" : "Back to sign in"}
         </Link>
       </div>
