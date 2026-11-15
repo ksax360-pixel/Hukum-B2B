@@ -50,11 +50,11 @@ export const MARKETPLACE_SECTOR_GROUPS: MarketplaceSectorGroup[] = [
         slug: "building-materials",
         nameEn: "Building materials",
         nameAr: "مواد البناء",
-        subject: "cement bags stacked with red bricks and sand",
+        subject: "plywood timber boards, ceramic tiles and copper pipe",
         legacyKeys: ["building-materials"],
         children: [
-          { slug: "cement-concrete", nameEn: "Cement & concrete", nameAr: "أسمنت وخرسانة", subject: "cement bags and concrete blocks" },
-          { slug: "bricks-blocks", nameEn: "Bricks & blocks", nameAr: "طوب وبلوك", subject: "stack of red clay bricks" },
+          { slug: "cement-concrete", nameEn: "Cement & mortar", nameAr: "أسمنت ومونة", subject: "cement bags and mortar trowel" },
+          { slug: "bricks-blocks", nameEn: "Bricks", nameAr: "طوب", subject: "stack of red clay bricks" },
         ],
       },
       {
@@ -176,8 +176,20 @@ export const MARKETPLACE_SECTOR_GROUPS: MarketplaceSectorGroup[] = [
         subject: "white safety helmet",
         legacyKeys: ["safety-equipment"],
         children: [
-          { slug: "ppe-kits", nameEn: "PPE kits", nameAr: "أطقم الحماية", subject: "safety helmet goggles and gloves kit" },
-          { slug: "fall-protection", nameEn: "Fall protection", nameAr: "الحماية من السقوط", subject: "safety harness and lanyard" },
+          {
+            slug: "ppe-kits",
+            nameEn: "PPE kits",
+            nameAr: "أطقم الحماية",
+            subject: "safety helmet goggles and gloves kit",
+            legacyKeys: ["ppe-kits"],
+          },
+          {
+            slug: "fall-protection",
+            nameEn: "Fall protection",
+            nameAr: "الحماية من السقوط",
+            subject: "safety harness and lanyard",
+            legacyKeys: ["fall-protection"],
+          },
         ],
       },
       {

@@ -133,8 +133,29 @@
     padding-bottom: var(--mtb-clearance, 0px);
   }
 
-  .home-snap-section--footer {
-    padding-bottom: calc(var(--mtb-clearance, 0px) + 1rem);
+  /*
+   * Footer sits after <main>, so main padding never lifts it.
+   * Push the last legal/copy line above the floating tab bar.
+   */
+  .hukum-footer__bottom {
+    padding-bottom: calc(var(--mtb-clearance, 88px) + 1rem);
+  }
+
+  .hukum-footer__bottom-inner {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.65rem;
+  }
+
+  .hukum-footer__copy {
+    text-align: center;
+  }
+
+  .hukum-footer__legal {
+    justify-content: center;
+    text-align: center;
   }
 
   /*
@@ -151,8 +172,8 @@
   }
 
   .home-snap-section .hukum-hero__title {
-    font-size: clamp(1.35rem, 5.6vw, 1.75rem);
-    line-height: 1.18;
+    font-size: clamp(1.9rem, 8.5vw, 2.55rem);
+    line-height: 1.15;
   }
 
   .home-snap-section .hukum-hero__lead {

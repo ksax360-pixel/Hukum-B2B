@@ -11,6 +11,7 @@ import {
   FileText,
   MapPin,
   Play,
+  Send,
   ShieldCheck,
   Star,
 } from "lucide-react";
@@ -23,6 +24,7 @@ import { SaveProductButton } from "./SaveProductButton";
 import { ProductReviews } from "./ProductReviews";
 import { AddToCompareButton } from "@/components/compare/AddToCompareButton";
 import { PopularProductCard } from "@/components/home/PopularProductCard";
+import { BrowseSupplierMarquee, type MarqueeSupplier } from "@/components/browse/BrowseSupplierMarquee";
 import { toCardItem } from "./to-card-item";
 import { pushViewHistory } from "@/lib/view-history";
 import {
@@ -184,6 +186,7 @@ export function ProductDetailMarketplace({
   const displayTitle = isAr ? titleAr || titleEn : titleEn;
   const secondaryTitle = isAr ? titleEn : titleAr;
   const price = formatPrice(product, locale);
+  const [quoteOpen, setQuoteOpen] = useState(false);
 
   useEffect(() => {
     pushViewHistory({
@@ -229,6 +232,37 @@ export function ProductDetailMarketplace({
 
   const about = description || shortDescription;
   const related = relatedProducts.slice(0, 8);
+  const rfqHref = `/${locale}/rfq?productId=${productId}${vendorId ? `&vendorId=${vendorId}` : ""}`;
+
+  const moreSuppliers = useMemo(() => {
+    const fallbackName = isAr ? "مورد" : "Supplier";
+    const fallbackCity = isAr ? "السعودية" : "Saudi Arabia";
+    const map = new Map<string, MarqueeSupplier>();
+    const bump = (v: VendorLike | null | undefined, count = 1) => {
+      if (!v?._id) return;
+      const id = String(v._id);
+      const slug = v.slug?.en || id;
+      const existing = map.get(id);
+      if (existing) {
+        existing.productCount += count;
+        return;
+      }
+      map.set(id, {
+        id,
+        name: vendorDisplayName(v, isAr) || fallbackName,
+        slug,
+        cityLabel: cityLabel(v.location?.city, isAr) || fallbackCity,
+        verified: v.verificationStatus === "verified",
+        logo: vendorLogoUrl(v) || undefined,
+        productCount: count,
+      });
+    };
+    if (vendor) bump(vendor, Math.max(1, vendorProductCount));
+    for (const row of [...otherOffers, ...relatedProducts]) {
+      bump(row.vendorId as VendorLike | undefined, 1);
+    }
+    return [...map.values()];
+  }, [vendor, vendorProductCount, otherOffers, relatedProducts, isAr]);
 
   return (
     <div className="pdp2" dir={isAr ? "rtl" : "ltr"}>
@@ -248,7 +282,7 @@ export function ProductDetailMarketplace({
             <header className="pdp2-head">
               <h1>{displayTitle}</h1>
               {secondaryTitle && secondaryTitle !== displayTitle ? (
-                <p className="pdp2-head__alt" dir={isAr ? "ltr" : "rtl"} lang={isAr ? "en" : "ar"}>{secondaryTitle}</p>
+                <p className="pdp2-head__alt" dir={isAr ? "rtl" : "ltr"} lang={isAr ? "en" : "ar"}>{secondaryTitle}</p>
               ) : null}
               <div className="pdp2-head__by">
                 {vendorHref ? <Link href={vendorHref}>{vendorName}</Link> : <span>{vendorName}</span>}
@@ -288,29 +322,63 @@ export function ProductDetailMarketplace({
             ) : null}
 
             <section className="pdp2-act" aria-label={L("Get a price", "اطلب السعر")}>
-              <form className="pdp2-act__quote" action={`/${locale}/rfq`}>
-                <input type="hidden" name="productId" value={productId} />
-                {vendorId ? <input type="hidden" name="vendorId" value={vendorId} /> : null}
-                <label>
-                  <span>{L("Quantity", "الكمية")}</span>
-                  <input name="qty" inputMode="numeric" pattern="[0-9]*" defaultValue={product.moq ?? ""} placeholder={L("e.g. 500", "مثال: 500")} />
-                </label>
-                <label>
-                  <span>{L("Deliver to", "التوصيل إلى")}</span>
-                  <select name="city" defaultValue="Riyadh">
-                    {DELIVERY_CITIES.map((c) => (
-                      <option key={c.en} value={c.en}>{isAr ? c.ar : c.en}</option>
-                    ))}
-                  </select>
-                </label>
-                <button type="submit" className="pdp2-act__primary">{L("Request quotes", "اطلب عروض الأسعار")}</button>
-              </form>
-              <p className="pdp2-act__note">{rfqPromise(locale)}</p>
-
-              <div className="pdp2-act__contact">
-                <InterestHeartButton locale={isAr ? "ar" : "en"} productId={productId} productName={displayTitle} vendorId={vendorId} variant="button" size={16} />
-                <p>{L("Or contact this supplier: your number goes to them and you see theirs. Every reveal is logged.", "أو تواصل مع هذا المورد: يصله رقمك وتشوف رقمه. وكل كشف للرقم مسجّل.")}</p>
+              <div className="pdp2-act__row">
+                <button
+                  type="button"
+                  className="pdp2-act__primary"
+                  aria-expanded={quoteOpen}
+                  onClick={() => setQuoteOpen(true)}
+                >
+                  {L("Request a quote", "اطلب عرض سعر")}
+                </button>
+                <InterestHeartButton
+                  locale={isAr ? "ar" : "en"}
+                  productId={productId}
+                  productName={displayTitle}
+                  vendorId={vendorId}
+                  variant="button"
+                  size={16}
+                  className="pdp2-act__contact-btn"
+                />
               </div>
+
+              {quoteOpen ? (
+                <form className="pdp2-act__quote" action={`/${locale}/rfq`}>
+                  <input type="hidden" name="productId" value={productId} />
+                  {vendorId ? <input type="hidden" name="vendorId" value={vendorId} /> : null}
+                  <label>
+                    <span>{L("Quantity", "الكمية")}</span>
+                    <input
+                      name="qty"
+                      required
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      defaultValue={product.moq ?? ""}
+                      placeholder={L("e.g. 500", "مثال: 500")}
+                    />
+                  </label>
+                  <label>
+                    <span>{L("Deliver to", "التوصيل إلى")}</span>
+                    <select name="city" required defaultValue="Riyadh">
+                      {DELIVERY_CITIES.map((c) => (
+                        <option key={c.en} value={c.en}>{isAr ? c.ar : c.en}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <button type="submit" className="pdp2-act__primary pdp2-act__primary--submit">
+                    {L("Continue", "متابعة")}
+                  </button>
+                  <button
+                    type="button"
+                    className="pdp2-act__cancel"
+                    onClick={() => setQuoteOpen(false)}
+                  >
+                    {L("Cancel", "إلغاء")}
+                  </button>
+                </form>
+              ) : null}
+
+              <p className="pdp2-act__note">{rfqPromise(locale)}</p>
 
               <div className="pdp2-act__tools">
                 <SaveProductButton locale={isAr ? "ar" : "en"} productId={productId} />
@@ -495,6 +563,60 @@ export function ProductDetailMarketplace({
           <InterestHeartButton locale={isAr ? "ar" : "en"} productId={productId} productName={displayTitle} vendorId={vendorId} variant="button" size={16} />
           <Link href={quoteHref} className="pdp-sticky__quote">{L("Request quotes", "اطلب عروض الأسعار")}</Link>
         </div>
+      </div>
+
+      <div className="brw-below pdp2-below">
+        {moreSuppliers.length ? (
+          <section className="brw-band brw-band--suppliers" aria-labelledby="pdp2-suppliers-title">
+            <div className="brw-band__wrap">
+              <hr className="brw-band__rule" />
+              <header className="brw-band__head">
+                <div>
+                  <p className="brw-band__eyebrow">{L("In this category", "في هذا القسم")}</p>
+                  <h2 id="pdp2-suppliers-title" className="brw-band__title">
+                    {L("More suppliers", "المزيد من الموردين")}
+                  </h2>
+                </div>
+                <Link href={`/${locale}/vendors`} className="brw-band__link">
+                  {L("All suppliers", "كل الموردين")}
+                  <ChevronRight size={14} aria-hidden />
+                </Link>
+              </header>
+            </div>
+            <div className="pdp2-below__bleed">
+              <BrowseSupplierMarquee
+                locale={locale}
+                suppliers={moreSuppliers}
+                productsLabel={L("products", "منتج")}
+                verifiedLabel={L("Verified", "موثّق")}
+              />
+            </div>
+          </section>
+        ) : null}
+
+        <section className="brw-band brw-band--ask pdp2-below__ask" aria-labelledby="pdp2-ask-title">
+          <div className="pdp2-below__ask-wrap">
+            <hr className="brw-band__rule" />
+            <div className="brw-ask">
+              <div className="brw-ask__copy">
+                <p className="brw-ask__eyebrow">خدمات التوريد الخاصة</p>
+                <h2 id="pdp2-ask-title" className="brw-ask__title">
+                  {L("Can't find the exact spec?", "ما لقيت المواصفات المطلوبة؟")}
+                </h2>
+                <p className="brw-ask__text">
+                  {L(
+                    "We'll get you verified quotations from 3 or more suppliers, in days, not weeks. Contact details stay private until you choose.",
+                    "نجيب لك عروض أسعار من 3 موردين موثّقين أو أكثر، خلال أيام مو أسابيع. وبياناتك تبقى خاصة حتى تختار."
+                  )}
+                </p>
+              </div>
+              <Link href={rfqHref} className="brw-ask__cta">
+                <Send size={15} aria-hidden />
+                {L("Describe what you need", "اكتب ما تحتاجه")}
+              </Link>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

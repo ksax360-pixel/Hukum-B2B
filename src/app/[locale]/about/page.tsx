@@ -2,7 +2,14 @@ export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import { setRequestLocale } from "next-intl/server";
-import { BadgeCheck, GitCompare, Hash, Lock, Percent, Search, Send, Store } from "lucide-react";
+import {
+  Check,
+  GitCompareArrows,
+  Handshake,
+  Search,
+  Send,
+  X,
+} from "lucide-react";
 import { isLocale, type Locale } from "@/i18n/config";
 import { connectDB } from "@/lib/db";
 import { Vendor } from "@/modules/vendors/vendor.model";
@@ -13,13 +20,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return staticPageMetadata(params, "/about", "ignored", undefined, { seoKey: "about" });
 }
 
-/** About: why Hukum exists, the rules we hold ourselves to, and live numbers only. */
+/** About: who Hukum is, how buying works, what we do — and what we never do. */
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale: raw } = await params;
   const locale = (isLocale(raw) ? raw : "en") as Locale;
   setRequestLocale(locale);
   const isAr = locale === "ar";
   const L = (en: string, ar: string): string => (isAr ? ar : en);
+  const n = (value: number): string => value.toLocaleString(isAr ? "ar-SA" : "en-US");
 
   let stats: { suppliers: number; verified: number; products: number; cities: number } | null = null;
   try {
@@ -36,88 +44,219 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
     console.error("[about] stats", e);
   }
 
-  const rules = [
-    { icon: Percent, b: L("Free for buyers, no commission", "مجاني للمشتري، بدون عمولة"), t: L("Searching, requesting and comparing cost nothing. Deals are agreed directly between buyer and supplier.", "البحث والطلب والمقارنة بدون رسوم، والصفقة بين المشتري والمورد مباشرة.") },
-    { icon: BadgeCheck, b: L("Verification is earned, never sold", "التوثيق يُكتسب وما يُباع"), t: L("The green tick means we checked the company. No supplier can pay for it.", "العلامة الخضراء تعني إننا فحصنا الشركة، وما يقدر أي مورد يدفع عشانها.") },
-    { icon: Lock, b: L("Your number stays yours", "رقمك يبقى لك"), t: L("First contact goes through Hukum. A supplier sees your number only when you choose, and every reveal is logged.", "أول تواصل يمر عبر حكم، والمورد يشوف رقمك فقط إذا اخترت، وكل كشف مسجّل.") },
-    { icon: Hash, b: L("Real numbers only", "أرقام حقيقية فقط"), t: L("Counts on the site are live. Paid placement is always labelled.", "الأرقام في الموقع حية، والظهور المدفوع دائماً واضح.") },
+  const steps = [
+    {
+      n: "01",
+      tone: "green" as const,
+      icon: Search,
+      title: L("Search", "ابحث"),
+      text: L(
+        "Browse sectors or describe what you need — in Arabic or English.",
+        "تصفّح القطاعات أو اكتب احتياجك — بالعربي أو الإنجليزي."
+      ),
+    },
+    {
+      n: "02",
+      tone: "gold" as const,
+      icon: Send,
+      title: L("Request", "اطلب"),
+      text: L(
+        "Send one request. We route it to suppliers who actually sell it.",
+        "أرسل طلباً واحداً. نوجّهه للموردين اللي فعلاً يبيعونه."
+      ),
+    },
+    {
+      n: "03",
+      tone: "ink" as const,
+      icon: GitCompareArrows,
+      title: L("Compare", "قارن"),
+      text: L(
+        "See real quotes side by side — price, lead time, and terms.",
+        "قارن عروضاً حقيقية جنباً إلى جنب — السعر والمدة والشروط."
+      ),
+    },
+    {
+      n: "04",
+      tone: "deep" as const,
+      icon: Handshake,
+      title: L("Connect", "تواصل"),
+      text: L(
+        "Talk through Hukum. Your number stays private until you choose.",
+        "تواصل عبر حكم. رقمك يبقى خاصاً حتى تختار."
+      ),
+    },
   ];
-  const flow = [
-    { icon: Search, b: L("Request", "اطلب"), t: L("Say what you need in your own words, Arabic or English.", "قل وش تحتاج بكلماتك، بالعربي أو الإنجليزي."), href: `/${locale}/rfq` },
-    { icon: Store, b: L("Match", "نطابق"), t: L("We send it to suppliers who actually sell it.", "نرسله للموردين اللي فعلاً يبيعونه."), href: `/${locale}/vendors` },
-    { icon: GitCompare, b: L("Compare", "قارن"), t: L("Quotes side by side, then talk to the one you choose.", "العروض جنباً إلى جنب، ثم تتواصل مع اللي تختاره."), href: `/${locale}/how-it-works#compare` },
+
+  const weDo = [
+    L("Verify supplier registration and company documents", "نتحقق من تسجيل المورد ووثائق الشركة"),
+    L("Route your request to suppliers who match the need", "نوجّه طلبك للموردين المناسبين للاحتياج"),
+    L("Keep first contact private until you decide to share", "نبقي أول تواصل خاصاً حتى تقرر المشاركة"),
+    L("Show live marketplace numbers — never padded counts", "نعرض أرقاماً حية من السوق — بدون تضخيم"),
+  ];
+
+  const weDont = [
+    L("Sell products ourselves or hold inventory", "نبيع منتجات بأنفسنا أو نخزّن بضاعة"),
+    L("Set prices or take a cut of your deal", "نحدد الأسعار أو نأخذ عمولة من صفقتك"),
+    L("Sell verification badges or bury unpaid suppliers", "نبيع علامات التوثيق أو نخفي الموردين غير المدفوعين"),
+    L("Hand over your phone number without your consent", "نعطي رقم جوالك بدون موافقتك"),
   ];
 
   return (
-    <div className="hiw abt" dir={isAr ? "rtl" : "ltr"}>
-      <div className="hiw__wrap">
-        <header className="abt-hero">
-          <h1>{L("Saudi trade, without the phone tag", "التجارة في السعودية، بدون لفّ ودوران")}</h1>
-          <p>
-            {L(
-              "Buying for a business here still means calling around, chasing WhatsApp groups and comparing quotes in a spreadsheet. Suppliers wait for referrals. Hukum puts both sides in one place: find the right supplier, compare real quotes, and connect directly.",
-              "الشراء للشركات هنا لسه يعني اتصالات كثيرة وقروبات واتساب ومقارنة العروض في جدول، والموردون ينتظرون التوصيات. حكم يجمع الطرفين في مكان واحد: تلقى المورد المناسب، تقارن عروضاً حقيقية، وتتواصل مباشرة."
+    <div className="abt" dir={isAr ? "rtl" : "ltr"}>
+      <header className="abt-hero">
+        <div className="abt-hero__watermarks" aria-hidden>
+          <span className="abt-hero__mark" />
+        </div>
+        <div className="abt-hero__center">
+          <span className="abt-hero__rule" aria-hidden />
+          <p className="abt-hero__brand">Hukum</p>
+          <h1 className="abt-hero__title">
+            {isAr ? (
+              <>
+                <span className="abt-hero__title-ink">من</span>{" "}
+                <span className="abt-hero__title-green">نحن</span>
+              </>
+            ) : (
+              <>
+                <span className="abt-hero__title-ink">About</span>{" "}
+                <span className="abt-hero__title-green">us</span>
+              </>
             )}
+          </h1>
+          <p className="abt-hero__ar" lang={isAr ? "en" : "ar"}>
+            {isAr ? "About us" : "من نحن"}
           </p>
-        </header>
+        </div>
+      </header>
 
-        <section className="abt-flow" aria-label={L("How it works", "كيف يعمل")}>
-          {flow.map((f, i) => (
-            <Link key={f.b} href={f.href} className="abt-flow__step">
-              <small>{i + 1}</small>
-              <span aria-hidden><f.icon size={22} /></span>
-              <b>{f.b}</b>
-              <p>{f.t}</p>
-            </Link>
-          ))}
-        </section>
-
-        <section className="abt-rules" aria-labelledby="abt-rules-h">
-          <h2 id="abt-rules-h">{L("The rules we hold ourselves to", "القواعد اللي نلتزم فيها")}</h2>
-          <ul>
-            {rules.map((r) => (
-              <li key={r.b}>
-                <span aria-hidden><r.icon size={20} /></span>
-                <div><b>{r.b}</b><p>{r.t}</p></div>
+      <div className="abt__wrap">
+        <section className="abt-how" aria-labelledby="abt-how-h">
+          <div className="abt-how__intro">
+            <p className="abt-how__eyebrow">
+              <span className="abt-how__eyebrow-rule" aria-hidden />
+              <span>{L("The marketplace", "السوق")}</span>
+            </p>
+            <h2 id="abt-how-h">{L("How Hukum works", "كيف يعمل حكم")}</h2>
+            <p className="abt-how__lead">
+              {L(
+                "Hukum connects buyers with verified suppliers across the Kingdom — free to search, request, and compare, with deals closed directly between you.",
+                "حكم يربط المشترين بموردين موثّقين عبر المملكة — بحث وطلب ومقارنة مجاناً، والصفقة مباشرة بينكم."
+              )}
+            </p>
+            <p className="abt-how__sub">
+              {L(
+                "Four clear steps from need to conversation — built for how Saudi businesses actually buy.",
+                "أربع خطوات واضحة من الاحتياج إلى المحادثة — مصمّمة لطريقة الشراء في السعودية."
+              )}
+            </p>
+            <div className="abt-how__actions">
+              <Link href={`/${locale}/rfq`} className="hukum-btn hukum-btn--gold hukum-btn--lg">
+                {L("Request quotes", "اطلب عروض أسعار")}
+              </Link>
+              <Link href={`/${locale}/become-a-vendor`} className="hukum-btn hukum-btn--ghost hukum-btn--lg">
+                {L("Become a supplier", "كن مورداً")}
+              </Link>
+            </div>
+          </div>
+          <ol className="abt-how__grid">
+            {steps.map((s) => (
+              <li key={s.n} className="abt-how__card">
+                <span className="abt-how__num" aria-hidden>
+                  {s.n}
+                </span>
+                <span className={`abt-how__icon abt-how__icon--${s.tone}`} aria-hidden>
+                  <s.icon size={18} strokeWidth={1.75} />
+                </span>
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
               </li>
             ))}
-          </ul>
+          </ol>
+        </section>
+
+        <section className="abt-do" aria-labelledby="abt-do-h">
+          <div className="abt-sec__head">
+            <h2 id="abt-do-h">{L("What we do — and don’t", "وش نسوي — ووش ما نسوي")}</h2>
+            <p>
+              {L(
+                "Hukum is a marketplace and trust layer — not a middleman on your deal.",
+                "حكم سوق وطبقة ثقة — مو وسيط على صفقتك."
+              )}
+            </p>
+          </div>
+          <div className="abt-do__grid">
+            <article className="abt-do__card abt-do__card--yes">
+              <h3>
+                <Check size={18} strokeWidth={2.25} aria-hidden />
+                {L("We do", "نسوي")}
+              </h3>
+              <ul>
+                {weDo.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
+            <article className="abt-do__card abt-do__card--no">
+              <h3>
+                <X size={18} strokeWidth={2.25} aria-hidden />
+                {L("We don’t", "ما نسوي")}
+              </h3>
+              <ul>
+                {weDont.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
+          </div>
         </section>
 
         {stats ? (
           <section className="abt-stats" aria-labelledby="abt-stats-h">
-            <h2 id="abt-stats-h">{L("Hukum today", "حكم اليوم")}</h2>
-            <dl>
-              <div><dt>{L("Suppliers listed", "موردون مسجّلون")}</dt><dd>{stats.suppliers.toLocaleString("en-US")}</dd></div>
-              <div><dt>{L("Verified suppliers", "موردون موثّقون")}</dt><dd>{stats.verified.toLocaleString("en-US")}</dd></div>
-              <div><dt>{L("Products listed", "منتجات معروضة")}</dt><dd>{stats.products.toLocaleString("en-US")}</dd></div>
-              <div><dt>{L("Supplier cities", "مدن الموردين")}</dt><dd>{stats.cities.toLocaleString("en-US")}</dd></div>
+            <div className="abt-sec__head abt-sec__head--row">
+              <div>
+                <h2 id="abt-stats-h">{L("Hukum today", "حكم اليوم")}</h2>
+                <p>{L("Live counts from the marketplace.", "أرقام حية من السوق.")}</p>
+              </div>
+            </div>
+            <dl className="abt-stats__grid">
+              <div>
+                <dd>{n(stats.suppliers)}</dd>
+                <dt>{L("Suppliers listed", "موردون مسجّلون")}</dt>
+              </div>
+              <div>
+                <dd>{n(stats.verified)}</dd>
+                <dt>{L("Verified suppliers", "موردون موثّقون")}</dt>
+              </div>
+              <div>
+                <dd>{n(stats.products)}</dd>
+                <dt>{L("Products listed", "منتجات معروضة")}</dt>
+              </div>
+              <div>
+                <dd>{n(stats.cities)}</dd>
+                <dt>{L("Supplier cities", "مدن الموردين")}</dt>
+              </div>
             </dl>
-            <p>{L("Live counts from the marketplace, updated as suppliers join.", "أرقام حية من السوق، تتحدث مع انضمام الموردين.")}</p>
           </section>
         ) : null}
 
-        <section className="abt-home" aria-labelledby="abt-home-h">
-          <h2 id="abt-home-h">{L("Built in Riyadh, for the Kingdom", "من الرياض، لكل المملكة")}</h2>
-          <p>{L("Hukum is a Saudi company. Every page works in Arabic and English, prices are in riyals, and suppliers are organised by the cities they deliver to.", "حكم شركة سعودية. كل صفحة بالعربي والإنجليزي، والأسعار بالريال، والموردون مرتبون حسب المدن اللي يوصلون لها.")}</p>
-        </section>
-
-        <aside className="abt-cta">
-          <Link href={`/${locale}/rfq`} className="abt-cta__card">
-            <Send size={20} aria-hidden />
-            <b>{L("I'm buying", "أنا أشتري")}</b>
-            <span>{L("Send your first request", "أرسل أول طلب")}</span>
-          </Link>
-          <Link href={`/${locale}/become-a-vendor`} className="abt-cta__card">
-            <Store size={20} aria-hidden />
-            <b>{L("I'm selling", "أنا أبيع")}</b>
-            <span>{L("List your company free", "سجّل شركتك مجاناً")}</span>
-          </Link>
-          <Link href={`/${locale}/contact`} className="abt-cta__card">
-            <Hash size={20} aria-hidden />
-            <b>{L("Something else", "شي ثاني")}</b>
-            <span>{L("Talk to the team", "تكلم مع الفريق")}</span>
-          </Link>
+        <aside className="abt-saudi">
+          <div className="abt-saudi__copy">
+            <h2>{L("Supporting Saudi businesses", "ندعم الأعمال السعودية")}</h2>
+            <p>
+              {L(
+                "Helping SMEs and manufacturers across the Kingdom reach more buyers through transparent procurement.",
+                "نساعد المنشآت والمصانع عبر المملكة تصل لمشترين أكثر عبر توريد شفاف."
+              )}
+            </p>
+          </div>
+          <div className="abt-saudi__actions">
+            <Link href={`/${locale}/rfq`} className="hukum-btn hukum-btn--gold hukum-btn--lg">
+              {L("Request quotes", "اطلب عروض أسعار")}
+            </Link>
+            <Link href={`/${locale}/become-a-vendor`} className="abt-saudi__ghost">
+              {L("Become a supplier", "كن مورداً")}
+            </Link>
+          </div>
         </aside>
       </div>
     </div>

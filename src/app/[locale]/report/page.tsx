@@ -45,8 +45,8 @@ export default async function ReportPage({
             <div className="rpt-urgent">
               <ShieldAlert size={20} aria-hidden />
               <div>
-                <b>{L("Paid someone you now doubt?", "حوّلت لأحد وشكّيت فيه؟")}</b>
-                <p>{L("Call your bank first to stop or trace the transfer, then send us the report.", "كلّم بنكك أولاً لإيقاف التحويل أو تتبعه، ثم أرسل لنا البلاغ.")}</p>
+                <b>{L("Concerned about a supplier’s conduct?", "قلقان من سلوك مورد؟")}</b>
+                <p>{L("Tell us. We review every report and take action when we confirm a problem.", "بلّغنا. نراجع كل بلاغ ونتخذ إجراءً إذا تأكدت المشكلة.")}</p>
               </div>
             </div>
             <div className="rpt-next">

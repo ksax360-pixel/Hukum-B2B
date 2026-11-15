@@ -85,7 +85,7 @@ export function Splash({ onComplete }: { onComplete?: () => void }) {
             : { duration: 1.35, times: [0, 0.18, 0.36, 0.54, 0.72, 1], ease: "easeInOut" }
         }
       >
-        <BrandMark size={108} alt="Hukum" />
+        <BrandMark size={84} alt="Hukum" />
       </motion.div>
     </div>
   );

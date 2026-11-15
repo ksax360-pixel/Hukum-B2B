@@ -3,6 +3,7 @@
 import "./hh.css";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { createPortal } from "react-dom";
 import {
   useCallback,
   useEffect,
@@ -196,6 +197,11 @@ export function HukumHeader({ locale }: { locale: Locale }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState<string | null>(null);
   const [vendorQuery, setVendorQuery] = useState("");
+  const [portalReady, setPortalReady] = useState(false);
+
+  useEffect(() => {
+    setPortalReady(true);
+  }, []);
 
   const rootRef = useRef<HTMLElement>(null);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -505,8 +511,11 @@ export function HukumHeader({ locale }: { locale: Locale }) {
     }
   };
 
-  // Home has the hero search; every other page gets search in the header (D2).
+  // Home has the hero search; every other page gets desktop header search (D2).
+  // Category browse pages: hide the mobile header search (filters live on the page).
   const showHeaderSearch = !/^\/(en|ar)\/?$/.test(pathname || "");
+  const showMobileHeaderSearch =
+    showHeaderSearch && !/^\/(en|ar)\/categories(\/|$)/.test(pathname || "");
 
   const desktopNav = (
     <ul className="hh-nav">
@@ -609,7 +618,7 @@ export function HukumHeader({ locale }: { locale: Locale }) {
       <div
         className={cn(
           "hh-spacer",
-          showHeaderSearch && "has-search",
+          showMobileHeaderSearch && "has-search",
           compressed && "is-compressed",
           mobileHidden && "is-mobile-hidden"
         )}
@@ -665,24 +674,7 @@ export function HukumHeader({ locale }: { locale: Locale }) {
 
         <div className="hh__mobile">
           <div className="hh__inner hh__mobile-inner">
-            <Link href={`/${locale}`} className="hh__brand" aria-label="Hukum">
-              <BrandMark size={36} />
-            </Link>
-            <div className="hh__side hh__side--end">
-              <LanguageSwitcher locale={locale} variant="soft" />
-              {sessionUser ? (
-                <Link href={accountHref} className="hh-icon-btn" aria-label={signInLabel}>
-                  <User size={18} strokeWidth={STROKE} aria-hidden />
-                </Link>
-              ) : (
-                <Link
-                  href={`/${locale}/login`}
-                  className="hh-icon-btn"
-                  aria-label={t(L, NAV_LABELS.signIn.en, NAV_LABELS.signIn.ar)}
-                >
-                  <User size={18} strokeWidth={STROKE} aria-hidden />
-                </Link>
-              )}
+            <div className="hh__side hh__side--start">
               <button
                 type="button"
                 className="hh-icon-btn"
@@ -693,63 +685,113 @@ export function HukumHeader({ locale }: { locale: Locale }) {
                 <Menu size={20} strokeWidth={STROKE} aria-hidden />
               </button>
             </div>
+            <Link href={`/${locale}`} className="hh__brand hh__brand--mobile-center" aria-label="Hukum">
+              <BrandMark size={48} />
+            </Link>
+            <div className="hh__side hh__side--end">
+              <LanguageSwitcher locale={locale} variant="soft" />
+            </div>
           </div>
-          {showHeaderSearch ? (
+          {showMobileHeaderSearch ? (
             <div className="hh__inner hh__mobile-search">
               <HeaderSearch locale={locale} variant="mobile" />
             </div>
           ) : null}
         </div>
 
-        {mobileOpen ? (
+      </header>
+
+      {/* Portal outside header — backdrop-filter on .hh otherwise clips fixed sheet to the bar */}
+      {portalReady &&
+        mobileOpen &&
+        createPortal(
           <div
-            className="hh-sheet"
+            className={cn("hh-sheet", isAr && "is-ar")}
             role="dialog"
             aria-modal="true"
             aria-label={t(L, NAV_LABELS.menu.en, NAV_LABELS.menu.ar)}
           >
+            <div className="hh-sheet__glow hh-sheet__glow--a" aria-hidden />
+            <div className="hh-sheet__glow hh-sheet__glow--b" aria-hidden />
+
             <div className="hh-sheet__head">
-              <BrandMark size={36} />
+              <Link
+                href={`/${locale}`}
+                className="hh-sheet__brand"
+                aria-label="Hukum"
+                onClick={closeAll}
+              >
+                <BrandMark size={44} />
+              </Link>
               <button
                 type="button"
-                className="hh-icon-btn"
+                className="hh-sheet__close"
                 aria-label={t(L, NAV_LABELS.close.en, NAV_LABELS.close.ar)}
                 onClick={() => setMobileOpen(false)}
               >
                 <X size={18} strokeWidth={STROKE} />
               </button>
             </div>
+
+            <div className="hh-sheet__intro" dir={isAr ? "rtl" : "ltr"}>
+              <p className="hh-sheet__eyebrow">
+                {isAr ? "استكشف حكم" : "Explore Hukum"}
+              </p>
+              <p className="hh-sheet__lede">
+                {isAr
+                  ? "تصفّح التصنيفات والموردين وخدمات التوريد من مكان واحد."
+                  : "Browse categories, suppliers, and sourcing — all in one place."}
+              </p>
+            </div>
+
             <div className="hh-sheet__body" dir={isAr ? "rtl" : "ltr"}>
-              {navItems.map(({ key, label, Icon }) => {
-                const expanded = mobileSection === key;
-                return (
-                  <div key={key} className="hh-sheet__section">
-                    <button
-                      type="button"
-                      className={cn("hh-sheet__trigger", expanded && "is-open")}
-                      aria-expanded={expanded}
-                      onClick={() => setMobileSection(expanded ? null : key)}
+              <nav className="hh-sheet__nav" aria-label={t(L, NAV_LABELS.menu.en, NAV_LABELS.menu.ar)}>
+                {navItems.map(({ key, label, Icon }, index) => {
+                  const expanded = mobileSection === key;
+                  return (
+                    <div
+                      key={key}
+                      className={cn("hh-sheet__section", expanded && "is-open")}
+                      style={{ ["--hh-sheet-i" as string]: index }}
                     >
-                      <Icon size={15} strokeWidth={STROKE} aria-hidden />
-                      <span>{label}</span>
-                      <ChevronDown
-                        size={14}
-                        strokeWidth={STROKE}
-                        className="hh-sheet__chevron"
-                        aria-hidden
-                      />
-                    </button>
-                    {expanded ? <div className="hh-sheet__panel">{panelFor(key)}</div> : null}
-                  </div>
-                );
-              })}
+                      <button
+                        type="button"
+                        className={cn("hh-sheet__trigger", expanded && "is-open")}
+                        aria-expanded={expanded}
+                        onClick={() => setMobileSection(expanded ? null : key)}
+                      >
+                        <span className="hh-sheet__icon" aria-hidden>
+                          <Icon size={17} strokeWidth={STROKE} />
+                        </span>
+                        <span className="hh-sheet__label">{label}</span>
+                        <ChevronDown
+                          size={15}
+                          strokeWidth={STROKE}
+                          className="hh-sheet__chevron"
+                          aria-hidden
+                        />
+                      </button>
+                      {expanded ? (
+                        <div className="hh-sheet__panel">{panelFor(key)}</div>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </nav>
             </div>
-            <div className="hh-sheet__foot" dir="ltr">
-              <LanguageSwitcher locale={locale} variant="soft" />
+
+            <div className="hh-sheet__foot" dir={isAr ? "rtl" : "ltr"}>
+              <Link href={locPath(locale, "/rfq")} className="hh-sheet__cta" onClick={closeAll}>
+                <Send size={15} strokeWidth={2} aria-hidden />
+                <span>{requestQuotesLabel}</span>
+              </Link>
+              <div className="hh-sheet__foot-meta">
+                <LanguageSwitcher locale={locale} variant="soft" />
+              </div>
             </div>
-          </div>
-        ) : null}
-      </header>
+          </div>,
+          document.body
+        )}
     </>
   );
 }

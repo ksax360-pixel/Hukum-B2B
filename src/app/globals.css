@@ -1515,7 +1515,7 @@ html[data-theme="dark"] .dash-chip:hover {
 }
 
 .cats-page__inner {
-  padding-block: 1.5rem 3rem;
+  padding-block: 1.5rem 5.5rem;
 }
 
 .cats-page__intro {
@@ -8060,15 +8060,100 @@ a.kt-footer-inline:hover {
   color: var(--hukum-green);
 }
 
-/* Mobile / tablet */
+/*
+ * Home hero — phone + tablet / all responsive widths below desktop.
+ * Desktop & ultrawide (≥1024px) keep the two-column layout unchanged.
+ */
 @media (max-width: 1023px) {
   .hukum-showcase__stage {
     transform: rotate(2deg);
     max-height: 26rem;
   }
 
+  .hukum-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: min(100svh, 100dvh);
+    padding-block: 0;
+  }
+
+  .hukum-hero .hukum-hero__grid.container-custom {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: min(100svh, 100dvh);
+    gap: 0;
+    text-align: center;
+  }
+
   .hukum-hero__showcase {
-    max-height: 26rem;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    max-height: none;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: transparent;
+    pointer-events: none;
+  }
+
+  .hukum-hero__video {
+    display: block;
+    width: min(100%, 26rem);
+    max-width: 26rem;
+    height: auto;
+    max-height: min(52vh, 26rem);
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    object-position: center center;
+    border-radius: 1.15rem;
+    background: transparent;
+    opacity: 0.38;
+  }
+
+  .hukum-hero__copy {
+    position: relative;
+    z-index: 1;
+    align-items: center;
+    max-width: 26rem;
+    margin-inline: auto;
+    padding-inline: 0.25rem;
+    text-align: center;
+  }
+
+  .hukum-hero__title {
+    font-size: clamp(1.9rem, 8.5vw, 2.55rem);
+    white-space: normal;
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  .hukum-hero__title-accent {
+    display: block;
+  }
+
+  .hukum-hero__lead {
+    max-width: 22rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .hukum-hero__links {
+    justify-content: center;
+    gap: 1rem 1.35rem;
+    padding-top: 1.1rem;
+  }
+
+  .hukum-hero__trust {
+    justify-content: center;
   }
 }
 
@@ -8088,11 +8173,6 @@ a.kt-footer-inline:hover {
     width: 100%;
   }
 
-  .hukum-hero__links {
-    gap: 1rem 1.35rem;
-    padding-top: 1.1rem;
-  }
-
   .hukum-showcase__stage {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     transform: none;
@@ -8103,8 +8183,31 @@ a.kt-footer-inline:hover {
     display: none;
   }
 
-  .hukum-hero__title {
-    font-size: clamp(1.25rem, 5vw, 1.7rem);
+  /*
+   * Home page mobile — generous white space between sections (Google-like breathing room).
+   * Desktop / ultrawide spacing stays unchanged.
+   */
+  .home-flow-section .hukum-sectors,
+  .home-flow-section .hukum-popular,
+  .home-flow-section .hukum-how,
+  .home-flow-section .hukum-wa,
+  .home-flow-section .hukum-sell,
+  .home-flow-section .hukum-become,
+  .home-flow-section .hukum-levels,
+  .home-flow-section .hukum-concierge,
+  .home-flow-section .hq,
+  .home-flow-section .hs {
+    padding-block: 0;
+    border-top: 0;
+  }
+
+  .home-flow-section + .home-flow-section {
+    padding-top: clamp(4.75rem, 14vw, 7.5rem);
+    padding-bottom: clamp(1.25rem, 4vw, 2rem);
+  }
+
+  .home-flow-section:last-child {
+    padding-bottom: clamp(2.5rem, 8vw, 4rem);
   }
 }
 
@@ -8160,7 +8263,7 @@ a.kt-footer-inline:hover {
   font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.35;
-  text-align: left;
+  text-align: start;
 }
 
 .hukum-sectors__all {
@@ -8184,6 +8287,31 @@ a.kt-footer-inline:hover {
   gap: 0.55rem;
   transform: translateY(-1px);
   box-shadow: 0 10px 22px rgba(23, 99, 75, 0.22);
+}
+
+/* Categories — center head on responsive only (overrides base above; desktop unchanged) */
+@media (max-width: 1023px) {
+  .hukum-sectors__head {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.85rem;
+  }
+
+  .hukum-sectors__titles {
+    align-items: center;
+    width: 100%;
+  }
+
+  .hukum-sectors__title,
+  .hukum-sectors__subtitle {
+    text-align: center;
+  }
+
+  .hukum-sectors__all {
+    margin-inline: auto;
+  }
 }
 
 .hukum-sectors__empty {
@@ -8340,6 +8468,51 @@ a.kt-footer-inline:hover {
 
 [dir="rtl"] .hukum-sector-card:hover .hukum-sector-card__arrow {
   transform: translate(-1px, -1px);
+}
+
+.hukum-sector-card--others {
+  background: rgba(245, 245, 247, 0.95);
+}
+
+.hukum-sector-card__media--others {
+  color: #f4efe4;
+  background-color: #0c3b2c;
+  background-image: url("/brand/hukum-sourcing-pattern-tile.png");
+  background-size: 180px 180px;
+  background-position: 0 0;
+  background-repeat: repeat;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.hukum-sector-card__foot--stack {
+  align-items: flex-start;
+}
+
+.hukum-sector-card__copy {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.hukum-sector-card--others .hukum-sector-card__name {
+  white-space: normal;
+}
+
+.hukum-sector-card__desc {
+  color: var(--hukum-muted);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hukum-sector-card--others:hover .hukum-sector-card__desc {
+  color: rgba(17, 28, 23, 0.72);
 }
 
 /* Suppliers near you ? shared section rhythm */
@@ -8791,7 +8964,32 @@ a.kt-footer-inline:hover {
   color: #A0895C;
   font-size: 0.8125rem;
   font-weight: 500;
-  text-align: left;
+  text-align: start;
+}
+
+/* Popular — center head on responsive only (desktop stays space-between) */
+@media (max-width: 1023px) {
+  .hukum-popular__head {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.85rem;
+  }
+
+  .hukum-popular__head > div {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hukum-popular__title,
+  .hukum-popular__subtitle {
+    text-align: center;
+  }
+
+  .hukum-popular__all {
+    margin-inline: auto;
+  }
 }
 
 .hukum-popular__all {
@@ -9086,12 +9284,16 @@ a.kt-footer-inline:hover {
   grid-template-columns: 1fr;
   gap: clamp(1.75rem, 3.5vw, 2.75rem);
   align-items: center;
+  justify-items: center;
+  text-align: center;
 }
 
 @media (min-width: 960px) {
   .hukum-how__grid {
     grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.95fr);
     gap: clamp(2rem, 4vw, 3.5rem);
+    justify-items: stretch;
+    text-align: start;
   }
 }
 
@@ -9099,22 +9301,48 @@ a.kt-footer-inline:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 0;
   min-width: 0;
+  width: 100%;
+}
+
+@media (min-width: 960px) {
+  .hukum-how__main {
+    align-items: flex-start;
+  }
 }
 
 .hukum-how__copy {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 0;
   margin-bottom: 0;
+  margin-inline: auto;
   max-width: 28rem;
+  text-align: center;
+}
+
+@media (min-width: 960px) {
+  .hukum-how__copy {
+    align-items: flex-start;
+    margin-inline: 0;
+    text-align: start;
+  }
 }
 
 .hukum-how__viz {
   min-width: 0;
   width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 960px) {
+  .hukum-how__viz {
+    justify-content: stretch;
+  }
 }
 
 .hukum-how__eyebrow {
@@ -9153,18 +9381,28 @@ a.kt-footer-inline:hover {
 }
 
 .hukum-how__aside {
-  margin: 0.85rem 0 0;
+  margin: 0.85rem auto 0;
   max-width: 26rem;
   color: #5f6b65;
   font-size: 0.875rem;
   line-height: 1.6;
+  text-align: center;
+}
+
+@media (min-width: 960px) {
+  .hukum-how__aside {
+    margin-inline: 0;
+    text-align: start;
+  }
 }
 
 .hukum-how__cta {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
   margin-top: 1.5rem;
+  margin-inline: auto;
   min-height: 2.35rem;
   padding: 0.45rem 0.95rem;
   border-radius: 999px;
@@ -9175,6 +9413,12 @@ a.kt-footer-inline:hover {
   letter-spacing: 0.01em;
   box-shadow: 0 8px 18px rgba(23, 99, 75, 0.18);
   transition: background-color 0.2s ease, gap 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+@media (min-width: 960px) {
+  .hukum-how__cta {
+    margin-inline: 0;
+  }
 }
 
 .hukum-how__cta:hover {
@@ -11124,11 +11368,18 @@ a.kt-footer-inline:hover {
 
   .hukum-footer__bottom-inner {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hukum-footer__copy {
+    text-align: center;
   }
 
   .hukum-footer__legal {
-    justify-content: flex-start;
+    justify-content: center;
+    text-align: center;
   }
 
   .hukum-footer__drop {

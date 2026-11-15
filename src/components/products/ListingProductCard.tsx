@@ -113,7 +113,7 @@ export function ListingProductCard({
             {name}
           </Link>
           {secondaryName && secondaryName !== name ? (
-            <p className="mt-0.5 mb-0 text-sm text-[#5c5c5c]" dir={isAr ? "ltr" : "rtl"}>
+            <p className="mt-0.5 mb-0 text-sm text-[#5c5c5c]" dir={isAr ? "rtl" : "ltr"}>
               {secondaryName}
             </p>
           ) : null}
@@ -203,7 +203,7 @@ export function ListingProductCard({
         {secondaryName && secondaryName !== name ? (
           <p
             className="m-0 line-clamp-1 text-[12px] font-medium text-[#5c5c5c]"
-            dir={isAr ? "ltr" : "rtl"}
+            dir={isAr ? "rtl" : "ltr"}
           >
             {secondaryName}
           </p>

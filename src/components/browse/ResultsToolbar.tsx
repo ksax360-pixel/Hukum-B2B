@@ -1,9 +1,11 @@
 // src/components/browse/ResultsToolbar.tsx
-// Count, sort and grid/list switch above any results list. Plain links so filters stay in the URL.
+// Count, sort and grid/list switch above any results list.
+// Sort stays in the URL; view can switch client-side without a refresh.
 
 import Link from "next/link";
 import { LayoutGrid, List } from "lucide-react";
 import type { Locale } from "@/i18n/config";
+import type { ResultsView } from "./OfferResults";
 
 type Props = {
   locale: Locale;
@@ -11,9 +13,23 @@ type Props = {
   /** Current URL params (page is dropped when anything changes). */
   params: Record<string, string | undefined>;
   total: number;
+  /** When false, sort controls are omitted (e.g. moved into a sidebar). */
+  showSort?: boolean;
+  /** Controlled view (client switch). Falls back to params.view. */
+  view?: ResultsView;
+  /** When set, grid/list toggles locally instead of navigating. */
+  onViewChange?: (view: ResultsView) => void;
 };
 
-export function ResultsToolbar({ locale, base, params, total }: Props) {
+export function ResultsToolbar({
+  locale,
+  base,
+  params,
+  total,
+  showSort = true,
+  view: viewProp,
+  onViewChange,
+}: Props) {
   const isAr = locale === "ar";
   const L = (en: string, ar: string): string => (isAr ? ar : en);
   const href = (key: "sort" | "view", value?: string): string => {
@@ -24,7 +40,7 @@ export function ResultsToolbar({ locale, base, params, total }: Props) {
     return qs ? `${base}?${qs}` : base;
   };
   const sort = params.sort === "price" || params.sort === "newest" ? params.sort : "";
-  const view = params.view === "list" ? "list" : "grid";
+  const view = viewProp ?? (params.view === "list" ? "list" : "grid");
 
   return (
     <div className="ofr-bar">
@@ -32,18 +48,53 @@ export function ResultsToolbar({ locale, base, params, total }: Props) {
         <b>{total.toLocaleString("en-US")}</b> {L(total === 1 ? "listing" : "listings", "عرض")}
       </p>
       <div className="ofr-bar__ctl">
-        <nav className="brw__sort" aria-label={L("Sort", "الترتيب")}>
-          <Link href={href("sort")} aria-current={!sort || undefined} className={!sort ? "is-on" : ""}>{L("Relevant", "الأنسب")}</Link>
-          <Link href={href("sort", "price")} aria-current={sort === "price" || undefined} className={sort === "price" ? "is-on" : ""}>{L("Lowest price", "الأقل سعراً")}</Link>
-          <Link href={href("sort", "newest")} aria-current={sort === "newest" || undefined} className={sort === "newest" ? "is-on" : ""}>{L("Newest", "الأحدث")}</Link>
-        </nav>
+        {showSort ? (
+          <nav className="brw__sort" aria-label={L("Sort", "الترتيب")}>
+            <Link href={href("sort")} aria-current={!sort || undefined} className={!sort ? "is-on" : ""}>
+              {L("Relevant", "الأنسب")}
+            </Link>
+            <Link href={href("sort", "price")} aria-current={sort === "price" || undefined} className={sort === "price" ? "is-on" : ""}>
+              {L("Lowest price", "الأقل سعراً")}
+            </Link>
+            <Link href={href("sort", "newest")} aria-current={sort === "newest" || undefined} className={sort === "newest" ? "is-on" : ""}>
+              {L("Newest", "الأحدث")}
+            </Link>
+          </nav>
+        ) : null}
         <nav className="ofr-bar__view" aria-label={L("View", "العرض")}>
-          <Link href={href("view")} aria-label={L("Grid", "شبكة")} aria-current={view === "grid" || undefined} className={view === "grid" ? "is-on" : ""}>
-            <LayoutGrid size={16} aria-hidden />
-          </Link>
-          <Link href={href("view", "list")} aria-label={L("List", "قائمة")} aria-current={view === "list" || undefined} className={view === "list" ? "is-on" : ""}>
-            <List size={16} aria-hidden />
-          </Link>
+          {onViewChange ? (
+            <>
+              <button
+                type="button"
+                aria-current={view === "grid" || undefined}
+                className={view === "grid" ? "is-on" : ""}
+                onClick={() => onViewChange("grid")}
+              >
+                <LayoutGrid size={15} aria-hidden />
+                <span>{L("Grid", "شبكة")}</span>
+              </button>
+              <button
+                type="button"
+                aria-current={view === "list" || undefined}
+                className={view === "list" ? "is-on" : ""}
+                onClick={() => onViewChange("list")}
+              >
+                <List size={15} aria-hidden />
+                <span>{L("List", "قائمة")}</span>
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href={href("view")} aria-current={view === "grid" || undefined} className={view === "grid" ? "is-on" : ""}>
+                <LayoutGrid size={15} aria-hidden />
+                <span>{L("Grid", "شبكة")}</span>
+              </Link>
+              <Link href={href("view", "list")} aria-current={view === "list" || undefined} className={view === "list" ? "is-on" : ""}>
+                <List size={15} aria-hidden />
+                <span>{L("List", "قائمة")}</span>
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </div>

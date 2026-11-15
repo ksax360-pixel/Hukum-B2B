@@ -7,7 +7,7 @@ import {
   FileText,
   Home,
   LayoutGrid,
-  Sparkles,
+  Search,
   User,
 } from "lucide-react";
 import type { Locale } from "@/i18n/config";
@@ -106,12 +106,12 @@ export function MobileTabBar({ locale }: { locale: Locale }) {
           <button
             type="button"
             className={cn("mtb__link", askOpen && "is-active")}
-            aria-label={isAr ? "اسأل حكم" : "Ask Hukum"}
+            aria-label={isAr ? "بحث AI" : "AI search"}
             aria-pressed={askOpen}
             onClick={openAsk}
           >
-            <Sparkles className="mtb__icon" size={22} strokeWidth={STROKE} aria-hidden />
-            <span className="mtb__label">{isAr ? "اسأل" : "Ask"}</span>
+            <Search className="mtb__icon" size={22} strokeWidth={STROKE} aria-hidden />
+            <span className="mtb__label">{isAr ? "بحث AI" : "AI search"}</span>
           </button>
         </li>
 

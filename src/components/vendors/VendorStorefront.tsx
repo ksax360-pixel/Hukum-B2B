@@ -168,7 +168,7 @@ export function VendorStorefront({ locale, vendor, products, name, nameSecondary
           <div className="vms-hero__text">
             {tagline ? <p className="vms-hero__tag">{tagline}</p> : null}
             <h1>{displayName}</h1>
-            {nameSecondary && nameSecondary !== displayName ? <p className="vms-hero__alt" dir={isAr ? "ltr" : "rtl"} lang={isAr ? "en" : "ar"}>{nameSecondary}</p> : null}
+            {nameSecondary && nameSecondary !== displayName ? <p className="vms-hero__alt" dir={isAr ? "rtl" : "ltr"} lang={isAr ? "en" : "ar"}>{nameSecondary}</p> : null}
             {about ? <p className="vms-hero__lead">{about}</p> : null}
             <div className="vms-hero__act">
               {showCta ? <Link href={rfqHref} className="vms-btn vms-btn--light"><Send size={15} aria-hidden /> {ctaLabel}</Link> : null}

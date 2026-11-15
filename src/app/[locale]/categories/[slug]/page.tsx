@@ -40,9 +40,19 @@ export default async function CategoryBrowsePage({ params, searchParams }: { par
   const node = resolveBrowseNode(slug);
   if (!node) notFound();
 
+  const type =
+    sp.type === "manufacturer" || sp.type === "distributor" || sp.type === "wholesaler" || sp.type === "service"
+      ? sp.type
+      : undefined;
   const filters: BrowseFilters = {
+    q: sp.q?.trim().slice(0, 80) || undefined,
     city: sp.city?.slice(0, 40),
-    verified: sp.verified === "1",
+    verified: sp.verified === "1" || sp.verified === "true",
+    saudi: sp.saudi === "1" || sp.saudi === "true",
+    iso: sp.iso === "1" || sp.iso === "true",
+    type,
+    availability: sp.availability?.slice(0, 32) || undefined,
+    featured: sp.featured === "1" || sp.featured === "true",
     sort: sp.sort === "newest" || sp.sort === "price" ? sp.sort : "relevant",
     page: Number(sp.page) || 1,
   };

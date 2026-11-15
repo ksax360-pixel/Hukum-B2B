@@ -11,7 +11,7 @@ import {
   MARKETPLACE_SECTOR_GROUPS,
   POPULAR_SECTOR_SLUGS,
 } from "@/data/marketplace-sectors";
-import { resolveSectorImageSrc } from "@/lib/sector-images";
+import { resolveChildImageSrc, resolveSectorImageSrc } from "@/lib/sector-images";
 import {
   CategoriesCatalogue,
   type CatalogueGroup,
@@ -105,14 +105,26 @@ export default async function CategoriesPage({ params }: { params: Promise<{ loc
     id: group.id,
     nameEn: group.nameEn,
     nameAr: group.nameAr,
-    sectors: group.sectors.map((sector) => ({
-      slug: sector.slug,
-      nameEn: sector.nameEn,
-      nameAr: sector.nameAr,
-      href: `/${locale}/categories/${sector.slug}`,
-      imageSrc: resolveSectorImageSrc(sector),
-      supplierCount: counts.get(sector.slug) || 0,
-    })),
+    // Keep every sector in its group — including popular ones — plus any children.
+    sectors: group.sectors.flatMap((sector) => {
+      const parent: CatalogueSector = {
+        slug: sector.slug,
+        nameEn: sector.nameEn,
+        nameAr: sector.nameAr,
+        href: `/${locale}/categories/${sector.slug}`,
+        imageSrc: resolveSectorImageSrc(sector),
+        supplierCount: counts.get(sector.slug) || 0,
+      };
+      const kids: CatalogueSector[] = (sector.children || []).map((child) => ({
+        slug: child.slug,
+        nameEn: child.nameEn,
+        nameAr: child.nameAr,
+        href: `/${locale}/categories/${child.slug}`,
+        imageSrc: resolveChildImageSrc(child.slug, child.legacyKeys || [], sector.slug),
+        supplierCount: counts.get(child.slug) || 0,
+      }));
+      return [parent, ...kids];
+    }),
   }));
 
   const isAr = locale === "ar";
