@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#F4E8E8"/>
+  <rect x="40" y="40" width="720" height="520" rx="28" fill="#ffffff" fill-opacity="0.55"/>
+  <ellipse cx="400" cy="360" rx="150" ry="40" fill="#001730" opacity="0.08"/>
+    <path d="M250 340c10-120 290-120 300 0v20H250v-20z" fill="#D21F1F"/>
+    <path d="M270 340c12-90 248-90 260 0" stroke="#8B1212" stroke-width="10" fill="none"/>
+    <rect x="232" y="348" width="336" height="22" rx="8" fill="#1A1A1A"/>
+  <text x="400" y="548" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" fill="#001730" fill-opacity="0.45">Safety helmet</text>
+</svg>

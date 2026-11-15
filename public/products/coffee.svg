@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" fill="none">
+  <rect width="800" height="600" fill="#F4EDE6"/>
+  <rect x="40" y="40" width="720" height="520" rx="28" fill="#ffffff" fill-opacity="0.55"/>
+  <ellipse cx="400" cy="400" rx="130" ry="36" fill="#3F2A1D"/>
+    <path d="M300 250c0-40 200-40 200 0v150c0 40-200 40-200 0V250z" fill="#6B3F24"/>
+    <circle cx="360" cy="300" r="18" fill="#2A1810"/><circle cx="420" cy="330" r="16" fill="#2A1810"/><circle cx="390" cy="360" r="14" fill="#2A1810"/>
+  <text x="400" y="548" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" fill="#001730" fill-opacity="0.45">Coffee beans</text>
+</svg>

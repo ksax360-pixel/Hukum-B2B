@@ -1,0 +1,247 @@
+﻿{
+  "statusSummary": {
+    "ok": 30,
+    "redirect": 2,
+    "client": 4,
+    "server": 0,
+    "fail": 0
+  },
+  "issueCount": 6,
+  "bySeverity": {
+    "critical": 0,
+    "high": 0,
+    "medium": 6,
+    "low": 0
+  },
+  "sectorCount": 49,
+  "missingImages": [],
+  "oversizedWebp": [],
+  "oversizedPng": [
+    {
+      "slug": "hand-protection",
+      "kb": 365
+    },
+    {
+      "slug": "food-beverage",
+      "kb": 303
+    },
+    {
+      "slug": "grains-staples",
+      "kb": 313
+    },
+    {
+      "slug": "medical-consumables",
+      "kb": 302
+    },
+    {
+      "slug": "packaging",
+      "kb": 391
+    },
+    {
+      "slug": "warehousing",
+      "kb": 448
+    },
+    {
+      "slug": "printing",
+      "kb": 322
+    },
+    {
+      "slug": "automotive-parts",
+      "kb": 400
+    },
+    {
+      "slug": "agriculture",
+      "kb": 368
+    }
+  ],
+  "brokenCatImgs": [],
+  "brokenHomeImgs": [],
+  "missingPublicAssets": [],
+  "nonOkRoutes": [
+    {
+      "route": "/en/categories/does-not-exist-xyz",
+      "status": 200,
+      "location": null,
+      "error": null
+    },
+    {
+      "route": "/en/suppliers",
+      "status": 308,
+      "location": "/en/vendors",
+      "error": null
+    },
+    {
+      "route": "/en/manufacturers",
+      "status": 404,
+      "location": null,
+      "error": null
+    },
+    {
+      "route": "/en/verification-levels",
+      "status": 404,
+      "location": null,
+      "error": null
+    },
+    {
+      "route": "/en/request-quotes",
+      "status": 307,
+      "location": "/en/rfq",
+      "error": null
+    },
+    {
+      "route": "/en/concierge",
+      "status": 404,
+      "location": null,
+      "error": null
+    },
+    {
+      "route": "/en/whatsapp",
+      "status": 404,
+      "location": null,
+      "error": null
+    }
+  ],
+  "securityHeadersOnEn": {
+    "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+    "x-frame-options": "SAMEORIGIN",
+    "x-content-type-options": "nosniff",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+    "permissions-policy": "camera=(), microphone=(), geolocation=()"
+  },
+  "slowRoutes": [
+    {
+      "route": "/en",
+      "ms": 24948,
+      "status": 200
+    },
+    {
+      "route": "/ar",
+      "ms": 13590,
+      "status": 200
+    },
+    {
+      "route": "/en/categories",
+      "ms": 13413,
+      "status": 200
+    },
+    {
+      "route": "/ar/categories",
+      "ms": 10514,
+      "status": 200
+    },
+    {
+      "route": "/en/categories/safety-equipment",
+      "ms": 3252,
+      "status": 200
+    },
+    {
+      "route": "/en/products",
+      "ms": 13796,
+      "status": 200
+    },
+    {
+      "route": "/en/about",
+      "ms": 13049,
+      "status": 200
+    },
+    {
+      "route": "/en/contact",
+      "ms": 3197,
+      "status": 200
+    },
+    {
+      "route": "/en/faq",
+      "ms": 12539,
+      "status": 200
+    },
+    {
+      "route": "/en/how-it-works",
+      "ms": 2973,
+      "status": 200
+    },
+    {
+      "route": "/en/request-quotes",
+      "ms": 2920,
+      "status": 307
+    },
+    {
+      "route": "/en/help",
+      "ms": 4100,
+      "status": 200
+    },
+    {
+      "route": "/en/terms",
+      "ms": 2685,
+      "status": 200
+    },
+    {
+      "route": "/en/privacy",
+      "ms": 2810,
+      "status": 200
+    },
+    {
+      "route": "/en/marketplace-rules",
+      "ms": 2742,
+      "status": 200
+    },
+    {
+      "route": "/en/vendors",
+      "ms": 13989,
+      "status": 200
+    },
+    {
+      "route": "/en/become-a-vendor",
+      "ms": 3067,
+      "status": 200
+    },
+    {
+      "route": "/robots.txt",
+      "ms": 2629,
+      "status": 200
+    },
+    {
+      "route": "/sitemap.xml",
+      "ms": 11936,
+      "status": 200
+    }
+  ],
+  "topIssues": [
+    {
+      "severity": "medium",
+      "route": "/en/categories/does-not-exist-xyz",
+      "kind": "routing",
+      "detail": "Expected 404 for unknown category, got 200"
+    },
+    {
+      "severity": "medium",
+      "route": "/en/manufacturers",
+      "kind": "seo",
+      "detail": "Missing canonical link"
+    },
+    {
+      "severity": "medium",
+      "route": "/en/verification-levels",
+      "kind": "seo",
+      "detail": "Missing canonical link"
+    },
+    {
+      "severity": "medium",
+      "route": "/en/request-quotes",
+      "kind": "seo",
+      "detail": "No h1 found"
+    },
+    {
+      "severity": "medium",
+      "route": "/en/concierge",
+      "kind": "seo",
+      "detail": "Missing canonical link"
+    },
+    {
+      "severity": "medium",
+      "route": "/en/whatsapp",
+      "kind": "seo",
+      "detail": "Missing canonical link"
+    }
+  ]
+}

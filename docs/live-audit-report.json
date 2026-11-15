@@ -1,0 +1,799 @@
+{
+  "generatedAt": "2026-11-02T02:03:29.019Z",
+  "base": "http://127.0.0.1:3000",
+  "statusSummary": {
+    "ok": 30,
+    "redirect": 2,
+    "client": 4,
+    "server": 0,
+    "fail": 0
+  },
+  "sectorCount": 49,
+  "sectorCoverage": {
+    "total": 49,
+    "withWebp": 49,
+    "withPng": 49,
+    "missing": [],
+    "oversizedWebp": [],
+    "oversizedPng": [
+      {
+        "slug": "hand-protection",
+        "kb": 365
+      },
+      {
+        "slug": "food-beverage",
+        "kb": 303
+      },
+      {
+        "slug": "grains-staples",
+        "kb": 313
+      },
+      {
+        "slug": "medical-consumables",
+        "kb": 302
+      },
+      {
+        "slug": "packaging",
+        "kb": 391
+      },
+      {
+        "slug": "warehousing",
+        "kb": 448
+      },
+      {
+        "slug": "printing",
+        "kb": 322
+      },
+      {
+        "slug": "automotive-parts",
+        "kb": 400
+      },
+      {
+        "slug": "agriculture",
+        "kb": 368
+      }
+    ]
+  },
+  "categoryImagesOnPage": {
+    "totalRefs": 59,
+    "unique": 49,
+    "broken": []
+  },
+  "homepageSectorImages": {
+    "total": 26,
+    "unique": 10,
+    "broken": []
+  },
+  "securityHeadersOnEn": {
+    "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+    "x-frame-options": "SAMEORIGIN",
+    "x-content-type-options": "nosniff",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+    "permissions-policy": "camera=(), microphone=(), geolocation=()"
+  },
+  "missingPublicAssets": [],
+  "routes": [
+    {
+      "route": "/en",
+      "status": 200,
+      "ms": 24948,
+      "len": 364081,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Find verified suppliers in Saudi Arabia | Hukum",
+      "descLen": 113,
+      "imgs": 34
+    },
+    {
+      "route": "/ar",
+      "status": 200,
+      "ms": 13590,
+      "len": 362670,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "اعثر على موردين موثوقين في السعودية | Hukum",
+      "descLen": 93,
+      "imgs": 34
+    },
+    {
+      "route": "/en/categories",
+      "status": 200,
+      "ms": 13413,
+      "len": 153572,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Browse 49 B2B categories in Saudi Arabia | Hukum",
+      "descLen": 103,
+      "imgs": 63
+    },
+    {
+      "route": "/ar/categories",
+      "status": 200,
+      "ms": 10514,
+      "len": 152955,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "تصفّح ٤٩ تصنيفاً للأعمال في السعودية | Hukum",
+      "descLen": 99,
+      "imgs": 63
+    },
+    {
+      "route": "/en/categories/safety-equipment",
+      "status": 200,
+      "ms": 3252,
+      "len": 95359,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Safety equipment | Hukum",
+      "descLen": 55,
+      "imgs": 7
+    },
+    {
+      "route": "/en/categories/food-beverage",
+      "status": 200,
+      "ms": 572,
+      "len": 87805,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Food &amp; beverage | Hukum",
+      "descLen": 58,
+      "imgs": 5
+    },
+    {
+      "route": "/en/categories/automotive-parts",
+      "status": 200,
+      "ms": 629,
+      "len": 87988,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Automotive &amp; parts | Hukum",
+      "descLen": 61,
+      "imgs": 5
+    },
+    {
+      "route": "/en/categories/agriculture",
+      "status": 200,
+      "ms": 669,
+      "len": 87392,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Agriculture | Hukum",
+      "descLen": 50,
+      "imgs": 5
+    },
+    {
+      "route": "/en/categories/does-not-exist-xyz",
+      "status": 200,
+      "ms": 656,
+      "len": 85552,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Category | Hukum",
+      "descLen": 47,
+      "imgs": 4
+    },
+    {
+      "route": "/en/suppliers",
+      "status": 308,
+      "ms": 16,
+      "len": 11,
+      "location": "/en/vendors",
+      "contentType": "",
+      "headers": {},
+      "error": null
+    },
+    {
+      "route": "/en/manufacturers",
+      "status": 404,
+      "ms": 140,
+      "len": 20420,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "404: This page could not be found.",
+      "descLen": 209,
+      "imgs": 0
+    },
+    {
+      "route": "/en/products",
+      "status": 200,
+      "ms": 13796,
+      "len": 81805,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "B2B products from Saudi suppliers | Hukum",
+      "descLen": 101,
+      "imgs": 3
+    },
+    {
+      "route": "/en/about",
+      "status": 200,
+      "ms": 13049,
+      "len": 192902,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "About Hukum — Saudi B2B marketplace",
+      "descLen": 111,
+      "imgs": 3
+    },
+    {
+      "route": "/en/contact",
+      "status": 200,
+      "ms": 3197,
+      "len": 109199,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Contact Hukum sourcing &amp; support",
+      "descLen": 101,
+      "imgs": 3
+    },
+    {
+      "route": "/en/faq",
+      "status": 200,
+      "ms": 12539,
+      "len": 85514,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "FAQ — Hukum B2B marketplace",
+      "descLen": 94,
+      "imgs": 3
+    },
+    {
+      "route": "/en/how-it-works",
+      "status": 200,
+      "ms": 2973,
+      "len": 97418,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "How Hukum works for buyers",
+      "descLen": 92,
+      "imgs": 3
+    },
+    {
+      "route": "/en/verification-levels",
+      "status": 404,
+      "ms": 97,
+      "len": 20426,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "404: This page could not be found.",
+      "descLen": 209,
+      "imgs": 0
+    },
+    {
+      "route": "/en/request-quotes",
+      "status": 307,
+      "ms": 2920,
+      "len": 36704,
+      "location": "/en/rfq",
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Request quotes from verified vendors | Hukum",
+      "descLen": 96,
+      "imgs": 0
+    },
+    {
+      "route": "/en/concierge",
+      "status": 404,
+      "ms": 258,
+      "len": 20416,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "404: This page could not be found.",
+      "descLen": 209,
+      "imgs": 0
+    },
+    {
+      "route": "/en/help",
+      "status": 200,
+      "ms": 4100,
+      "len": 88117,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Help centre | Hukum",
+      "descLen": 98,
+      "imgs": 3
+    },
+    {
+      "route": "/en/report",
+      "status": 200,
+      "ms": 2423,
+      "len": 83887,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Report a concern | Hukum",
+      "descLen": 99,
+      "imgs": 3
+    },
+    {
+      "route": "/en/terms",
+      "status": 200,
+      "ms": 2685,
+      "len": 79823,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Terms of service | Hukum",
+      "descLen": 76,
+      "imgs": 3
+    },
+    {
+      "route": "/en/privacy",
+      "status": 200,
+      "ms": 2810,
+      "len": 80154,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Privacy policy (PDPL) | Hukum",
+      "descLen": 86,
+      "imgs": 3
+    },
+    {
+      "route": "/en/marketplace-rules",
+      "status": 200,
+      "ms": 2742,
+      "len": 77618,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Marketplace rules | Hukum",
+      "descLen": 86,
+      "imgs": 3
+    },
+    {
+      "route": "/en/vendors",
+      "status": 200,
+      "ms": 13989,
+      "len": 80428,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Verified vendors &amp; manufacturers | Hukum",
+      "descLen": 93,
+      "imgs": 3
+    },
+    {
+      "route": "/en/become-a-vendor",
+      "status": 200,
+      "ms": 3067,
+      "len": 96009,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "Become a supplier on Hukum",
+      "descLen": 107,
+      "imgs": 3
+    },
+    {
+      "route": "/en/whatsapp",
+      "status": 404,
+      "ms": 119,
+      "len": 20414,
+      "location": null,
+      "contentType": "text/html; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null,
+      "title": "404: This page could not be found.",
+      "descLen": 209,
+      "imgs": 0
+    },
+    {
+      "route": "/robots.txt",
+      "status": 200,
+      "ms": 2629,
+      "len": 105,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null
+    },
+    {
+      "route": "/sitemap.xml",
+      "status": 200,
+      "ms": 11936,
+      "len": 50713,
+      "location": null,
+      "contentType": "application/xml",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null
+    },
+    {
+      "route": "/llms.txt",
+      "status": 200,
+      "ms": 966,
+      "len": 1336,
+      "location": null,
+      "contentType": "text/plain; charset=utf-8",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null
+    },
+    {
+      "route": "/site.webmanifest",
+      "status": 200,
+      "ms": 14,
+      "len": 666,
+      "location": null,
+      "contentType": "application/manifest+json",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null
+    },
+    {
+      "route": "/favicon.ico",
+      "status": 200,
+      "ms": 18,
+      "len": 36630,
+      "location": null,
+      "contentType": "image/x-icon",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null
+    },
+    {
+      "route": "/favicon.png",
+      "status": 200,
+      "ms": 11,
+      "len": 1809,
+      "location": null,
+      "contentType": "image/png",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null
+    },
+    {
+      "route": "/brand/hukum-favicon.png",
+      "status": 200,
+      "ms": 18,
+      "len": 135279,
+      "location": null,
+      "contentType": "image/png",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null
+    },
+    {
+      "route": "/brand/apple-touch-icon.png",
+      "status": 200,
+      "ms": 5,
+      "len": 28774,
+      "location": null,
+      "contentType": "image/png",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null
+    },
+    {
+      "route": "/og/hukum-share.jpg",
+      "status": 200,
+      "ms": 21,
+      "len": 23875,
+      "location": null,
+      "contentType": "image/jpeg",
+      "headers": {
+        "content-security-policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://wa.me https://api.whatsapp.com",
+        "x-frame-options": "SAMEORIGIN",
+        "x-content-type-options": "nosniff",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "permissions-policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "error": null
+    }
+  ],
+  "issues": [
+    {
+      "severity": "medium",
+      "route": "/en/categories/does-not-exist-xyz",
+      "kind": "routing",
+      "detail": "Expected 404 for unknown category, got 200"
+    },
+    {
+      "severity": "medium",
+      "route": "/en/manufacturers",
+      "kind": "seo",
+      "detail": "Missing canonical link"
+    },
+    {
+      "severity": "medium",
+      "route": "/en/verification-levels",
+      "kind": "seo",
+      "detail": "Missing canonical link"
+    },
+    {
+      "severity": "medium",
+      "route": "/en/request-quotes",
+      "kind": "seo",
+      "detail": "No h1 found"
+    },
+    {
+      "severity": "medium",
+      "route": "/en/concierge",
+      "kind": "seo",
+      "detail": "Missing canonical link"
+    },
+    {
+      "severity": "medium",
+      "route": "/en/whatsapp",
+      "kind": "seo",
+      "detail": "Missing canonical link"
+    }
+  ]
+}

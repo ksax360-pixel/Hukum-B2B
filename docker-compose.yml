@@ -1,0 +1,31 @@
+# Development / local stack only.
+# For VPS production, use ../deploy/docker-compose.prod.yml (Mongo not published).
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/kingdom-trade
+      AUTH_SECRET: ${AUTH_SECRET:-dev-secret-change-in-production-32chars}
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      ADMIN_CORS_ORIGIN: ${ADMIN_CORS_ORIGIN:-http://localhost:3001}
+      ENABLE_DEMO_ACCOUNTS: "true"
+      NODE_ENV: development
+    depends_on:
+      - mongo
+    volumes:
+      - uploads:/app/uploads
+
+  mongo:
+    image: mongo:7
+    # Bound to loopback only for local docker; still do not expose on public VPS
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
+  uploads:
