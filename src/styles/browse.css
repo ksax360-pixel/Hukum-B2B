@@ -922,6 +922,8 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .brw-band__track { animation: none; flex-wrap: wrap; width: auto; justify-content: flex-start; }
+  /* Loop clones are only for the marquee; hide them when motion is off. */
+  .brw-band__card[aria-hidden="true"] { display: none; }
 }
 
 .brw-band__card {
