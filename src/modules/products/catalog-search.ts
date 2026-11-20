@@ -101,9 +101,9 @@ export function buildProductBaseQuery(sp: CatalogSearchParams): FilterQuery<type
 export function buildProductSort(sp: CatalogSearchParams): Record<string, SortOrder> {
   if (sp.sort === "price_asc") return { price: 1 };
   if (sp.sort === "price_desc") return { price: -1 };
-  if (sp.sort === "featured") return { featured: -1, createdAt: -1 };
-  if (sp.sort === "newest") return { createdAt: -1 };
-  return { featured: -1, createdAt: -1 };
+  if (sp.sort === "featured") return { featured: -1, updatedAt: -1, createdAt: -1 };
+  // Default + newest: freshly published / updated listings first.
+  return { updatedAt: -1, createdAt: -1 };
 }
 
 export async function searchCatalogProducts(sp: CatalogSearchParams) {

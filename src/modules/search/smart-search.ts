@@ -107,7 +107,12 @@ export async function smartSearchProducts(sp: CatalogSearchParams): Promise<Smar
 
   if (!understood.expanded.length) {
     const [items, total] = await Promise.all([
-      Product.find(query).sort({ featured: -1, createdAt: -1 }).skip((page - 1) * limit).limit(limit).populate(populate).lean(),
+      Product.find(query)
+        .sort({ updatedAt: -1, createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .populate(populate)
+        .lean(),
       Product.countDocuments(query),
     ]);
     return { items, total, page, limit, understood, categories: [] };

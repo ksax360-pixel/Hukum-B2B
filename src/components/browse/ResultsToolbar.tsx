@@ -39,7 +39,8 @@ export function ResultsToolbar({
     const qs = p.toString();
     return qs ? `${base}?${qs}` : base;
   };
-  const sort = params.sort === "price" || params.sort === "newest" ? params.sort : "";
+  const sort =
+    params.sort === "price" ? "price" : params.sort === "featured" ? "featured" : "newest";
   const view = viewProp ?? (params.view === "list" ? "list" : "grid");
 
   return (
@@ -50,14 +51,22 @@ export function ResultsToolbar({
       <div className="ofr-bar__ctl">
         {showSort ? (
           <nav className="brw__sort" aria-label={L("Sort", "الترتيب")}>
-            <Link href={href("sort")} aria-current={!sort || undefined} className={!sort ? "is-on" : ""}>
-              {L("Relevant", "الأنسب")}
+            <Link
+              href={href("sort")}
+              aria-current={sort === "newest" || undefined}
+              className={sort === "newest" ? "is-on" : ""}
+            >
+              {L("Newest", "الأحدث")}
             </Link>
             <Link href={href("sort", "price")} aria-current={sort === "price" || undefined} className={sort === "price" ? "is-on" : ""}>
               {L("Lowest price", "الأقل سعراً")}
             </Link>
-            <Link href={href("sort", "newest")} aria-current={sort === "newest" || undefined} className={sort === "newest" ? "is-on" : ""}>
-              {L("Newest", "الأحدث")}
+            <Link
+              href={href("sort", "featured")}
+              aria-current={sort === "featured" || undefined}
+              className={sort === "featured" ? "is-on" : ""}
+            >
+              {L("Featured", "مميزة")}
             </Link>
           </nav>
         ) : null}

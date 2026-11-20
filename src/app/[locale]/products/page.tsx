@@ -86,7 +86,8 @@ export default async function ProductsPage({
         featured: sp.featured,
         negotiable: sp.negotiable,
         requestQuote: sp.requestQuote,
-        sort: sp.sort === "price" ? "price_asc" : sp.sort,
+        // Newest listings first unless buyer picks another sort.
+        sort: sp.sort === "price" ? "price_asc" : sp.sort === "featured" ? "featured" : "newest",
         page: Number(sp.page || 1) || 1,
         limit: 12,
     };

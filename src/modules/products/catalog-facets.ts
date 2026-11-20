@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { Product } from "@/modules/products/product.model";
 import { Category, Industry } from "@/modules/categories/taxonomy.model";
 import { toPlain } from "@/components/products/product-helpers";
@@ -9,9 +10,18 @@ export type FacetNamed = {
   count: number;
 };
 
+type LeafDoc = {
+  _id: unknown;
+  name?: { en?: string; ar?: string };
+  code?: string;
+  parentId?: unknown;
+  industryId?: unknown;
+  level?: number;
+};
+
 /**
- * Build buyer filter facets from published products only —
- * Industry → Category → Product type, no empty taxonomy noise.
+ * Buyer filters built only from published products in Mongo —
+ * Industry → Category → Product type. Empty taxonomy nodes never appear.
  */
 export async function loadPublishedTaxonomyFacets(opts: {
   industryId?: string;
@@ -24,56 +34,21 @@ export async function loadPublishedTaxonomyFacets(opts: {
   selectedCategoryId: string;
   selectedTypeId: string;
 }> {
-  const published = await Product.find({ status: "published" })
-    .select("industryId categoryId")
-    .lean();
+  const industryAgg = await Product.aggregate<{ _id: Types.ObjectId; n: number }>([
+    { $match: { status: "published", industryId: { $ne: null } } },
+    { $group: { _id: "$industryId", n: { $sum: 1 } } },
+  ]);
 
-  const industryCounts = new Map<string, number>();
-  const categoryCounts = new Map<string, number>();
-  const typeCounts = new Map<string, number>();
-  const leafIds = new Set<string>();
-
-  for (const p of published) {
-    const ind = String(p.industryId || "");
-    const cat = String(p.categoryId || "");
-    if (ind) industryCounts.set(ind, (industryCounts.get(ind) || 0) + 1);
-    if (cat) {
-      leafIds.add(cat);
-      typeCounts.set(cat, (typeCounts.get(cat) || 0) + 1);
-    }
-  }
-
-  const leaves = leafIds.size
-    ? await Category.find({ _id: { $in: [...leafIds] } })
-        .select("_id name code parentId industryId level path")
-        .lean()
-    : [];
-
-  const parentIds = new Set<string>();
-  for (const leaf of leaves) {
-    const parent = leaf.parentId ? String(leaf.parentId) : "";
-    if (parent) {
-      parentIds.add(parent);
-      const n = typeCounts.get(String(leaf._id)) || 0;
-      categoryCounts.set(parent, (categoryCounts.get(parent) || 0) + n);
-    } else {
-      // Leaf is already L1 — treat as category facet
-      categoryCounts.set(String(leaf._id), typeCounts.get(String(leaf._id)) || 0);
-    }
-    const ind = String(leaf.industryId || "");
-    if (ind && !industryCounts.has(ind)) {
-      industryCounts.set(ind, typeCounts.get(String(leaf._id)) || 0);
-    }
-  }
-
+  const industryCounts = new Map(industryAgg.map((r) => [String(r._id), r.n]));
   const industryDocs = industryCounts.size
-    ? await Industry.find({ _id: { $in: [...industryCounts.keys()] }, status: "active" })
-        .select("_id name code order")
+    ? await Industry.find({ _id: { $in: [...industryCounts.keys()] } })
+        .select("_id name code order status")
         .sort({ order: 1 })
         .lean()
     : [];
 
   const industries: FacetNamed[] = industryDocs
+    .filter((d) => (d.status || "active") !== "archived")
     .map((d) => ({
       _id: String(d._id),
       name: d.name as { en?: string; ar?: string },
@@ -88,62 +63,90 @@ export async function loadPublishedTaxonomyFacets(opts: {
     selectedIndustryId = "";
   }
 
-  const categoryDocs = categoryCounts.size
-    ? await Category.find({
-        _id: { $in: [...categoryCounts.keys()] },
-        status: { $in: ["active", "inactive"] },
-        ...(selectedIndustryId ? { industryId: selectedIndustryId } : {}),
-      })
-        .select("_id name code industryId order")
-        .sort({ order: 1 })
-        .lean()
-    : [];
-
-  const categories: FacetNamed[] = categoryDocs
-    .map((d) => ({
-      _id: String(d._id),
-      name: d.name as { en?: string; ar?: string },
-      code: d.code as string | undefined,
-      count: categoryCounts.get(String(d._id)) || 0,
-    }))
-    .filter((d) => d.count > 0)
-    .sort((a, b) => b.count - a.count || String(a.name?.en || "").localeCompare(String(b.name?.en || "")));
-
-  let selectedCategoryId = String(opts.categoryId || "");
-  // If buyer picked a leaf type, surface its parent as the category selection.
-  const selectedLeaf = leaves.find((l) => String(l._id) === selectedCategoryId);
+  // Category counts only inside the selected industry (or empty until industry picked).
+  let categories: FacetNamed[] = [];
+  let productTypes: FacetNamed[] = [];
+  let selectedCategoryId = "";
   let selectedTypeId = "";
-  if (selectedLeaf?.parentId) {
-    selectedTypeId = selectedCategoryId;
-    selectedCategoryId = String(selectedLeaf.parentId);
-    if (!selectedIndustryId && selectedLeaf.industryId) {
-      selectedIndustryId = String(selectedLeaf.industryId);
+  let leaves: LeafDoc[] = [];
+  const typeCounts = new Map<string, number>();
+
+  if (selectedIndustryId) {
+    const catAgg = await Product.aggregate<{ _id: Types.ObjectId; n: number }>([
+      {
+        $match: {
+          status: "published",
+          industryId: new Types.ObjectId(selectedIndustryId),
+          categoryId: { $ne: null },
+        },
+      },
+      { $group: { _id: "$categoryId", n: { $sum: 1 } } },
+    ]);
+
+    for (const row of catAgg) {
+      typeCounts.set(String(row._id), row.n);
     }
-  } else if (selectedCategoryId && !categories.some((c) => c._id === selectedCategoryId)) {
-    // Might be a leaf without parent in map — keep as type
-    if (leaves.some((l) => String(l._id) === selectedCategoryId && !l.parentId)) {
-      /* L1 leaf acts as category */
-    } else if (leaves.some((l) => String(l._id) === selectedCategoryId)) {
-      selectedTypeId = selectedCategoryId;
-      selectedCategoryId = "";
-    } else {
-      selectedCategoryId = "";
+
+    leaves = typeCounts.size
+      ? ((await Category.find({ _id: { $in: [...typeCounts.keys()] } })
+          .select("_id name code parentId industryId level")
+          .lean()) as LeafDoc[])
+      : [];
+
+    const categoryCounts = new Map<string, number>();
+    for (const leaf of leaves) {
+      const leafId = String(leaf._id);
+      const n = typeCounts.get(leafId) || 0;
+      const parent = leaf.parentId ? String(leaf.parentId) : "";
+      if (parent) {
+        categoryCounts.set(parent, (categoryCounts.get(parent) || 0) + n);
+      } else {
+        categoryCounts.set(leafId, (categoryCounts.get(leafId) || 0) + n);
+      }
+    }
+
+    const categoryDocs = categoryCounts.size
+      ? await Category.find({ _id: { $in: [...categoryCounts.keys()] } })
+          .select("_id name code order")
+          .sort({ order: 1 })
+          .lean()
+      : [];
+
+    categories = categoryDocs
+      .map((d) => ({
+        _id: String(d._id),
+        name: d.name as { en?: string; ar?: string },
+        code: d.code as string | undefined,
+        count: categoryCounts.get(String(d._id)) || 0,
+      }))
+      .filter((d) => d.count > 0)
+      .sort((a, b) => b.count - a.count || String(a.name?.en || "").localeCompare(String(b.name?.en || "")));
+
+    const rawCat = String(opts.categoryId || "");
+    const selectedLeaf = leaves.find((l) => String(l._id) === rawCat);
+
+    if (selectedLeaf?.parentId) {
+      selectedTypeId = rawCat;
+      selectedCategoryId = String(selectedLeaf.parentId);
+    } else if (rawCat && categories.some((c) => c._id === rawCat)) {
+      selectedCategoryId = rawCat;
+    } else if (selectedLeaf && !selectedLeaf.parentId) {
+      selectedCategoryId = rawCat;
+    }
+
+    if (selectedCategoryId) {
+      productTypes = leaves
+        .filter((l) => String(l.parentId || "") === selectedCategoryId)
+        .map((d) => ({
+          _id: String(d._id),
+          name: d.name as { en?: string; ar?: string },
+          code: d.code as string | undefined,
+          count: typeCounts.get(String(d._id)) || 0,
+        }))
+        .filter((d) => d.count > 0)
+        .sort((a, b) => b.count - a.count || String(a.name?.en || "").localeCompare(String(b.name?.en || "")));
     }
   }
-
-  const typeDocs = selectedCategoryId
-    ? leaves.filter((l) => String(l.parentId || "") === selectedCategoryId)
-    : [];
-
-  const productTypes: FacetNamed[] = typeDocs
-    .map((d) => ({
-      _id: String(d._id),
-      name: d.name as { en?: string; ar?: string },
-      code: d.code as string | undefined,
-      count: typeCounts.get(String(d._id)) || 0,
-    }))
-    .filter((d) => d.count > 0)
-    .sort((a, b) => b.count - a.count || String(a.name?.en || "").localeCompare(String(b.name?.en || "")));
 
   return {
     industries: toPlain(industries) as FacetNamed[],
