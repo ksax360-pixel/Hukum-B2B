@@ -7,6 +7,7 @@ import { AuthShell } from "@/components/auth/AuthShell";
 import { DEMO_LOGIN_EVENT } from "@/components/auth/DemoAccessChip";
 import { AuthLuxField, AuthLuxStack } from "@/components/auth/AuthLuxField";
 import { isLocale, type Locale } from "@/i18n/config";
+import { sellerIsExternal, sellerLoginUrl } from "@/lib/seller-admin";
 
 /** Sign-in methods that need a backend this build may not have: off unless the env turns them on. */
 const SSO_ON = process.env.NEXT_PUBLIC_AUTH_SSO === "1";
@@ -298,6 +299,17 @@ export default function LoginPage() {
         <Link href={`/${locale}/register`} className="font-semibold text-[#17634B] hover:opacity-80">
           {isAr ? "إنشاء حساب" : "Sign up"}
         </Link>
+      </div>
+
+      <div className="auth2__seller-gate">
+        <p>{isAr ? "هل أنت مورّد؟" : "Are you a supplier?"}</p>
+        <a
+          href={sellerLoginUrl(locale)}
+          {...(sellerIsExternal() ? { target: "_blank", rel: "noreferrer" } : {})}
+          className="auth2__seller-gate-link"
+        >
+          {isAr ? "تسجيل دخول المورد" : "Sign in as a seller"}
+        </a>
       </div>
     </AuthShell>
   );

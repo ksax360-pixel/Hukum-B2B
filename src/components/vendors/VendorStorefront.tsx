@@ -80,7 +80,8 @@ export function VendorStorefront({ locale, vendor, products, name, nameSecondary
   const showProducts = design?.showProducts !== false;
   const showCerts = design?.showCertifications !== false;
   const showCta = design?.showContactCta !== false;
-  const brand = { ["--vms-brand" as string]: design?.primaryColor || "#17634B" } as CSSProperties;
+  /* Dannii black/white chrome — seller brand colour only if they set one (not the flooded yellow default). */
+  const brand = { ["--vms-brand" as string]: design?.primaryColor || "#FFFFFF" } as CSSProperties;
 
   const [q, setQ] = useState("");
   const [group, setGroup] = useState("");
@@ -189,28 +190,57 @@ export function VendorStorefront({ locale, vendor, products, name, nameSecondary
         {showProducts ? (
           <section id="products" className="vms-sec">
             <div className="vms-sec__head">
-              <h2>{L("Products", "المنتجات")} <small>{shown.length}</small></h2>
+              <div>
+                <p className="vms-catalogue__eyebrow">{L("Catalogue", "الكتالوج")}</p>
+                <h2>
+                  {L("Products", "المنتجات")} <small>{shown.length}</small>
+                </h2>
+              </div>
               {searchBox("vms-sec__search")}
             </div>
             {groups.length > 1 ? (
-              <div className="brw__chips vms-groups" role="group" aria-label={L("Product groups", "مجموعات المنتجات")}>
-                <button type="button" className={`brw__chip${!group ? " is-on" : ""}`} aria-pressed={!group} onClick={() => setGroup("")}>
-                  {L("All", "الكل")} <small>{products.length}</small>
+              <div className="vms-switch" role="tablist" aria-label={L("Product groups", "مجموعات المنتجات")}>
+                <button
+                  type="button"
+                  role="tab"
+                  className={`vms-switch__btn${!group ? " is-on" : ""}`}
+                  aria-selected={!group}
+                  onClick={() => setGroup("")}
+                >
+                  {L("All", "الكل")}
                 </button>
-                {groups.map(([g, n]) => (
-                  <button key={g} type="button" className={`brw__chip${group === g ? " is-on" : ""}`} aria-pressed={group === g} onClick={() => setGroup(g)}>
-                    <span className="vms-cap">{g.replace(/-/g, " ")}</span> <small>{n}</small>
+                {groups.map(([g]) => (
+                  <button
+                    key={g}
+                    type="button"
+                    role="tab"
+                    className={`vms-switch__btn${group === g ? " is-on" : ""}`}
+                    aria-selected={group === g}
+                    onClick={() => setGroup(g)}
+                  >
+                    <span className="vms-cap">{g.replace(/-/g, " ")}</span>
                   </button>
                 ))}
               </div>
             ) : null}
             {shown.length ? (
-              <div className="brw__grid">
+              <div className="brw__grid vms-grid">
                 {shown.map((p) => (
                   <PopularProductCard
                     key={String(p._id)}
                     locale={locale}
-                    item={toCardItem({ ...p, vendorId: { _id: vendorId, tradeName: displayName, verificationStatus: verified ? "verified" : "", location: vendor.location } }, locale)}
+                    item={toCardItem(
+                      {
+                        ...p,
+                        vendorId: {
+                          _id: vendorId,
+                          tradeName: displayName,
+                          verificationStatus: verified ? "verified" : "",
+                          location: vendor.location,
+                        },
+                      },
+                      locale
+                    )}
                   />
                 ))}
               </div>

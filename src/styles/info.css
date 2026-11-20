@@ -827,6 +827,36 @@ html, body { overflow-x: clip; }
 .auth2.is-wide .auth2__title { margin-bottom: 24px !important; }
 .auth2__foot { display: flex; gap: 18px; font-size: 13px; color: var(--hukum-muted); }
 .auth2__foot a:hover { color: var(--hukum-ink); }
+.auth2__seller-gate {
+  margin-top: 1.5rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid rgba(17, 28, 23, 0.08);
+  text-align: center;
+}
+.auth2__seller-gate p {
+  margin: 0 0 0.45rem;
+  color: var(--hukum-muted);
+  font-size: 0.875rem;
+}
+.auth2__seller-gate-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.65rem;
+  padding: 0 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(23, 99, 75, 0.28);
+  background: rgba(23, 99, 75, 0.06);
+  color: #17634B;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.auth2__seller-gate-link:hover {
+  background: rgba(23, 99, 75, 0.1);
+  border-color: rgba(23, 99, 75, 0.45);
+}
 .auth2__panel { position: relative; overflow: hidden; display: grid; place-items: center; padding: 48px; color: #fff; background: radial-gradient(110% 80% at 80% 10%, rgba(196, 165, 116, .18) 0%, rgba(196, 165, 116, 0) 55%), linear-gradient(160deg, #0F3A2C 0%, #0A2A20 100%); }
 .auth2__panel.is-supplier { background: radial-gradient(110% 80% at 20% 0%, rgba(196, 165, 116, .2) 0%, rgba(196, 165, 116, 0) 55%), linear-gradient(160deg, #13261E 0%, #0B1712 100%); }
 .auth2__panel.is-admin { background: linear-gradient(160deg, #1B2420 0%, #0E1411 100%); }
