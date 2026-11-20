@@ -1,7 +1,6 @@
 // src/modules/search/smart-search.ts
-// Ranked, forgiving product search and the suggestion list behind the search box.
-// Replaces Mongo $text for typed queries: $text has no prefix/typo matching and ranked
-// description words above product names ("cement" returned a consulting service).
+// Ranked, forgiving product search (Elasticsearch-like) over Mongo.
+// Matches product name, SKU, brand, tags, category, and business/vendor name with typo tolerance.
 
 import type { FilterQuery } from "mongoose";
 import { Product } from "@/modules/products/product.model";
@@ -14,10 +13,9 @@ import {
   type CatalogSearchParams,
 } from "@/modules/products/catalog-search";
 import { mediaList } from "@/components/products/product-helpers";
-import { tolerantPatterns, understandQuery, type UnderstoodQuery } from "./query-understanding";
+import { editDistance, tolerantPatterns, understandQuery, type UnderstoodQuery } from "./query-understanding";
 
-/** ponytail: ranks in memory over this many candidates; move to Atlas Search when the catalogue passes ~5k products. */
-const CANDIDATE_CAP = 300;
+const CANDIDATE_CAP = 500;
 
 type Named = { en?: string; ar?: string };
 type ProductDoc = {
@@ -29,14 +27,19 @@ type ProductDoc = {
   tags?: string[];
   searchTags?: string[];
   featured?: boolean;
+  updatedAt?: Date | string;
   categoryId?: { _id?: unknown; name?: Named } | unknown;
-  vendorId?: { verificationStatus?: string; tradeName?: string; legalName?: Named; location?: { city?: string } } | unknown;
+  vendorId?: {
+    verificationStatus?: string;
+    tradeName?: string;
+    legalName?: Named;
+    location?: { city?: string };
+  } | unknown;
   media?: unknown[];
 };
 
 const rxOf = (patterns: string[]): RegExp | null => (patterns.length ? new RegExp(`(${patterns.join("|")})`, "i") : null);
 
-/** Categories whose names (EN/AR) match the query, so "PPE" or «سلامة» can pull in the whole category. */
 async function matchCategories(words: string[]): Promise<Array<{ _id: unknown; name?: Named; slug?: Named }>> {
   const rx = rxOf(tolerantPatterns(words));
   if (!rx) return [];
@@ -46,25 +49,63 @@ async function matchCategories(words: string[]): Promise<Array<{ _id: unknown; n
     .lean() as Promise<Array<{ _id: unknown; name?: Named; slug?: Named }>>;
 }
 
-function scoreProduct(p: ProductDoc, u: UnderstoodQuery, catIds: Set<string>): number {
+async function matchVendorIds(words: string[], phrase: string): Promise<string[]> {
+  const patterns = tolerantPatterns([...words, phrase].filter(Boolean));
+  const rx = rxOf(patterns);
+  if (!rx) return [];
+  const vendors = await Vendor.find({
+    status: { $nin: ["rejected", "suspended", "expired"] },
+    $or: [{ "legalName.en": rx }, { "legalName.ar": rx }, { tradeName: rx }, { email: rx }],
+  })
+    .select("_id")
+    .limit(40)
+    .lean();
+  return vendors.map((v) => String(v._id));
+}
+
+function scoreProduct(p: ProductDoc, u: UnderstoodQuery, catIds: Set<string>, vendorHitIds: Set<string>): number {
   const name = `${p.name?.en || ""} ${p.name?.ar || ""}`.toLowerCase();
   const brand = String(p.brand || "").toLowerCase();
+  const sku = String(p.sku || "").toLowerCase();
   const tags = [...(p.tags || []), ...(p.searchTags || [])].join(" ").toLowerCase();
+  const v = p.vendorId as { tradeName?: string; legalName?: Named; verificationStatus?: string } | undefined;
+  const vendorName = `${v?.tradeName || ""} ${v?.legalName?.en || ""} ${v?.legalName?.ar || ""}`.toLowerCase();
+  const hay = `${name} ${brand} ${sku} ${tags} ${vendorName}`;
+  const raw = u.raw.toLowerCase();
+
   let score = 0;
+  if (raw && name.includes(raw)) score += 20;
+  if (raw && brand.includes(raw)) score += 12;
+  if (raw && vendorName.includes(raw)) score += 14;
+
   for (const term of u.terms) {
     const t = term.toLowerCase();
-    if (new RegExp(`(^|\\s)${t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`, "i").test(name)) score += 10;
-    else if (name.includes(t)) score += 7;
-    else if (rxOf(tolerantPatterns([t]))?.test(name)) score += 4;
-    if (brand.includes(t)) score += 4;
+    if (!t) continue;
+    if (name.includes(t)) score += 10;
+    else if (rxOf(tolerantPatterns([t]))?.test(name)) score += 7;
+    else {
+      // Fuzzy against individual name tokens
+      for (const token of name.split(/[\s/-]+/).filter((x) => x.length > 3)) {
+        const d = editDistance(t, token);
+        if (d <= 1 && t.length >= 4) score += 6;
+        else if (d <= 2 && t.length >= 6) score += 4;
+      }
+    }
+    if (brand.includes(t)) score += 5;
+    if (sku.includes(t)) score += 6;
     if (tags.includes(t)) score += 2;
+    if (vendorName.includes(t)) score += 8;
   }
-  // Synonym-only hits count, but less than the buyer's own words.
-  for (const syn of u.expanded) if (!u.terms.includes(syn) && name.includes(syn.toLowerCase())) score += 3;
+
+  for (const syn of u.expanded) {
+    if (!u.terms.includes(syn) && name.includes(syn.toLowerCase())) score += 3;
+  }
+
   const cat = p.categoryId as { _id?: unknown } | undefined;
   if (cat?._id && catIds.has(String(cat._id))) score += 4;
+  if (vendorHitIds.has(String((p.vendorId as { _id?: unknown } | undefined)?._id || p.vendorId))) score += 6;
   if (p.featured) score += 1;
-  if ((p.vendorId as { verificationStatus?: string } | undefined)?.verificationStatus === "verified") score += 1;
+  if (v?.verificationStatus === "verified") score += 1;
   return score;
 }
 
@@ -74,7 +115,6 @@ export type SmartSearchResult = {
   page: number;
   limit: number;
   understood: UnderstoodQuery;
-  /** Categories the query names, offered as one-tap narrowing chips. */
   categories: Array<{ _id: string; name?: Named; slug?: Named }>;
 };
 
@@ -118,9 +158,14 @@ export async function smartSearchProducts(sp: CatalogSearchParams): Promise<Smar
     return { items, total, page, limit, understood, categories: [] };
   }
 
-  const cats = await matchCategories(understood.expanded);
+  const [cats, vendorHits] = await Promise.all([
+    matchCategories(understood.expanded),
+    matchVendorIds(understood.terms, understood.raw),
+  ]);
   const catIds = new Set(cats.map((c) => String(c._id)));
+  const vendorHitIds = new Set(vendorHits);
   const rx = rxOf(tolerantPatterns(understood.expanded));
+
   const textOr: FilterQuery<typeof Product>[] = [
     { "name.en": rx },
     { "name.ar": rx },
@@ -128,8 +173,13 @@ export async function smartSearchProducts(sp: CatalogSearchParams): Promise<Smar
     { sku: rx },
     { tags: rx },
     { searchTags: rx },
+    { "description.en": rx },
+    { "description.ar": rx },
+    { "shortDescription.en": rx },
+    { "shortDescription.ar": rx },
   ];
   if (catIds.size) textOr.push({ categoryId: { $in: [...catIds] } });
+  if (vendorHitIds.size) textOr.push({ vendorId: { $in: [...vendorHitIds] } });
 
   const candidates = (await Product.find({ ...query, $or: textOr })
     .limit(CANDIDATE_CAP)
@@ -137,9 +187,9 @@ export async function smartSearchProducts(sp: CatalogSearchParams): Promise<Smar
     .lean()) as ProductDoc[];
 
   const ranked = candidates
-    .map((p) => ({ p, s: scoreProduct(p, understood, catIds) }))
+    .map((p) => ({ p, s: scoreProduct(p, understood, catIds, vendorHitIds) }))
     .filter((r) => r.s > 0)
-    .sort((a, b) => b.s - a.s);
+    .sort((a, b) => b.s - a.s || +new Date(b.p.updatedAt || 0) - +new Date(a.p.updatedAt || 0));
 
   return {
     items: ranked.slice((page - 1) * limit, page * limit).map((r) => r.p),
@@ -165,18 +215,16 @@ export async function suggest(q: string, locale: "en" | "ar"): Promise<Suggestio
   if (!understood.expanded.length) return empty;
 
   const pick = (n?: Named): string => (locale === "ar" ? n?.ar || n?.en : n?.en || n?.ar) || "";
-  const rx = rxOf(tolerantPatterns(understood.expanded));
-  // Supplier names often contain a city ("Riyadh Safety Supplies"), so also match the phrase as typed.
   const vendorRx = rxOf(tolerantPatterns([...understood.expanded, understood.raw.toLowerCase()]));
   const [found, cats, vendors] = await Promise.all([
-    smartSearchProducts({ q, limit: 5 }),
+    smartSearchProducts({ q, limit: 6 }),
     matchCategories(understood.expanded),
     Vendor.find({
       status: { $nin: ["rejected", "suspended", "expired"] },
       $or: [{ "legalName.en": vendorRx }, { "legalName.ar": vendorRx }, { tradeName: vendorRx }],
     })
       .select("legalName tradeName slug location verificationStatus")
-      .limit(3)
+      .limit(5)
       .lean(),
   ]);
 
@@ -193,7 +241,16 @@ export async function suggest(q: string, locale: "en" | "ar"): Promise<Suggestio
       };
     }),
     categories: cats.slice(0, 4).map((c) => ({ id: String(c._id), name: pick(c.name) })),
-    suppliers: (vendors as Array<{ _id: unknown; legalName?: Named; tradeName?: string; slug?: Named; location?: { city?: string }; verificationStatus?: string }>).map((v) => ({
+    suppliers: (
+      vendors as Array<{
+        _id: unknown;
+        legalName?: Named;
+        tradeName?: string;
+        slug?: Named;
+        location?: { city?: string };
+        verificationStatus?: string;
+      }>
+    ).map((v) => ({
       name: v.tradeName || pick(v.legalName),
       slug: v.slug?.en || String(v._id),
       city: v.location?.city,
