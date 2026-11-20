@@ -54,6 +54,7 @@ import { BrandMark } from "@/components/brand/BrandMark";
 import { HeaderSearch } from "@/components/search/HeaderSearch";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { sourcingWhatsAppHref } from "@/lib/sourcing-contact";
+import { sellerIsExternal, sellerLoginUrl } from "@/lib/seller-admin";
 import { cn } from "@/lib/utils";
 import {
   HIGHLIGHT,
@@ -471,12 +472,15 @@ export function HukumHeader({ locale }: { locale: Locale }) {
     <div className="hh-stack">
       {OTHERS_ITEMS.map((item) => {
         const Icon = ICONS[item.icon] || Info;
+        const isSellerLogin = item.href === "/vendor/sign-in";
+        const href = isSellerLogin ? sellerLoginUrl(locale) : locPath(locale, item.href);
         return (
           <MenuRow
             key={item.href}
-            href={locPath(locale, item.href)}
+            href={href}
             icon={Icon}
             title={t(L, item.en, item.ar)}
+            external={isSellerLogin && sellerIsExternal()}
             onNavigate={closeAll}
           />
         );

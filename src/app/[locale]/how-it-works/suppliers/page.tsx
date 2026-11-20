@@ -3,7 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import { BadgeCheck, FileCheck2, FileSpreadsheet, MapPin, Store, UserRound } from "lucide-react";
 import { isLocale, type Locale } from "@/i18n/config";
 import { staticPageMetadata } from "@/modules/seo/static-metadata";
-import { sellerIsExternal, sellerRegisterUrl } from "@/lib/seller-admin";
+import { sellerIsExternal, sellerLoginUrl, sellerRegisterUrl } from "@/lib/seller-admin";
 import { RIYAL } from "@/lib/money";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
@@ -26,7 +26,8 @@ export default async function HowItWorksSuppliersPage({ params }: { params: Prom
   const L = (en: string, ar: string): string => (isAr ? ar : en);
   const example = L("Example", "مثال");
   const registerHref = sellerRegisterUrl(locale);
-  const ext = sellerIsExternal() ? { target: "_blank", rel: "noopener noreferrer" } : {};
+  const loginHref = sellerLoginUrl(locale);
+  const ext = sellerIsExternal() ? { target: "_blank" as const, rel: "noopener noreferrer" } : {};
 
   return (
     <div className="hiw" dir={isAr ? "rtl" : "ltr"}>
@@ -36,6 +37,7 @@ export default async function HowItWorksSuppliersPage({ params }: { params: Prom
           <p>{L("List your company, get verified, and answer buyers who are already asking for what you sell.", "سجّل شركتك، وثّقها، ورد على مشترين يطلبون اللي تبيعه.")}</p>
           <div className="hiw__actions">
             <a href={registerHref} {...ext} className="brw__btn brw__btn--primary">{L("List your company", "سجّل شركتك")}</a>
+            <a href={loginHref} {...ext} className="vcard__view">{L("Already listed? Sign in", "مسجّل من قبل؟ ادخل")}</a>
             <Link href={`/${locale}/how-it-works`} className="vcard__view">{L("How it works for buyers", "كيف يعمل للمشترين")}</Link>
           </div>
         </header>
@@ -55,7 +57,7 @@ export default async function HowItWorksSuppliersPage({ params }: { params: Prom
                   <div><dt>{L("CR number", "رقم السجل")}</dt><dd dir="ltr">1010 •••• 42</dd></div>
                   <div><dt>{L("City", "المدينة")}</dt><dd>{L("Riyadh", "الرياض")}</dd></div>
                 </dl>
-                <span className="rfq2__send hiw__fake">{L("Create account", "أنشئ الحساب")}</span>
+                <a href={registerHref} {...ext} className="rfq2__send">{L("Create account", "أنشئ الحساب")}</a>
               </div>
             </figure>
           </li>
@@ -141,7 +143,10 @@ export default async function HowItWorksSuppliersPage({ params }: { params: Prom
             <b>{L("Free for suppliers in 2027", "مجاني للموردين في 2027")}</b>
             <span>{L("No commission on your deals.", "بدون عمولة على صفقاتك.")}</span>
           </div>
-          <a href={registerHref} {...ext} className="brw__btn brw__btn--dark" style={{ width: "auto" }}>{L("List your company", "سجّل شركتك")}</a>
+          <div className="hiw__actions" style={{ margin: 0 }}>
+            <a href={registerHref} {...ext} className="brw__btn brw__btn--dark" style={{ width: "auto" }}>{L("List your company", "سجّل شركتك")}</a>
+            <a href={loginHref} {...ext} className="vcard__view">{L("Supplier sign-in", "دخول المورد")}</a>
+          </div>
         </aside>
       </div>
     </div>

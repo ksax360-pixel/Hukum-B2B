@@ -29,6 +29,10 @@ export default async function UploadBoqPage({ params }: { params: Promise<{ loca
         <header className="hiw__head">
           <h1>{L("Turn your BOQ into quotes", "حوّل جدول الكميات إلى عروض أسعار")}</h1>
           <p>{L("Upload the bill of quantities you already have. Every line becomes part of one request to suppliers who sell those items.", "ارفع جدول الكميات اللي عندك، وكل بند يصير جزءاً من طلب واحد للموردين اللي يبيعونه.")}</p>
+          <div className="hiw__actions">
+            <Link href={`/${locale}/rfq`} className="vcard__view">{L("No file? Request quotes manually", "ما عندك ملف؟ اطلب العروض يدوياً")}</Link>
+            <Link href={`/${locale}/sourcing-help`} className="vcard__view">{L("Need help?", "تحتاج مساعدة؟")}</Link>
+          </div>
         </header>
 
         <div className="boq-layout">

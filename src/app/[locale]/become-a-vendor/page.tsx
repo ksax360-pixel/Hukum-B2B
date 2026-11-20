@@ -2,7 +2,7 @@ import Link from "next/link";
 import { setRequestLocale } from "next-intl/server";
 import { ArrowUpRight, BadgeCheck, FileSpreadsheet, Inbox, MapPin, Percent, Scale, Store } from "lucide-react";
 import { isLocale, type Locale } from "@/i18n/config";
-import { sellerIsExternal, sellerRegisterUrl } from "@/lib/seller-admin";
+import { sellerIsExternal, sellerLoginUrl, sellerRegisterUrl } from "@/lib/seller-admin";
 import { staticPageMetadata } from "@/modules/seo/static-metadata";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
@@ -17,7 +17,8 @@ export default async function BecomeAVendorPage({ params }: { params: Promise<{ 
   const isAr = locale === "ar";
   const L = (en: string, ar: string): string => (isAr ? ar : en);
   const registerHref = sellerRegisterUrl(locale);
-  const ext = sellerIsExternal() ? { target: "_blank", rel: "noopener noreferrer" } : {};
+  const loginHref = sellerLoginUrl(locale);
+  const ext = sellerIsExternal() ? { target: "_blank" as const, rel: "noopener noreferrer" } : {};
 
   const gets = [
     { icon: Inbox, b: L("Requests that match what you sell", "طلبات تطابق منتجاتك"), t: L("Buyers describe the item, quantity and city. You only see requests for your categories.", "المشتري يحدد المنتج والكمية والمدينة، وتشوف فقط طلبات فئاتك.") },
@@ -44,7 +45,7 @@ export default async function BecomeAVendorPage({ params }: { params: Promise<{ 
               <a href={registerHref} {...ext} className="brw__btn brw__btn--primary">
                 {L("List your company", "سجّل شركتك")} <ArrowUpRight size={15} aria-hidden />
               </a>
-              <Link href={`/${locale}/vendor/sign-in`} className="vcard__view">{L("Already listed? Sign in", "مسجّل من قبل؟ ادخل")}</Link>
+              <a href={loginHref} {...ext} className="vcard__view">{L("Already listed? Sign in", "مسجّل من قبل؟ ادخل")}</a>
             </div>
           </div>
 
