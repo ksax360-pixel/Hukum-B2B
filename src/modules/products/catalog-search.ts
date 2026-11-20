@@ -1,6 +1,8 @@
 import type { FilterQuery, SortOrder } from "mongoose";
+import { Types } from "mongoose";
 import { Product } from "@/modules/products/product.model";
 import { Vendor } from "@/modules/vendors/vendor.model";
+import { Category } from "@/modules/categories/taxonomy.model";
 
 export type CatalogSearchParams = {
   q?: string;
@@ -64,10 +66,25 @@ export async function findVendorIdsForFilters(opts: {
   return vendors.map((v) => String(v._id));
 }
 
+/** Include a category and every descendant so parent filters catch leaf listings. */
+export async function expandCategoryFilterIds(categoryId?: string): Promise<string[] | null> {
+  const id = String(categoryId || "").trim();
+  if (!id || !Types.ObjectId.isValid(id)) return null;
+  const oid = new Types.ObjectId(id);
+  const descendants = await Category.find({
+    status: { $in: ["active", "inactive"] },
+    $or: [{ _id: oid }, { parentId: oid }, { path: oid }],
+  })
+    .select("_id")
+    .lean();
+  const ids = descendants.map((c) => String(c._id));
+  return ids.length ? ids : [id];
+}
+
 export function buildProductBaseQuery(sp: CatalogSearchParams): FilterQuery<typeof Product> {
   const query: FilterQuery<typeof Product> = { status: "published" };
   if (sp.industryId) query.industryId = sp.industryId;
-  if (sp.categoryId) query.categoryId = sp.categoryId;
+  // categoryId applied in searchCatalogProducts after descendant expansion
   if (sp.priceType) query.priceType = sp.priceType;
   if (sp.availability) query.availability = sp.availability;
   if (sp.condition) query.condition = sp.condition;
@@ -93,6 +110,11 @@ export async function searchCatalogProducts(sp: CatalogSearchParams) {
   const page = Math.max(1, Number(sp.page || 1) || 1);
   const limit = Math.min(48, Math.max(1, Number(sp.limit || 12) || 12));
   const query = buildProductBaseQuery(sp);
+
+  const categoryIds = await expandCategoryFilterIds(sp.categoryId);
+  if (categoryIds) {
+    query.categoryId = categoryIds.length === 1 ? categoryIds[0] : { $in: categoryIds };
+  }
 
   const vendorIds = await findVendorIdsForFilters({
     city: sp.city,

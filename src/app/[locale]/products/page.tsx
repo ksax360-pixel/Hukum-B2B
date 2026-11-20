@@ -4,12 +4,11 @@ import { setRequestLocale } from "next-intl/server";
 import Link from "next/link";
 import { isLocale, type Locale } from "@/i18n/config";
 import { connectDB } from "@/lib/db";
-import { Category } from "@/modules/categories/taxonomy.model";
 import { searchCatalogProducts } from "@/modules/products/catalog-search";
+import { loadPublishedTaxonomyFacets } from "@/modules/products/catalog-facets";
 import { smartSearchProducts } from "@/modules/search/smart-search";
 import type { UnderstoodQuery } from "@/modules/search/query-understanding";
 import { SearchUnderstanding } from "@/components/search/SearchUnderstanding";
-import type { Named } from "@/components/products/ProductFilters";
 import { OfferResults } from "@/components/browse/OfferResults";
 import { ResultsToolbar } from "@/components/browse/ResultsToolbar";
 import type { Offer } from "@/components/browse/group-offers";
@@ -56,10 +55,17 @@ export default async function ProductsPage({
   const isAr = locale === "ar";
 
   let items: Array<Record<string, unknown>> = [];
-  let categories: Named[] = [];
   let total = 0;
   let understood: UnderstoodQuery | null = null;
   let matchedCats: Array<{ _id: string; name?: { en?: string; ar?: string } }> = [];
+  let facets: Awaited<ReturnType<typeof loadPublishedTaxonomyFacets>> = {
+    industries: [],
+    categories: [],
+    productTypes: [],
+    selectedIndustryId: "",
+    selectedCategoryId: "",
+    selectedTypeId: "",
+  };
 
   try {
     await connectDB();
@@ -86,17 +92,20 @@ export default async function ProductsPage({
     };
     // Typed text goes through query understanding (typos, Arabic, quantity, city); plain browsing keeps the catalogue query.
     const search = sp.q?.trim() ? smartSearchProducts(filters) : searchCatalogProducts(filters);
-    const [result, cats] = await Promise.all([
+    const [result, facetData] = await Promise.all([
       search,
-      Category.find({ status: "active", level: 1 }).sort({ order: 1 }).lean(),
+      loadPublishedTaxonomyFacets({
+        industryId: sp.industryId,
+        categoryId: sp.categoryId,
+      }),
     ]);
     items = toPlain(result.items) as Array<Record<string, unknown>>;
     total = result.total;
+    facets = facetData;
     if ("understood" in result) {
       understood = result.understood;
       matchedCats = result.categories;
     }
-    categories = toPlain(cats) as unknown as Named[];
   } catch {
     /* offline */
   }
@@ -117,7 +126,23 @@ export default async function ProductsPage({
   };
   const city = sp.city || sp.location;
   const rfqHref = `/${locale}/rfq${sp.q ? `?${new URLSearchParams({ q: sp.q })}` : ""}`;
-  const catName = (c: Named): string => loc(locale, (c.name as { en?: string; ar?: string }) || { en: "", ar: "" });
+  const facetName = (c: { name?: { en?: string; ar?: string } }): string =>
+    loc(locale, c.name || { en: "", ar: "" });
+
+  /** Set taxonomy params; clears deeper levels when going up. */
+  const withTaxonomy = (patch: { industryId?: string; categoryId?: string }): string => {
+    const next = new URLSearchParams();
+    for (const [k, v] of Object.entries(sp)) {
+      if (!v || k === "page" || k === "industryId" || k === "categoryId") continue;
+      next.set(k, v);
+    }
+    if (patch.industryId) next.set("industryId", patch.industryId);
+    if (patch.categoryId) next.set("categoryId", patch.categoryId);
+    const qs = next.toString();
+    return qs ? `${base}?${qs}` : base;
+  };
+
+  const activeIndustry = facets.selectedIndustryId || sp.industryId || "";
 
   return (
     <div className="brw" dir={isAr ? "rtl" : "ltr"}>
@@ -133,7 +158,7 @@ export default async function ProductsPage({
             <h1>{sp.q ? L(`Results for “${sp.q}”`, `نتائج «${sp.q}»`) : L("All products", "كل المنتجات")}</h1>
             {understood ? null : (
               <p className="brw__stats">
-                <span>{L("Every listing shows price, minimum order and lead time. Same item from several suppliers? Compare them in one table.", "كل عرض يوضح السعر والحد الأدنى ومدة التوريد. نفس المنتج من أكثر من مورد؟ قارنهم في جدول واحد.")}</span>
+                <span>{L("Filter by the same industry and category sellers use when they list products.", "صفِّ حسب نفس الصناعة والفئة اللي يستخدمها الموردون عند إضافة المنتجات.")}</span>
               </p>
             )}
           </div>
@@ -149,17 +174,79 @@ export default async function ProductsPage({
         {understood ? (
           <SearchUnderstanding locale={locale} understood={understood} categories={matchedCats} params={sp} total={total} />
         ) : (
-          <div className="brw__subs" role="list" aria-label={L("Categories", "الفئات")}>
-            {categories.slice(0, 14).map((c) => (
-              <Link
-                key={String(c._id)}
-                href={withParam("categoryId", sp.categoryId === String(c._id) ? undefined : String(c._id))}
-                className={`brw__sub${sp.categoryId === String(c._id) ? " is-on" : ""}`}
-                role="listitem"
-              >
-                {catName(c)}
-              </Link>
-            ))}
+          <div className="space-y-3">
+            {facets.industries.length ? (
+              <div className="brw__subs" role="list" aria-label={L("Industry", "الصناعة")}>
+                <Link href={withTaxonomy({})} className={`brw__sub${!activeIndustry ? " is-on" : ""}`} role="listitem">
+                  {L("All industries", "كل الصناعات")}
+                </Link>
+                {facets.industries.map((c) => (
+                  <Link
+                    key={c._id}
+                    href={withTaxonomy({
+                      industryId: activeIndustry === c._id ? undefined : c._id,
+                    })}
+                    className={`brw__sub${activeIndustry === c._id ? " is-on" : ""}`}
+                    role="listitem"
+                  >
+                    {facetName(c)}
+                    <span className="ms-1 opacity-60">({c.count})</span>
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+
+            {activeIndustry && facets.categories.length ? (
+              <div className="brw__subs" role="list" aria-label={L("Category", "الفئة")}>
+                <Link
+                  href={withTaxonomy({ industryId: activeIndustry })}
+                  className={`brw__sub${!facets.selectedCategoryId && !facets.selectedTypeId ? " is-on" : ""}`}
+                  role="listitem"
+                >
+                  {L("All categories", "كل الفئات")}
+                </Link>
+                {facets.categories.map((c) => (
+                  <Link
+                    key={c._id}
+                    href={withTaxonomy({
+                      industryId: activeIndustry,
+                      categoryId: facets.selectedCategoryId === c._id && !facets.selectedTypeId ? undefined : c._id,
+                    })}
+                    className={`brw__sub${facets.selectedCategoryId === c._id ? " is-on" : ""}`}
+                    role="listitem"
+                  >
+                    {facetName(c)}
+                    <span className="ms-1 opacity-60">({c.count})</span>
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+
+            {facets.selectedCategoryId && facets.productTypes.length ? (
+              <div className="brw__subs" role="list" aria-label={L("Product type", "نوع المنتج")}>
+                <Link
+                  href={withTaxonomy({ industryId: activeIndustry, categoryId: facets.selectedCategoryId })}
+                  className={`brw__sub${!facets.selectedTypeId ? " is-on" : ""}`}
+                  role="listitem"
+                >
+                  {L("All types", "كل الأنواع")}
+                </Link>
+                {facets.productTypes.map((c) => (
+                  <Link
+                    key={c._id}
+                    href={withTaxonomy({
+                      industryId: activeIndustry,
+                      categoryId: facets.selectedTypeId === c._id ? facets.selectedCategoryId : c._id,
+                    })}
+                    className={`brw__sub${facets.selectedTypeId === c._id ? " is-on" : ""}`}
+                    role="listitem"
+                  >
+                    {facetName(c)}
+                    <span className="ms-1 opacity-60">({c.count})</span>
+                  </Link>
+                ))}
+              </div>
+            ) : null}
           </div>
         )}
 

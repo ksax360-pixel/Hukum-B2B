@@ -7,7 +7,12 @@ import type { FilterQuery } from "mongoose";
 import { Product } from "@/modules/products/product.model";
 import { Category } from "@/modules/categories/taxonomy.model";
 import { Vendor } from "@/modules/vendors/vendor.model";
-import { buildProductBaseQuery, findVendorIdsForFilters, type CatalogSearchParams } from "@/modules/products/catalog-search";
+import {
+  buildProductBaseQuery,
+  expandCategoryFilterIds,
+  findVendorIdsForFilters,
+  type CatalogSearchParams,
+} from "@/modules/products/catalog-search";
 import { mediaList } from "@/components/products/product-helpers";
 import { tolerantPatterns, understandQuery, type UnderstoodQuery } from "./query-understanding";
 
@@ -79,6 +84,11 @@ export async function smartSearchProducts(sp: CatalogSearchParams): Promise<Smar
   const limit = Math.min(48, Math.max(1, Number(sp.limit || 12) || 12));
   const understood = understandQuery(sp.q || "");
   const query: FilterQuery<typeof Product> = buildProductBaseQuery(sp);
+
+  const categoryIds = await expandCategoryFilterIds(sp.categoryId);
+  if (categoryIds) {
+    query.categoryId = categoryIds.length === 1 ? categoryIds[0] : { $in: categoryIds };
+  }
 
   const vendorIds = await findVendorIdsForFilters({
     city: sp.city || sp.location || understood.city,
