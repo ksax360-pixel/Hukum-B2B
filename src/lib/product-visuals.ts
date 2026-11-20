@@ -143,15 +143,18 @@ export function vendorLogoSrc(vendor: {
   tradeName?: string;
   slug?: { en?: string } | null;
   logo?: string;
+  coverImage?: string;
 }) {
-  if (vendor.logo) {
-    return vendor.logo.replace(/\/vendors\/([^/?]+)\.svg$/i, "/vendors/$1.jpg").replace(/\.svg$/i, ".jpg");
-  }
-  const blob = `${vendor.tradeName || ""} ${vendor.legalName?.en || ""} ${vendor.slug?.en || ""}`.toLowerCase();
-  if (/najd/.test(blob)) return "/vendors/najd.jpg";
-  if (/eastern/.test(blob)) return "/vendors/eastern.jpg";
-  if (/riyadh|rss|safety supplies/.test(blob)) return "/vendors/rss.jpg";
-  return "/vendors/demo.jpg";
+  const pick = (url?: string) => {
+    if (!url) return "";
+    return url.replace(/\/vendors\/([^/?]+)\.svg$/i, "/vendors/$1.jpg").replace(/\.svg$/i, ".jpg");
+  };
+  // Prefer real company media; never invent a demo JPG that 404s for live sellers.
+  const fromLogo = pick(vendor.logo);
+  if (fromLogo) return fromLogo;
+  const fromCover = pick(vendor.coverImage);
+  if (fromCover) return fromCover;
+  return "";
 }
 
 const DETAILS: Record<

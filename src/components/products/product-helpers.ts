@@ -80,6 +80,7 @@ export type VendorLike = {
   slug?: { en?: string; ar?: string } | null;
   verificationStatus?: string;
   logo?: string;
+  coverImage?: string;
   email?: string;
   phone?: string;
   whatsapp?: string;

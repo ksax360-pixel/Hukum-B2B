@@ -238,31 +238,45 @@ export function ProductDetailMarketplace({
     const fallbackName = isAr ? "مورد" : "Supplier";
     const fallbackCity = isAr ? "السعودية" : "Saudi Arabia";
     const map = new Map<string, MarqueeSupplier>();
-    const bump = (v: VendorLike | null | undefined, count = 1) => {
+    const bump = (
+      v: (VendorLike & { coverImage?: string }) | null | undefined,
+      count = 1,
+      imageHint?: string
+    ) => {
       if (!v?._id) return;
       const id = String(v._id);
       const slug = v.slug?.en || id;
       const existing = map.get(id);
       if (existing) {
         existing.productCount += count;
+        if (!existing.logo && imageHint) existing.logo = imageHint;
         return;
       }
+      const logo =
+        vendorLogoUrl(v) ||
+        (typeof v.coverImage === "string" ? v.coverImage : "") ||
+        imageHint ||
+        undefined;
       map.set(id, {
         id,
         name: vendorDisplayName(v, isAr) || fallbackName,
         slug,
         cityLabel: cityLabel(v.location?.city, isAr) || fallbackCity,
         verified: v.verificationStatus === "verified",
-        logo: vendorLogoUrl(v) || undefined,
+        logo: logo || undefined,
         productCount: count,
       });
     };
-    if (vendor) bump(vendor, Math.max(1, vendorProductCount));
+    if (vendor) {
+      const primary = mediaList(product as ProductLike)[0]?.url;
+      bump(vendor as VendorLike & { coverImage?: string }, Math.max(1, vendorProductCount), primary);
+    }
     for (const row of [...otherOffers, ...relatedProducts]) {
-      bump(row.vendorId as VendorLike | undefined, 1);
+      const hint = mediaList(row as ProductLike)[0]?.url;
+      bump(row.vendorId as (VendorLike & { coverImage?: string }) | undefined, 1, hint);
     }
     return [...map.values()];
-  }, [vendor, vendorProductCount, otherOffers, relatedProducts, isAr]);
+  }, [vendor, vendorProductCount, otherOffers, relatedProducts, isAr, product]);
 
   return (
     <div className="pdp2" dir={isAr ? "rtl" : "ltr"}>

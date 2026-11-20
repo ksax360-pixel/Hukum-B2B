@@ -948,19 +948,22 @@
   box-shadow: 0 12px 28px rgba(16, 37, 28, 0.08);
 }
 .brw-band__logo {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   flex: none;
   display: grid;
   place-items: center;
   border-radius: 12px;
-  background: #fff;
+  background: #f4f7f5;
   color: var(--hukum-green);
   border: 1px solid rgba(17, 28, 23, 0.06);
   overflow: hidden;
 }
-.brw-band__logo img { width: 100%; height: 100%; object-fit: contain; }
-.brw-band__meta { display: grid; gap: 3px; min-width: 0; }
+.brw-band__logo--fallback {
+  background: linear-gradient(145deg, #e8f2ec, #f7faf8);
+}
+.brw-band__logo img { width: 100%; height: 100%; object-fit: cover; }
+.brw-band__meta { display: grid; gap: 4px; min-width: 0; padding-block: 2px; }
 .brw-band__meta b {
   display: inline-flex;
   align-items: center;
